@@ -39,5 +39,12 @@ namespace Gestión_Hotelera.View
         {
             Application.Current.Shutdown();
         }
+
+        private void btnLogin_Click(object sender, RoutedEventArgs e)
+        {
+            MainView subWindow = new MainView();
+            subWindow.Show();
+            this.Close();
+        }
     }
 }
