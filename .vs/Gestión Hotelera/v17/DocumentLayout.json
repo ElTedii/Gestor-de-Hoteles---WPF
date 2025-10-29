@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\view\\homeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:view\\homeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:view\\mainview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\viewmodel\\homeview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\homeview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\viewmodel\\mainviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,16 +23,8 @@
       "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:view\\loginview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\viewmodel\\homeview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\homeview.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:view\\mainview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\view\\homeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:view\\homeview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\viewmodel\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -50,11 +50,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "HomeView.xaml",
               "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\View\\HomeView.xaml",
               "RelativeDocumentMoniker": "View\\HomeView.xaml",
@@ -66,7 +66,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "HomeView.cs",
               "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\ViewModel\\HomeView.cs",
               "RelativeDocumentMoniker": "ViewModel\\HomeView.cs",
@@ -74,24 +74,22 @@
               "RelativeToolTip": "ViewModel\\HomeView.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T04:13:54.122Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-28T04:13:54.122Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MainView.xaml",
               "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\View\\MainView.xaml",
               "RelativeDocumentMoniker": "View\\MainView.xaml",
               "ToolTip": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\View\\MainView.xaml",
               "RelativeToolTip": "View\\MainView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-27T06:31:51.046Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T06:31:51.046Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "MainViewModel.cs",
               "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\ViewModel\\MainViewModel.cs",
               "RelativeDocumentMoniker": "ViewModel\\MainViewModel.cs",
@@ -99,8 +97,7 @@
               "RelativeToolTip": "ViewModel\\MainViewModel.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T05:26:22.455Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-28T05:26:22.455Z"
             },
             {
               "$type": "Document",
@@ -112,8 +109,7 @@
               "RelativeToolTip": "ViewModel\\ViewModelBase.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABWAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T22:05:02.967Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T22:05:02.967Z"
             },
             {
               "$type": "Document",
@@ -129,7 +125,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "MainView.xaml.cs",
               "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\View\\MainView.xaml.cs",
               "RelativeDocumentMoniker": "View\\MainView.xaml.cs",
@@ -137,8 +133,7 @@
               "RelativeToolTip": "View\\MainView.xaml.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAADcAAAA2AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T20:15:52.353Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T20:15:52.353Z"
             },
             {
               "$type": "Document",
@@ -154,15 +149,14 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "LoginView.xaml",
               "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\View\\LoginView.xaml",
               "RelativeDocumentMoniker": "View\\LoginView.xaml",
               "ToolTip": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\View\\LoginView.xaml",
               "RelativeToolTip": "View\\LoginView.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2025-10-27T06:35:17.943Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T06:35:17.943Z"
             },
             {
               "$type": "Document",
@@ -174,8 +168,7 @@
               "RelativeToolTip": "View\\LoginView.xaml.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAkwC4AAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-27T16:05:50.043Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-27T16:05:50.043Z"
             }
           ]
         }
