@@ -32,3 +32,5 @@ D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HomeView.g.cs
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.cs
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HomeView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ClientView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ClientView.baml

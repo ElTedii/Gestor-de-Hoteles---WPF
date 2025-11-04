@@ -21,6 +21,11 @@
         <DataTemplate DataType="{x:Type viewModel:HomeView}">
             <local:HomeView/>
         </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:ClientViewModel}">
+            <local:ClientView/>
+        </DataTemplate>
+        
     </Window.Resources>
 
     <Border CornerRadius="10"
@@ -93,7 +98,8 @@
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color4}">
+                                 Tag="{StaticResource color4}"
+                                 Command="{Binding ShowClientViewCommand}">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="User" Style="{StaticResource menuButtonIcon}"/>
                             <TextBlock Text="Clientes" Style="{StaticResource menuButtonText}"/>

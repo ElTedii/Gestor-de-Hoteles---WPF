@@ -1,4 +1,5 @@
 ﻿using FontAwesome.Sharp;
+using Gestión_Hotelera.View;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,11 +60,13 @@ namespace Gestión_Hotelera.ViewModel
 
         //Commands
         public ICommand ShowHomeViewCommand { get; }
+        public ICommand ShowClientViewCommand { get; }
 
         public MainViewModel()
         {
             //Initialize commands
             ShowHomeViewCommand = new ViewModelCommand(ExecuteShowHomeViewCommand);
+            ShowClientViewCommand = new ViewModelCommand(ExecuteShowClientViewCommand);
 
             //Default
             ExecuteShowHomeViewCommand(null);
@@ -74,6 +77,13 @@ namespace Gestión_Hotelera.ViewModel
             CurrentChildView = new HomeView();
             Caption = "Inicio";
             Icon = IconChar.Home;
+        }
+
+        private void ExecuteShowClientViewCommand(object obj)
+        {
+            CurrentChildView = new ClientViewModel();
+            Caption = "Clientes";
+            Icon = IconChar.User;
         }
     }
 }

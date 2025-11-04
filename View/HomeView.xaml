@@ -8,52 +8,26 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="120"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
-
-        <StackPanel Orientation="Horizontal"
-                    VerticalAlignment="Top"
-                    Grid.Column="0">
-
-        </StackPanel>
-
-        <Border Grid.Row="1"
+    <Border Grid.Row="1"
                 Background="{StaticResource panelColor}"
                 CornerRadius="10" 
                 Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="90"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Hoteles"
+                           Background="Transparent"
+                           Foreground="{StaticResource plainTextColor1}"
+                           Padding="15"
+                           FontFamily="Verdana"
+                           FontSize="15"
+                           VerticalAlignment="Top"/>
+            </StackPanel>
 
-            <DataGrid ColumnWidth="*"
-                  Background="{StaticResource panelColor}"
-                  BorderThickness="0">
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="Transparent"/>
-                        <Setter Property="Foreground" Value="#BCBEE0"/>
-                        <Setter Property="Padding" Value="10,0,0,10"/>
-                        <Setter Property="FontFamily" Value="Montserrat"/>
-                        <Setter Property="FontSize" Value="15"/>
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="ID" HeaderStringFormat=""/>
-                    <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="First name"/>
-                    <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Last name"/>
-                    <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Phone"/>
-                    <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Number"/>
-                    <DataGridTextColumn Binding="{x:Null}" ClipboardContentBinding="{x:Null}" Header="Address"/>
-                </DataGrid.Columns>
-            </DataGrid>
 
-        </Border>
-    </Grid>
+        </Grid>
+    </Border>
 </UserControl>
