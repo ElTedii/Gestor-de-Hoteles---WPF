@@ -18,6 +18,7 @@
     </Window.DataContext>
 
     <Window.Resources>
+        
         <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
             <local:HomeView/>
         </DataTemplate>
@@ -40,6 +41,38 @@
 
         <DataTemplate DataType="{x:Type viewModel:RegistroHabitacionViewModel}">
             <local:RegistroHabitacionView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:RegistroClienteViewModel}">
+            <local:RegistroClienteView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:ReservasViewModel}">
+            <local:ReservasView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:NuevaReservaViewModel}">
+            <local:NuevaReservaView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:EditarReservaViewModel}">
+            <local:EditarReservaView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:CheckInViewModel}">
+            <local:CheckInView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:RealizarCheckInViewModel}">
+            <local:RealizarCheckInView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:CheckOutViewModel}">
+            <local:CheckOutView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:RealizarCheckOutViewModel}">
+            <local:RealizarCheckOut/>
         </DataTemplate>
 
     </Window.Resources>
@@ -124,21 +157,24 @@
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color5}">
+                                 Tag="{StaticResource color5}"
+                                 Command="{Binding ShowReservasViewCommand}">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Calendar" Style="{StaticResource menuButtonIcon}"/>
                             <TextBlock Text="Reservaciones" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color6}">
+                                 Tag="{StaticResource color6}"
+                                 Command="{Binding ShowCheckInCommand}">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="Check" Style="{StaticResource menuButtonIcon}"/>
                             <TextBlock Text="Check In" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color7}">
+                                 Tag="{StaticResource color7}"
+                                 Command="{Binding ShowCheckOutcommand}">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="CheckDouble" Style="{StaticResource menuButtonIcon}"/>
                             <TextBlock Text="Check Out" Style="{StaticResource menuButtonText}"/>

@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\App.xaml
-131495821120
+25-722716931
 
-26-1268800800
+54-1981928313
 218-1856567159
-MainWindow.xaml;Styles\ButtonStyles.xaml;Styles\Styles.xaml;Styles\UIColors.xaml;View\ClientView.xaml;View\Components\DashBoardCard.xaml;View\HabitacionesView.xaml;View\HomeView.xaml;View\HotelsView.xaml;View\LoginView.xaml;View\MainView.xaml;View\RegistroHabitacionView.xaml;View\RegistroHotelView.xaml;
+MainWindow.xaml;Styles\ButtonStyles.xaml;Styles\Styles.xaml;Styles\UIColors.xaml;View\CheckInView.xaml;View\CheckOutView.xaml;View\ClientView.xaml;View\Components\DashBoardCard.xaml;View\EditarReservaView.xaml;View\HabitacionesView.xaml;View\HomeView.xaml;View\HotelsView.xaml;View\LoginView.xaml;View\MainView.xaml;View\NuevaReservaView.xaml;View\RealizarCheckInView.xaml;View\RealizarCheckOut.xaml;View\RegistroClienteView.xaml;View\RegistroHabitacionView.xaml;View\RegistroHotelView.xaml;View\ReporteClientesView.xaml;View\ReporteEstanciasView.xaml;View\ReporteHabitacionesView.xaml;View\ReporteReservacionesView.xaml;View\ReservasView.xaml;
 
 False
 

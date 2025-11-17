@@ -1,4 +1,5 @@
 ﻿using FontAwesome.Sharp;
+using Gestión_Hotelera.Model;
 using Gestión_Hotelera.View;
 using System;
 using System.Collections.Generic;
@@ -56,6 +57,14 @@ namespace Gestión_Hotelera.ViewModel
         public ICommand ShowRegistroHotelViewCommand { get; }
         public ICommand ShowHabitacionesViewCommand { get; }
         public ICommand ShowRegistroHabitacionViewCommand { get; }
+        public ICommand ShowRegistroClienteCommand { get; }
+        public ICommand ShowReservasViewCommand { get; }
+        public ICommand ShowNuevaReservaCommand { get; }
+        public ICommand ShowEditarReservaCommand { get; }
+        public ICommand ShowCheckInCommand { get; }
+        public ICommand ShowRealizarCheckInCommand { get; }
+        public ICommand ShowCheckOutcommand { get; }
+        public ICommand ShowRealizarCheckOutCommand {  get; }
 
         public MainViewModel()
         {
@@ -66,6 +75,14 @@ namespace Gestión_Hotelera.ViewModel
             ShowRegistroHotelViewCommand = new ViewModelCommand(ExecuteShowRegistroHotelViewCommand);
             ShowHabitacionesViewCommand = new ViewModelCommand(ExecuteShowHabitacionesViewCommand);
             ShowRegistroHabitacionViewCommand = new ViewModelCommand(ExecuteShowRegistroHabitacionViewCommand);
+            ShowRegistroClienteCommand = new ViewModelCommand(ExecuteShowRegistroClienteCommand);
+            ShowReservasViewCommand = new ViewModelCommand(ExecuteShowReservas);
+            ShowNuevaReservaCommand = new ViewModelCommand(ExecuteShowNuevaReserva);
+            ShowEditarReservaCommand = new ViewModelCommand(ExecuteShowEditarReserva);
+            ShowCheckInCommand = new ViewModelCommand(ExecuteShowCheckInCommand);
+            ShowRealizarCheckInCommand = new ViewModelCommand(ExecuteShowShowRealizarCheckInCommand);
+            ShowCheckOutcommand = new ViewModelCommand(ExecuteShowCheckOutcommand);
+            ShowRealizarCheckOutCommand = new ViewModelCommand(ExecuteShowRealziarCheckOutcommand);
 
             // Default view
             ExecuteShowHomeViewCommand(null);
@@ -82,7 +99,7 @@ namespace Gestión_Hotelera.ViewModel
 
         private void ExecuteShowClientViewCommand(object obj)
         {
-            CurrentChildView = new ClientViewModel();
+            CurrentChildView = new ClientViewModel(this);
             Caption = "Clientes";
             Icon = IconChar.User;
         }
@@ -114,5 +131,65 @@ namespace Gestión_Hotelera.ViewModel
             Caption = "Registrar habitación";
             Icon = IconChar.Bed;
         }
+
+        private void ExecuteShowRegistroClienteCommand(object obj)
+        {
+            CurrentChildView = new RegistroClienteViewModel();
+            Caption = "Registro Cliente";
+            Icon = IconChar.UserPlus;
+        }
+
+        private void ExecuteShowReservas(object obj)
+        {
+            CurrentChildView = new ReservasViewModel(this);
+            Caption = "Reservaciones";
+            Icon = IconChar.CalendarCheck;
+        }
+
+        private void ExecuteShowNuevaReserva(object obj)
+        {
+            CurrentChildView = new NuevaReservaViewModel(this);
+            Caption = "Nueva Reservación";
+            Icon = IconChar.PlusCircle;
+        }
+
+        private void ExecuteShowEditarReserva(object obj)
+        {
+            if (obj is ReservationModel r)
+            {
+                CurrentChildView = new EditarReservaViewModel(this, r);
+                Caption = "Editar Reservación";
+                Icon = IconChar.Edit;
+            }
+        }
+
+        private void ExecuteShowCheckInCommand(object obj)
+        {
+            CurrentChildView = new CheckInViewModel();
+            Caption = "Check In";
+            Icon = IconChar.Check;
+        }
+
+        private void ExecuteShowShowRealizarCheckInCommand(object obj)
+        {
+            CurrentChildView = new RealizarCheckInViewModel();
+            Caption = "Realizar Check In";
+            Icon = IconChar.Check;
+        }
+
+        private void ExecuteShowCheckOutcommand(object obj)
+        {
+            CurrentChildView = new CheckOutViewModel();
+            Caption = "Check Out";
+            Icon = IconChar.Check;
+        }
+
+        private void ExecuteShowRealziarCheckOutcommand(object obj)
+        {
+            CurrentChildView = new RealizarCheckOutViewModel();
+            Caption = "Realizar Check Out";
+            Icon = IconChar.Check;
+        }
+
     }
 }

@@ -1,0 +1,101 @@
+﻿<UserControl x:Class="Gestión_Hotelera.View.RegistroClienteView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gestión_Hotelera.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+        <Border Background="{StaticResource panelColor2}"
+                Padding="30"
+                CornerRadius="15"
+                BorderBrush="{StaticResource panelOverColor}"
+                BorderThickness="1">
+
+            <StackPanel>
+
+                <TextBlock Text="Registrar Cliente"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource titleColor1}"
+                           Margin="0 0 0 20"/>
+
+                <!-- GRID DE FORMULARIO -->
+                <Grid Margin="0 0 0 20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Nombre -->
+                    <TextBlock Grid.Row="0" Text="Nombre"
+                               Foreground="{StaticResource titleColor1}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="0" Grid.Column="1"
+                             Width="250"
+                             Style="{StaticResource DarkInputStyle}"
+                             Text="{Binding Nombre, Mode=TwoWay}"/>
+
+                    <!-- Apellidos -->
+                    <TextBlock Grid.Row="1" Text="Apellidos"
+                               Foreground="{StaticResource titleColor1}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                             Width="250"
+                             Style="{StaticResource DarkInputStyle}"
+                             Text="{Binding Apellidos, Mode=TwoWay}"/>
+
+                    <!-- Teléfono -->
+                    <TextBlock Grid.Row="2" Text="Teléfono"
+                               Foreground="{StaticResource titleColor1}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                             Width="250"
+                             Style="{StaticResource DarkInputStyle}"
+                             Text="{Binding Telefono, Mode=TwoWay}"/>
+
+                    <!-- Email -->
+                    <TextBlock Grid.Row="3" Text="Email"
+                               Foreground="{StaticResource titleColor1}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="3" Grid.Column="1"
+                             Width="250"
+                             Style="{StaticResource DarkInputStyle}"
+                             Text="{Binding Email, Mode=TwoWay}"/>
+
+                    <!-- Nacionalidad -->
+                    <TextBlock Grid.Row="4" Text="Nacionalidad"
+                               Foreground="{StaticResource titleColor1}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="4" Grid.Column="1"
+                             Width="250"
+                             Style="{StaticResource DarkInputStyle}"
+                             Text="{Binding Nacionalidad, Mode=TwoWay}"/>
+
+                    <!-- Documento -->
+                    <TextBlock Grid.Row="5" Text="Documento"
+                               Foreground="{StaticResource titleColor1}" VerticalAlignment="Center"/>
+                    <TextBox Grid.Row="5" Grid.Column="1"
+                             Width="250"
+                             Style="{StaticResource DarkInputStyle}"
+                             Text="{Binding Documento, Mode=TwoWay}"/>
+
+                </Grid>
+
+                <Button Content="Registrar"
+                        Width="180"
+                        Height="45"
+                        Style="{StaticResource KumaButton}"
+                        Command="{Binding RegistrarClienteCommand}"/>
+
+            </StackPanel>
+
+        </Border>
+    </ScrollViewer>
+</UserControl>

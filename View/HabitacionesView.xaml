@@ -104,6 +104,37 @@
                         <DataGridTextColumn Header="Tipo de Cama" Binding="{Binding TipoCama}" Width="200"/>
                         <DataGridTextColumn Header="Hotel" Binding="{Binding NombreHotel}" Width="200"/>
                         <DataGridTextColumn Header="Descripcion" Binding="{Binding Descripcion}" Width="200"/>
+                        <!-- EDITAR -->
+                        <DataGridTemplateColumn Header="Editar" Width="80">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="✏"
+                                        FontSize="16"
+                                        Width="40"
+                                        Style="{StaticResource KumaButton}"
+                                        Command="{Binding DataContext.AbrirEditarReservaCommand, 
+                                                          RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+
+                        <!-- ELIMINAR -->
+                        <DataGridTemplateColumn Header="Eliminar" Width="90">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Button Content="🗑"
+                                        FontSize="16"
+                                        Width="40"
+                                        Background="#D9534F"
+                                        Foreground="White"
+                                        BorderThickness="0"
+                                        Command="{Binding DataContext.EliminarReservaCommand,
+                                                          RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                        CommandParameter="{Binding}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
 
                 </DataGrid>
