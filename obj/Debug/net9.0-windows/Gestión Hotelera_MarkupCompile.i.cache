@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\App.xaml
-11-461612595
+131495821120
 
-23911410779
+281356174976
 218-1856567159
-MainWindow.xaml;Styles\ButtonStyles.xaml;Styles\Styles.xaml;Styles\UIColors.xaml;View\ClientView.xaml;View\Components\DashBoardCard.xaml;View\HomeView.xaml;View\HotelsView.xaml;View\LoginView.xaml;View\MainView.xaml;View\RegistroHotelView.xaml;
+MainWindow.xaml;Styles\ButtonStyles.xaml;Styles\Styles.xaml;Styles\UIColors.xaml;View\ClientView.xaml;View\Components\DashBoardCard.xaml;View\HabitacionesView.xaml;View\HomeView.xaml;View\HotelsView.xaml;View\LoginView.xaml;View\MainView.xaml;View\RegistroHabitacionView.xaml;View\RegistroHotelView.xaml;
 
 False
 

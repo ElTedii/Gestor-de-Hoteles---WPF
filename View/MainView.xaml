@@ -34,6 +34,14 @@
             <local:RegistroHotelView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewModel:HabitacionesViewModel}">
+            <local:HabitacionesView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:RegistroHabitacionViewModel}">
+            <local:RegistroHabitacionView/>
+        </DataTemplate>
+
     </Window.Resources>
 
     <Border CornerRadius="10"
@@ -95,14 +103,15 @@
                                  Tag="{StaticResource color2}"
                                  Command="{Binding ShowHotelsViewCommand}">
                         <StackPanel Orientation="Horizontal">
-                            <fa:IconImage Icon="TableList" Style="{StaticResource menuButtonIcon}"/>
+                            <fa:IconImage Icon="Building" Style="{StaticResource menuButtonIcon}"/>
                             <TextBlock Text="Hoteles" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color3}">
+                                 Tag="{StaticResource color3}"
+                                 Command="{Binding ShowHabitacionesViewCommand}">
                         <StackPanel Orientation="Horizontal">
-                            <fa:IconImage Icon="Square" Style="{StaticResource menuButtonIcon}"/>
+                            <fa:IconImage Icon="Bed" Style="{StaticResource menuButtonIcon}"/>
                             <TextBlock Text="Habitaciones" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
                     </RadioButton>

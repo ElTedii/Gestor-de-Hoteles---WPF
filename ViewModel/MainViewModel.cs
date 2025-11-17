@@ -54,6 +54,8 @@ namespace Gestión_Hotelera.ViewModel
         public ICommand ShowClientViewCommand { get; }
         public ICommand ShowHotelsViewCommand { get; }
         public ICommand ShowRegistroHotelViewCommand { get; }
+        public ICommand ShowHabitacionesViewCommand { get; }
+        public ICommand ShowRegistroHabitacionViewCommand { get; }
 
         public MainViewModel()
         {
@@ -62,6 +64,8 @@ namespace Gestión_Hotelera.ViewModel
             ShowClientViewCommand = new ViewModelCommand(ExecuteShowClientViewCommand);
             ShowHotelsViewCommand = new ViewModelCommand(ExecuteShowHotelsViewCommand);
             ShowRegistroHotelViewCommand = new ViewModelCommand(ExecuteShowRegistroHotelViewCommand);
+            ShowHabitacionesViewCommand = new ViewModelCommand(ExecuteShowHabitacionesViewCommand);
+            ShowRegistroHabitacionViewCommand = new ViewModelCommand(ExecuteShowRegistroHabitacionViewCommand);
 
             // Default view
             ExecuteShowHomeViewCommand(null);
@@ -87,7 +91,7 @@ namespace Gestión_Hotelera.ViewModel
         {
             CurrentChildView = new HotelesViewModel(this);
             Caption = "Hoteles";
-            Icon = IconChar.TableList;
+            Icon = IconChar.Building;
         }
 
         private void ExecuteShowRegistroHotelViewCommand(object obj)
@@ -95,6 +99,20 @@ namespace Gestión_Hotelera.ViewModel
             CurrentChildView = new RegistroHotelViewModel();
             Caption = "Registrar Hotel";
             Icon = IconChar.Building;
+        }
+
+        private void ExecuteShowHabitacionesViewCommand(object obj)
+        {
+            CurrentChildView = new HabitacionesViewModel(this);
+            Caption = "Habitaciones";
+            Icon = IconChar.Bed;
+        }
+
+        private void ExecuteShowRegistroHabitacionViewCommand(object obj)
+        {
+            CurrentChildView = new RegistroHabitacionViewModel();
+            Caption = "Registrar habitación";
+            Icon = IconChar.Bed;
         }
     }
 }
