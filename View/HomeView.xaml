@@ -14,20 +14,82 @@
                 Padding="10">
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="90"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="Hoteles"
+
+            <!-- Encabezado -->
+            <StackPanel Orientation="Horizontal"
+                        VerticalAlignment="Center"
+                        Grid.Row="0">
+                <TextBlock Text="Dashboard"
                            Background="Transparent"
                            Foreground="{StaticResource plainTextColor1}"
                            Padding="15"
                            FontFamily="Verdana"
                            FontSize="15"
                            VerticalAlignment="Top"/>
+                <TextBlock Text="{Binding CurrentDate, StringFormat='  {0:dd/MM/yyyy}'}"
+                       FontSize="16" 
+                       Margin="20,5,0,0"
+                       FontFamily="Verdana"
+                       Foreground="{StaticResource plainTextColor2}"/>
             </StackPanel>
 
+            <!-- Tarjetas -->
+            <UniformGrid Grid.Row="1" 
+                         Columns="4" 
+                         Margin="0,20,0,25">
+                <local:DashBoardCard/>
+                <local:DashBoardCard/>
+                <local:DashBoardCard/>
+                <local:DashBoardCard/>
+            </UniformGrid>
 
+            <!-- Reservas Recientes -->
+            <Border Grid.Row="2" 
+                    Background="{StaticResource panelColor}" 
+                    Padding="20" 
+                    CornerRadius="8" 
+                    BorderBrush="{StaticResource panelOverColor}" 
+                    BorderThickness="1">
+                <StackPanel>
+
+                    <StackPanel Orientation="Horizontal" 
+                                HorizontalAlignment="Stretch">
+                        <TextBlock Text="Reservas" 
+                                   FontSize="20" 
+                                   FontWeight="Bold" 
+                                   Foreground="{StaticResource plainTextColor1}"/>
+                        <Button Content="Ver todas"
+                            HorizontalAlignment="Right"
+                            Command="{Binding SeeAllReservationsCommand}"
+                            Background="Transparent"
+                            Foreground="{StaticResource panelActiveColor}"
+                            BorderThickness="0"
+                            Padding="5"
+                            FontWeight="Bold"/>
+                    </StackPanel>
+
+                    <ListView ItemsSource="{Binding LastReservations}" 
+                              Margin="0,15,0,0">
+                        <ListView.View>
+                            <GridView>
+
+                                <GridViewColumn Header="Código" DisplayMemberBinding="{Binding Code}" Width="120"/>
+                                <GridViewColumn Header="Cliente" DisplayMemberBinding="{Binding Client}" Width="200"/>
+                                <GridViewColumn Header="Hotel" DisplayMemberBinding="{Binding Hotel}" Width="200"/>
+                                <GridViewColumn Header="Check In" DisplayMemberBinding="{Binding CheckIn}" Width="120"/>
+                                <GridViewColumn Header="Check Out" DisplayMemberBinding="{Binding CheckOut}" Width="120"/>
+                                <GridViewColumn Header="Total" DisplayMemberBinding="{Binding Total}" Width="100"/>
+
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                </StackPanel>
+            </Border>
         </Grid>
     </Border>
 </UserControl>

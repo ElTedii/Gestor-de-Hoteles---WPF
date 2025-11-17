@@ -13,18 +13,15 @@ namespace Gestión_Hotelera.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        //Fields
+        // Fields
         private ViewModelBase _currentChildView;
         private string _caption;
         private IconChar _icon;
 
-        //Properties
+        // Properties
         public ViewModelBase CurrentChildView
         {
-            get
-            {
-                return _currentChildView;
-            }
+            get => _currentChildView;
             set
             {
                 _currentChildView = value;
@@ -34,10 +31,7 @@ namespace Gestión_Hotelera.ViewModel
 
         public string Caption
         {
-            get
-            {
-                return _caption;
-            }
+            get => _caption;
             set
             {
                 _caption = value;
@@ -47,10 +41,7 @@ namespace Gestión_Hotelera.ViewModel
 
         public IconChar Icon
         {
-            get
-            {
-                return _icon;
-            }
+            get => _icon;
             set
             {
                 _icon = value;
@@ -58,23 +49,29 @@ namespace Gestión_Hotelera.ViewModel
             }
         }
 
-        //Commands
+        // Commands
         public ICommand ShowHomeViewCommand { get; }
         public ICommand ShowClientViewCommand { get; }
+        public ICommand ShowHotelsViewCommand { get; }
+        public ICommand ShowRegistroHotelViewCommand { get; }
 
         public MainViewModel()
         {
-            //Initialize commands
+            // Initialize commands
             ShowHomeViewCommand = new ViewModelCommand(ExecuteShowHomeViewCommand);
             ShowClientViewCommand = new ViewModelCommand(ExecuteShowClientViewCommand);
+            ShowHotelsViewCommand = new ViewModelCommand(ExecuteShowHotelsViewCommand);
+            ShowRegistroHotelViewCommand = new ViewModelCommand(ExecuteShowRegistroHotelViewCommand);
 
-            //Default
+            // Default view
             ExecuteShowHomeViewCommand(null);
         }
 
+
+        // Navigation methods
         private void ExecuteShowHomeViewCommand(object obj)
         {
-            CurrentChildView = new HomeView();
+            CurrentChildView = new HomeViewModel();
             Caption = "Inicio";
             Icon = IconChar.Home;
         }
@@ -84,6 +81,20 @@ namespace Gestión_Hotelera.ViewModel
             CurrentChildView = new ClientViewModel();
             Caption = "Clientes";
             Icon = IconChar.User;
+        }
+
+        private void ExecuteShowHotelsViewCommand(object obj)
+        {
+            CurrentChildView = new HotelesViewModel(this);
+            Caption = "Hoteles";
+            Icon = IconChar.TableList;
+        }
+
+        private void ExecuteShowRegistroHotelViewCommand(object obj)
+        {
+            CurrentChildView = new RegistroHotelViewModel();
+            Caption = "Registrar Hotel";
+            Icon = IconChar.Building;
         }
     }
 }

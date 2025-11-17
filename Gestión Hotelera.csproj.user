@@ -5,13 +5,22 @@
     <Compile Update="View\ClientView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\Components\DashBoardCard.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\HomeView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\HotelsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\LoginView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\MainView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\RegistroHotelView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
