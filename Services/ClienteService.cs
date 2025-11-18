@@ -19,8 +19,8 @@ namespace Gestión_Hotelera.Services
         {
             Clientes = new ObservableCollection<ClienteModel>
             {
-                new ClienteModel { ClienteId = Guid.NewGuid(), Nombre="Juan", Apellidos="Pérez", Telefono="5551234567", Email="juan@gmail.com", Documento="INE" },
-                new ClienteModel { ClienteId = Guid.NewGuid(), Nombre="María", Apellidos="García", Telefono="5559876543", Email="maria@gmail.com", Documento="Pasaporte" }
+                //new ClienteModel { ClienteId = Guid.NewGuid(), NombreCompleto="Juan Perez", Telefono="5551234567", Email="juan@gmail.com", Documento="INE" },
+                //new ClienteModel { ClienteId = Guid.NewGuid(), NombreCompleto="María Perez", Telefono="5559876543", Email="maria@gmail.com", Documento="Pasaporte" }
             };
         }
 
@@ -41,11 +41,11 @@ namespace Gestión_Hotelera.Services
             var cliente = Clientes.FirstOrDefault(x => x.ClienteId == actualizado.ClienteId);
             if (cliente != null)
             {
-                cliente.Nombre = actualizado.Nombre;
-                cliente.Apellidos = actualizado.Apellidos;
-                cliente.Telefono = actualizado.Telefono;
-                cliente.Email = actualizado.Email;
-                cliente.Documento = actualizado.Documento;
+                //cliente.Nombre = actualizado.Nombre;
+                //cliente.Apellidos = actualizado.Apellidos;
+                //cliente.Telefono = actualizado.Telefono;
+                //cliente.Email = actualizado.Email;
+                //cliente.Documento = actualizado.Documento;
             }
         }
     }

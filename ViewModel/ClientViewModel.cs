@@ -27,8 +27,8 @@ namespace Gestión_Hotelera.ViewModel
 
             Clientes = new ObservableCollection<ClienteModel>
             {
-                new ClienteModel { ClienteId = Guid.NewGuid(), Nombre = "Juan", Apellidos="Pérez", Telefono="5551234567", Email="juan@gmail.com", Documento="INE" },
-                new ClienteModel { ClienteId = Guid.NewGuid(), Nombre = "María", Apellidos="García", Telefono="5557654321", Email="maria@gmail.com", Documento="Pasaporte" }
+                //new ClienteModel { ClienteId = Guid.NewGuid(), Nombre = "Juan", Apellidos="Pérez", Telefono="5551234567", Email="juan@gmail.com", Documento="INE" },
+                //new ClienteModel { ClienteId = Guid.NewGuid(), Nombre = "María", Apellidos="García", Telefono="5557654321", Email="maria@gmail.com", Documento="Pasaporte" }
             };
         }
     }

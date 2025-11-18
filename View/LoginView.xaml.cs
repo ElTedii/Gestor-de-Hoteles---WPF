@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gestión_Hotelera.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,16 @@ namespace Gestión_Hotelera.View
         public LoginView()
         {
             InitializeComponent();
+
+            var vm = new LoginViewModel();
+            DataContext = vm;
+
+            vm.CloseLoginAction = () => this.Close();
+            vm.OpenMainWindowAction = () =>
+            {
+                MainView win = new MainView();
+                win.Show();
+            };
         }
 
         private void Window_MouseDown(object sender, MouseButtonEventArgs e)
@@ -42,9 +53,28 @@ namespace Gestión_Hotelera.View
 
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            MainView subWindow = new MainView();
-            subWindow.Show();
-            this.Close();
+            var vm = (LoginViewModel)DataContext;
+
+            // Pasamos usuario y contraseña al ViewModel
+            vm.Correo = txtUser.Text;
+            vm.Password = txtPass.Password;
+
+            if (vm.LoginCommand.CanExecute(null))
+            {
+                vm.LoginCommand.Execute(null);
+
+                // Si el ViewModel aprobó el login, MainWindow ya se abrió
+                // Solo cerramos el login si fue correcto
+                if (Application.Current.MainWindow is MainView)
+                {
+                    this.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ingrese correo y contraseña.", "Advertencia",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

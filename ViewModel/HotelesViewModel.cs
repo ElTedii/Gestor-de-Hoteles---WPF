@@ -1,35 +1,44 @@
-﻿using Gestión_Hotelera.Model;
+﻿using Gestión_Hotelera.Data.Repositories;
+using Gestión_Hotelera.Model;
+using Gestion_Hotelera.ViewModel;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Gestión_Hotelera.ViewModel
 {
     public class HotelesViewModel : ViewModelBase
     {
+        private readonly HotelRepository _repo;
+        private readonly MainViewModel _main;
 
-        private MainViewModel _mainViewModel;
-
-        public ICommand AbrirRegistroHotelCommand { get; }
         public ObservableCollection<HotelModel> Hoteles { get; set; }
 
-        public HotelesViewModel(MainViewModel mainVM)
-        {
-            _mainViewModel = mainVM;
+        public ICommand AbrirRegistroHotelCommand { get; }
 
-            AbrirRegistroHotelCommand =
-                new ViewModelCommand(_ => _mainViewModel.ShowRegistroHotelViewCommand.Execute(null));
-            // Datos de ejemplo: más adelante se llenará desde Cassandra
-            Hoteles = new ObservableCollection<HotelModel>
+        public HotelesViewModel(MainViewModel main)
+        {
+            _main = main;
+            _repo = new HotelRepository();
+
+            Hoteles = new ObservableCollection<HotelModel>();
+
+            AbrirRegistroHotelCommand = new RelayCommand(o =>
             {
-                new HotelModel { HotelId = Guid.NewGuid(), Name = "Hotel Sol", City = "Cancún", Address="Zona Hotelera", NumFloors=5 },
-                new HotelModel { HotelId = Guid.NewGuid(), Name = "Hotel Mar", City = "Mazatlán", Address="Centro", NumFloors=8 },
-                new HotelModel { HotelId = Guid.NewGuid(), Name = "City Business Inn", City = "CDMX", Address="Insurgentes Sur", NumFloors=10 }
-            };
+                _main.ShowRegistroHotelViewCommand.Execute(null);
+            });
+
+            LoadHoteles();
+        }
+
+        private async void LoadHoteles()
+        {
+            //Hoteles.Clear();
+            //var lista = await _repo.GetHoteles();
+            //foreach (var h in lista)
+            //    Hoteles.Add(h);
         }
     }
 }

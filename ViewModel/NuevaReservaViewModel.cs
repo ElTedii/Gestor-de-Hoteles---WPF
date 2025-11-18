@@ -64,7 +64,7 @@ namespace Gestión_Hotelera.ViewModel
         {
             var r = new ReservationModel
             {
-                ReservationId = Guid.NewGuid(),
+                /*ReservationId = Guid.NewGuid(),
                 ClienteId = ClienteSeleccionado.ClienteId,
                 ClienteNombre = $"{ClienteSeleccionado.Nombre} {ClienteSeleccionado.Apellidos}",
 
@@ -77,7 +77,7 @@ namespace Gestión_Hotelera.ViewModel
                 FechaEntrada = FechaEntrada,
                 FechaSalida = FechaSalida,
                 NumPersonas = NumPersonas,
-                PrecioTotal = PrecioTotal
+                PrecioTotal = PrecioTotal*/
             };
 
             ReservationService.Instance.AgregarReserva(r);

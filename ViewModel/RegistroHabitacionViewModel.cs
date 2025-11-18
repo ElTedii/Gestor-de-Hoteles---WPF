@@ -16,8 +16,8 @@ namespace Gestión_Hotelera.ViewModel
         {
             Hoteles = new ObservableCollection<HotelModel>
         {
-            new HotelModel{ HotelId=Guid.NewGuid(), Name="Hotel Sol"},
-            new HotelModel{ HotelId=Guid.NewGuid(), Name="Hotel Mar"},
+            //new HotelModel{ HotelId=Guid.NewGuid(), Name="Hotel Sol"},
+            //new HotelModel{ HotelId=Guid.NewGuid(), Name="Hotel Mar"},
         };
         }
     }

@@ -113,7 +113,7 @@ namespace Gestión_Hotelera.ViewModel
 
         private void ExecuteShowRegistroHotelViewCommand(object obj)
         {
-            CurrentChildView = new RegistroHotelViewModel();
+            CurrentChildView = new RegistroHotelViewModel(this);
             Caption = "Registrar Hotel";
             Icon = IconChar.Building;
         }

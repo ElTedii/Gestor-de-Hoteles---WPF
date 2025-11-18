@@ -27,26 +27,20 @@ namespace Gestión_Hotelera.Services
 
         public void EliminarReserva(Guid id)
         {
-            var reserva = Reservas.FirstOrDefault(r => r.ReservationId == id);
+            var reserva = Reservas.FirstOrDefault(r => r.ReservaId == id);
             if (reserva != null)
                 Reservas.Remove(reserva);
         }
 
         public void ActualizarReserva(ReservationModel r)
         {
-            var original = Reservas.FirstOrDefault(x => x.ReservationId == r.ReservationId);
+            var original = Reservas.FirstOrDefault(x => x.ReservaId == r.ReservaId);
             if (original != null)
             {
                 original.ClienteId = r.ClienteId;
-                original.ClienteNombre = r.ClienteNombre;
                 original.HotelId = r.HotelId;
-                original.HotelNombre = r.HotelNombre;
-                original.HabitacionId = r.HabitacionId;
-                original.NumeroHabitacion = r.NumeroHabitacion;
                 original.FechaEntrada = r.FechaEntrada;
                 original.FechaSalida = r.FechaSalida;
-                original.NumPersonas = r.NumPersonas;
-                original.PrecioTotal = r.PrecioTotal;
             }
         }
     }

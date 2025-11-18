@@ -26,8 +26,8 @@ namespace Gestión_Hotelera.ViewModel
 
             Habitaciones = new ObservableCollection<HabitacionModel>
         {
-            new HabitacionModel { HabitacionId = Guid.NewGuid(), Tipo = "Suite",    Capacidad = 4, Precio = 2500, TipoCama = "KingSize",    NombreHotel="Hotel Sol", Descripcion = "Habitación adaptada con todas las necesidades" },
-            new HabitacionModel { HabitacionId = Guid.NewGuid(), Tipo = "Estándar", Capacidad = 2, Precio = 1200, TipoCama = "QueenSize",   NombreHotel="Hotel Mar", Descripcion = "Habitación básica"},
+            //new HabitacionModel { HabitacionId = Guid.NewGuid(), Tipo = "Suite",    Capacidad = 4, Precio = 2500, TipoCama = "KingSize",    NombreHotel="Hotel Sol", Descripcion = "Habitación adaptada con todas las necesidades" },
+            //new HabitacionModel { HabitacionId = Guid.NewGuid(), Tipo = "Estándar", Capacidad = 2, Precio = 1200, TipoCama = "QueenSize",   NombreHotel="Hotel Mar", Descripcion = "Habitación básica"},
         };
         }
     }

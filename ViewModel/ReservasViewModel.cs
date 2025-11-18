@@ -30,19 +30,12 @@ namespace Gestión_Hotelera.ViewModel
                 _mainVM.ShowNuevaReservaCommand.Execute(null));
 
             AbrirEditarReservaCommand = new ViewModelCommand(EditarReserva);
-            EliminarReservaCommand = new ViewModelCommand(EliminarReserva);
         }
 
         private void EditarReserva(object obj)
         {
             if (obj is ReservationModel r)
                 _mainVM.ShowEditarReservaCommand.Execute(r);
-        }
-
-        private void EliminarReserva(object obj)
-        {
-            if (obj is ReservationModel r)
-                ReservationService.Instance.EliminarReserva(r.ReservationId);
         }
     }
 }

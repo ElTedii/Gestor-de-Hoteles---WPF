@@ -111,12 +111,11 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="✏"
-                                        FontSize="16"
-                                        Width="40"
-                                        Style="{StaticResource KumaButton}"
-                                        Command="{Binding DataContext.AbrirEditarReservaCommand, 
-                                                          RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                        CommandParameter="{Binding}"/>
+                                            FontSize="16"
+                                            Width="40"
+                                            Style="{StaticResource KumaButton}"
+                                            Command="{Binding DataContext.EditarHotelCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
@@ -126,14 +125,13 @@
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="🗑"
-                                        FontSize="16"
-                                        Width="40"
-                                        Background="#D9534F"
-                                        Foreground="White"
-                                        BorderThickness="0"
-                                        Command="{Binding DataContext.EliminarReservaCommand,
-                                                          RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                        CommandParameter="{Binding}"/>
+                                            FontSize="16"
+                                            Width="40"
+                                            Background="#D9534F"
+                                            Foreground="White"
+                                            BorderThickness="0"
+                                            Command="{Binding DataContext.EliminarHotelCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                            CommandParameter="{Binding}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>
