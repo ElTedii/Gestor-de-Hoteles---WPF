@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gestión Hotelera\\Gestión Hotelera.csproj": {}
+    "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Gestión Hotelera.csproj": {}
   },
   "projects": {
-    "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gestión Hotelera\\Gestión Hotelera.csproj": {
+    "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Gestión Hotelera.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gestión Hotelera\\Gestión Hotelera.csproj",
+        "projectUniqueName": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Gestión Hotelera.csproj",
         "projectName": "Gestión Hotelera",
-        "projectPath": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gestión Hotelera\\Gestión Hotelera.csproj",
+        "projectPath": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Gestión Hotelera.csproj",
         "packagesPath": "C:\\Users\\Tedss\\.nuget\\packages\\",
-        "outputPath": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gestión Hotelera\\obj\\",
+        "outputPath": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\ProgramFiles x86\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
           "C:\\Users\\Tedss\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -82,7 +82,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

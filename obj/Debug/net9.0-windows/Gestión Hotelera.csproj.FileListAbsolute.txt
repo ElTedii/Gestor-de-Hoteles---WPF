@@ -81,3 +81,86 @@ D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\net9.0-windows\SixLabors.Fonts.dll
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\net9.0-windows\SixLabors.ImageSharp.dll
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\net9.0-windows\de\PdfSharpCore.resources.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Gestión Hotelera.exe
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Gestión Hotelera.dll.config
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Gestión Hotelera.deps.json
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Gestión Hotelera.runtimeconfig.json
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Gestión Hotelera.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Gestión Hotelera.pdb
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Cassandra.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\FontAwesome.Sharp.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\K4os.Compression.LZ4.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Microsoft.Extensions.Logging.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\Newtonsoft.Json.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\PdfSharpCore.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\ICSharpCode.SharpZipLib.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\SixLabors.Fonts.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\SixLabors.ImageSharp.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\System.Management.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\de\PdfSharpCore.resources.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\bin\Debug\net9.0-windows\runtimes\win\lib\netcoreapp2.0\System.Management.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.csproj.AssemblyReference.cache
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Styles\ButtonStyles.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Styles\Styles.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Styles\UIColors.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\CheckInView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\CheckOutView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ClientView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\Components\DashBoardCard.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\EditarReservaView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\HabitacionesView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\HomeView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\HotelsView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\LoginView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\MainView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\NuevaReservaView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\RealizarCheckInView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\RealizarCheckOut.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\RegistroClienteView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\RegistroHabitacionView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\RegistroHotelView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ReporteClientesView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ReporteEstanciasView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ReporteHabitacionesView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ReporteReservacionesView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ReservasView.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\App.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera_MarkupCompile.cache
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera_MarkupCompile.lref
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\App.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\CheckInView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\CheckOutView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ClientView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\Components\DashBoardCard.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\EditarReservaView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\HabitacionesView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\HomeView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\HotelsView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\LoginView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\MainView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\NuevaReservaView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\RealizarCheckInView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\RealizarCheckOut.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\RegistroClienteView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\RegistroHabitacionView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\RegistroHotelView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ReporteClientesView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ReporteEstanciasView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ReporteHabitacionesView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ReporteReservacionesView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\View\ReservasView.baml
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.g.resources
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.AssemblyInfoInputs.cache
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.AssemblyInfo.cs
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.csproj.CoreCompileInputs.cache
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.sourcelink.json
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gesti_n .ECE96223.Up2Date
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\refint\Gestión Hotelera.dll
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.pdb
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.genruntimeconfig.cache
+C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\ref\Gestión Hotelera.dll

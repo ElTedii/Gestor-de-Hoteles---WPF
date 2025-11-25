@@ -17,25 +17,13 @@ namespace Gestión_Hotelera.Model
         public string Correo { get; set; }             // correo
         public string TelefonoCasa { get; set; }       // tel_casa
         public string TelefonoCelular { get; set; }    // tel_celular
-        public DateTime? FechaNacimiento { get; set; } // fecha_nacimiento
+        public DateTime FechaNacimiento { get; set; } // fecha_nacimiento
         public string EstadoCivil { get; set; }        // estado_civil
-        public int? UsuarioRegistro { get; set; }      // usuario_registro (numero_nomina)
-        public int? UsuarioModifico { get; set; }      // usuario_modifico
-        public DateTime? FechaCreacion { get; set; }   // fecha_creacion
-        public DateTime? FechaModificacion { get; set; } // fecha_modificacion
-    }
 
-    public class ClientePorCorreoModel
-    {
-        public string Correo { get; set; }         // PK
-        public Guid ClienteId { get; set; }
-        public string NombreCompleto { get; set; }
-    }
-
-    public class ClientePorRFCModel
-    {
-        public string RFC { get; set; }            // PK
-        public Guid ClienteId { get; set; }
-        public string NombreCompleto { get; set; }
+        //AUDITORIA
+        public int UsuarioRegistro { get; set; }      // usuario_registro (numero_nomina)
+        public int UsuarioModifico { get; set; }      // usuario_modifico
+        public DateTime FechaCreacion { get; set; }   // fecha_creacion
+        public DateTime FechaModificacion { get; set; } // fecha_modificacion
     }
 }

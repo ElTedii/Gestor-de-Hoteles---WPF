@@ -9,26 +9,31 @@ namespace Gestión_Hotelera.Model
 {
     public class HotelModel
     {
-        public Guid HotelId { get; set; }              // hotel_id (PK)
-        public string Nombre { get; set; }             // nombre
-        public string Pais { get; set; }               // pais
-        public string Estado { get; set; }             // estado
-        public string Ciudad { get; set; }             // ciudad
-        public string Domicilio { get; set; }          // domicilio
-        public int NumPisos { get; set; }              // num_pisos
-        public string ZonaTuristica { get; set; }      // zona_turistica
-        public List<string> Servicios { get; set; }    // servicios (list<text>)
-        public bool FrentePlaya { get; set; }          // frente_playa
-        public int NumPiscinas { get; set; }           // num_piscinas
-        public int SalonesEventos { get; set; }        // salones_eventos
-        public int? UsuarioRegistro { get; set; }      // usuario_registro
-        public DateTime? FechaRegistro { get; set; }   // fecha_registro
-        public DateTime? FechaInicioOperaciones { get; set; } // fecha_inicio_op
-        public DateTime? FechaModificacion { get; set; }      // fecha_modificacion
+        public Guid HotelId { get; set; }
+        public string NombreHotel { get; set; }
+        public string Pais { get; set; }
+        public string Estado { get; set; }
+        public string Ciudad { get; set; }
+        public string Domicilio { get; set; }
+        public int NumeroPisos { get; set; }
 
-        public HotelModel()
-        {
-            Servicios = new List<string>();
-        }
+        // Listas serializables (json)
+        public List<string> TiposHabitacion { get; set; }
+        public List<string> Caracteristicas { get; set; }
+        public List<string> Amenidades { get; set; }
+        public List<string> ServiciosAdicionales { get; set; }
+
+        public string ZonaTuristica { get; set; }
+        public bool FrentePlaya { get; set; }
+        public int CantidadPiscinas { get; set; }
+        public bool SalonesEventos { get; set; }
+
+        public DateTime FechaInicioOperaciones { get; set; }
+
+        // Auditoría
+        public string UsuarioRegistro { get; set; }
+        public DateTime FechaRegistro { get; set; }
+        public string UsuarioModificacion { get; set; }
+        public DateTime FechaModificacion { get; set; }
     }
 }

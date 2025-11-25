@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gestión_Hotelera.Data.Repositories
+namespace Gestión_Hotelera.Data
 {
     public sealed class CassandraConnection
     {

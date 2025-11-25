@@ -15,7 +15,10 @@ namespace Gestión_Hotelera.Model
         public DateTime FechaNacimiento { get; set; }
         public string TelefonoCasa { get; set; }
         public string TelefonoCelular { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        public int UsuarioRegistro { get; set; }
+
+        public string UsuarioRegistro { get; set; }
+        public DateTime FechaRegistro { get; set; }
+        public string UusuarioModificacion { get; set; }
+        public DateTime FechaModificacion { get; set }
     }
 }

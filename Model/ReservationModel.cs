@@ -8,14 +8,25 @@ namespace Gestión_Hotelera.Model
 {
     public class ReservationModel
     {
-        public Guid ReservaId { get; set; }        // reserva_id
-        public Guid ClienteId { get; set; }        // cliente_id
-        public Guid HotelId { get; set; }          // hotel_id
-        public DateTime FechaEntrada { get; set; } // fecha_entrada
-        public DateTime FechaSalida { get; set; }  // fecha_salida
-        public decimal Anticipo { get; set; }      // anticipo
-        public string Estado { get; set; }         // estado (pendiente, activa, cancelada, etc.)
-        public int? UsuarioRegistro { get; set; }  // usuario_registro
-        public DateTime? FechaRegistro { get; set; } // fecha_registro
+        public Guid ReservacionId { get; set; }
+        public Guid ClienteId { get; set; }
+        public Guid HotelId { get; set; }
+
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
+
+        public Dictionary<Guid, int> HabitacionesSeleccionadas { get; set; }
+        public int TotalPersonas { get; set; }
+
+        public decimal Anticipo { get; set; }
+        public decimal TotalHospedaje { get; set; }
+        public decimal TotalServicios { get; set; }
+        public string Estatus { get; set; }
+
+        // Auditoría
+        public string UsuarioRegistro { get; set; }
+        public DateTime FechaRegistro { get; set; }
+        public string UsuarioModificacion { get; set; }
+        public DateTime FechaModificacion { get; set; }
     }
 }

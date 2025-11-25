@@ -8,9 +8,26 @@ namespace Gestión_Hotelera.Model
 {
     public class HabitacionModel
     {
-        public Guid HotelId { get; set; }      // hotel_id (PK part)
-        public int Numero { get; set; }        // numero (PK part)
-        public Guid TipoId { get; set; }       // tipo_id
-        public int Piso { get; set; }          // piso
+        public Guid HabitacionId { get; set; }
+        public Guid HotelId { get; set; }
+        public string TipoHabitacion { get; set; }
+
+        public int NumeroCamas { get; set; }
+        public List<string> TiposCama { get; set; }
+        public decimal PrecioNochePorPersona { get; set; }
+        public int CapacidadPersonas { get; set; }
+        public string NivelHabitacion { get; set; }
+        public string Vista { get; set; }
+
+        public List<string> Caracteristicas { get; set; }
+        public List<string> Amenidades { get; set; }
+
+        public int CantidadHabitacionesDisponibles { get; set; }
+
+        // Auditoría
+        public string UsuarioRegistro { get; set; }
+        public DateTime FechaRegistro { get; set; }
+        public string UsuarioModificacion { get; set; }
+        public DateTime FechaModificacion { get; set; }
     }
 }

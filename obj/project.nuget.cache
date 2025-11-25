@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "clLtGhPAfnA=",
+  "dgSpecHash": "zJkc5Xs2ns4=",
   "success": true,
-  "projectFilePath": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gestión Hotelera\\Gestión Hotelera.csproj",
+  "projectFilePath": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Gestión Hotelera.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tedss\\.nuget\\packages\\cassandracsharpdriver\\3.22.0\\cassandracsharpdriver.3.22.0.nupkg.sha512",
     "C:\\Users\\Tedss\\.nuget\\packages\\fontawesome.sharp\\6.6.0\\fontawesome.sharp.6.6.0.nupkg.sha512",

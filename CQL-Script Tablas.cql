@@ -2,6 +2,18 @@ CREATE KEYSPACE IF NOT EXISTS hotel_ks
 WITH REPLICATION = {'class': 'SimpleStrategy', 'replication_factor': 1};
 
 use hotel_ks;
+insert into usuarios (
+    numero_nomina,
+    nombre_completo,
+    correo,
+    contrasena,
+    fecha_nacimiento,
+    tel_casa,
+    tel_celular,
+    fecha_creacion,
+    usuario_registro)
+    Values (1, 'Ismael', 'isma.cvzz@gmail.com', '123', '2001-02-24', '4', '1', '2025-11-18', 1);
+select * from usuarios;
 
 /*Tablas*/
 CREATE TABLE IF NOT EXISTS usuarios (
