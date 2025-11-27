@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\
 Gestión_Hotelera
 none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
-C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\App.xaml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\App.xaml
 24-2129762272
 
-71-1365331091
-2221279334726
+69201016213
+2222008717504
 Styles\ButtonStyles.xaml;Styles\Styles.xaml;Styles\UIColors.xaml;View\CheckInView.xaml;View\CheckOutView.xaml;View\ClientView.xaml;View\Components\DashBoardCard.xaml;View\EditarReservaView.xaml;View\HabitacionesView.xaml;View\HomeView.xaml;View\HotelsView.xaml;View\LoginView.xaml;View\MainView.xaml;View\NuevaReservaView.xaml;View\RealizarCheckInView.xaml;View\RealizarCheckOut.xaml;View\RegistroClienteView.xaml;View\RegistroHabitacionView.xaml;View\RegistroHotelView.xaml;View\ReporteClientesView.xaml;View\ReporteEstanciasView.xaml;View\ReporteHabitacionesView.xaml;View\ReporteReservacionesView.xaml;View\ReservasView.xaml;
 
 False

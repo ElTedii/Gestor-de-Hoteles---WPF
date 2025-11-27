@@ -14,102 +14,189 @@ namespace Gestión_Hotelera.Data.Repositories
 
         public ClienteRepository()
         {
-            _session = CassandraConnection.Session;
+            _session = CassandraConnection.GetSession();
         }
 
+        // ==========================================================
         // INSERT
-        public async Task InsertarClienteAsync(ClienteModel c)
+        // ==========================================================
+        public void Insert(ClienteModel c)
         {
-            c.ClienteId = Guid.NewGuid();
+            var query = @"INSERT INTO clientes (
+                cliente_id, nombre_completo, pais, estado, ciudad,
+                rfc, correo, tel_casa, tel_celular, fecha_nacimiento,
+                estado_civil, usuario_creacion, fecha_creacion,
+                usuario_modificacion, fecha_modificacion
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
-            var query1 = @"INSERT INTO clientes
-            (cliente_id, nombre_completo, pais, estado, ciudad, rfc, correo,
-             tel_casa, tel_celular, fecha_nacimiento, estado_civil,
-             usuario_registro, usuario_modifico, fecha_creacion, fecha_modificacion)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, toTimestamp(now()), toTimestamp(now()));";
+            var stmt = _session.Prepare(query);
 
-            var ps1 = _session.Prepare(query1);
-
-            await _session.ExecuteAsync(ps1.Bind(
-                c.ClienteId, c.NombreCompleto, c.Pais, c.Estado, c.Ciudad, c.RFC, c.Correo,
-                c.TelefonoCasa, c.TelefonoCelular, c.FechaNacimiento, c.EstadoCivil,
-                c.UsuarioRegistro, c.UsuarioModifico
+            _session.Execute(stmt.Bind(
+                c.ClienteId,
+                c.NombreCompleto,
+                c.Pais,
+                c.Estado,
+                c.Ciudad,
+                c.RFC,
+                c.Correo,
+                c.TelCasa,
+                c.TelCelular,
+                c.FechaNacimiento,
+                c.EstadoCivil,
+                c.UsuarioRegistro,
+                c.FechaCreacion,
+                c.UsuarioModifico,
+                c.FechaModificacion
             ));
 
-            var query2 = @"INSERT INTO clientes_por_correo (correo, cliente_id, nombre_completo)
-                           VALUES (?, ?, ?)";
-            await _session.ExecuteAsync(_session.Prepare(query2).Bind(c.Correo, c.ClienteId, c.NombreCompleto));
-
-            var query3 = @"INSERT INTO clientes_por_rfc (rfc, cliente_id, nombre_completo)
-                           VALUES (?, ?, ?)";
-            await _session.ExecuteAsync(_session.Prepare(query3).Bind(c.RFC, c.ClienteId, c.NombreCompleto));
+            // También insertamos en índices secundarios
+            InsertClientePorCorreo(c);
+            InsertClientePorRFC(c);
         }
 
-        // SELECT
-        public async Task<ClienteModel> BuscarPorCorreoAsync(string correo)
+        private void InsertClientePorCorreo(ClienteModel c)
         {
-            var query = "SELECT * FROM clientes_por_correo WHERE correo = ?";
-            var ps = _session.Prepare(query);
-            var row = (await _session.ExecuteAsync(ps.Bind(correo))).FirstOrDefault();
-            if (row == null) return null;
+            var q = @"INSERT INTO clientes_por_correo (correo, cliente_id, nombre_completo)
+                      VALUES (?,?,?);";
 
-            return await ObtenerClienteAsync(row.GetValue<Guid>("cliente_id"));
+            _session.Execute(
+                _session.Prepare(q).Bind(c.Correo, c.ClienteId, c.NombreCompleto)
+            );
         }
 
-        public async Task<ClienteModel> BuscarPorRFCAsync(string rfc)
+        private void InsertClientePorRFC(ClienteModel c)
         {
-            var query = "SELECT * FROM clientes_por_rfc WHERE rfc = ?";
-            var ps = _session.Prepare(query);
-            var row = (await _session.ExecuteAsync(ps.Bind(rfc))).FirstOrDefault();
-            if (row == null) return null;
+            var q = @"INSERT INTO clientes_por_rfc (rfc, cliente_id, nombre_completo)
+                      VALUES (?,?,?);";
 
-            return await ObtenerClienteAsync(row.GetValue<Guid>("cliente_id"));
+            _session.Execute(
+                _session.Prepare(q).Bind(c.RFC, c.ClienteId, c.NombreCompleto)
+            );
         }
 
-        public async Task<ClienteModel> ObtenerClienteAsync(Guid id)
+        // ==========================================================
+        // UPDATE
+        // ==========================================================
+        public void Update(ClienteModel c)
         {
-            var query = "SELECT * FROM clientes WHERE cliente_id = ?";
-            var ps = _session.Prepare(query);
-            var rs = await _session.ExecuteAsync(ps.Bind(id));
-            var row = rs.FirstOrDefault();
+            var query = @"UPDATE clientes SET
+                nombre_completo=?, pais=?, estado=?, ciudad=?,
+                rfc=?, correo=?, tel_casa=?, tel_celular=?, fecha_nacimiento=?,
+                estado_civil=?, usuario_modificacion=?, fecha_modificacion=?
+                WHERE cliente_id=?;";
+
+            var stmt = _session.Prepare(query);
+
+            _session.Execute(stmt.Bind(
+                c.NombreCompleto,
+                c.Pais,
+                c.Estado,
+                c.Ciudad,
+                c.RFC,
+                c.Correo,
+                c.TelCasa,
+                c.TelCelular,
+                c.FechaNacimiento,
+                c.EstadoCivil,
+                c.UsuarioModifico,
+                c.FechaModificacion,
+                c.ClienteId
+            ));
+
+            // Índices secundarios deben actualizarse también
+            InsertClientePorCorreo(c);
+            InsertClientePorRFC(c);
+        }
+
+        // ==========================================================
+        // DELETE
+        // ==========================================================
+        public void Delete(Guid id)
+        {
+            var query = "DELETE FROM clientes WHERE cliente_id = ?";
+            var stmt = _session.Prepare(query);
+            _session.Execute(stmt.Bind(id));
+        }
+
+        // ==========================================================
+        // QUERY: Buscar por correo
+        // ==========================================================
+        public ClienteModel GetByCorreo(string correo)
+        {
+            var idxRow = _session.Execute(
+                _session.Prepare("SELECT cliente_id FROM clientes_por_correo WHERE correo=?;").Bind(correo)
+            ).FirstOrDefault();
+
+            if (idxRow == null) return null;
+
+            return GetById(idxRow.GetValue<Guid>("cliente_id"));
+        }
+
+        // ==========================================================
+        // QUERY: Buscar por RFC
+        // ==========================================================
+        public ClienteModel GetByRFC(string rfc)
+        {
+            var idxRow = _session.Execute(
+                _session.Prepare("SELECT cliente_id FROM clientes_por_rfc WHERE rfc=?;").Bind(rfc)
+            ).FirstOrDefault();
+
+            if (idxRow == null) return null;
+
+            return GetById(idxRow.GetValue<Guid>("cliente_id"));
+        }
+
+        // ==========================================================
+        // QUERY: Buscar por ID
+        // ==========================================================
+        public ClienteModel GetById(Guid id)
+        {
+            var row = _session.Execute(
+                _session.Prepare("SELECT * FROM clientes WHERE cliente_id=?;").Bind(id)
+            ).FirstOrDefault();
+
             if (row == null) return null;
 
+            return MapRowToCliente(row);
+        }
+
+        // ==========================================================
+        // GET ALL (solo para interfaz)
+        // ==========================================================
+        public List<ClienteModel> GetAll()
+        {
+            var result = _session.Execute("SELECT * FROM clientes;");
+            var list = new List<ClienteModel>();
+
+            foreach (var row in result)
+                list.Add(MapRowToCliente(row));
+
+            return list;
+        }
+
+        // ==========================================================
+        // MAPEO
+        // ==========================================================
+        private ClienteModel MapRowToCliente(Row row)
+        {
             return new ClienteModel
             {
-                ClienteId = id,
+                ClienteId = row.GetValue<Guid>("cliente_id"),
                 NombreCompleto = row.GetValue<string>("nombre_completo"),
                 Pais = row.GetValue<string>("pais"),
                 Estado = row.GetValue<string>("estado"),
                 Ciudad = row.GetValue<string>("ciudad"),
                 RFC = row.GetValue<string>("rfc"),
                 Correo = row.GetValue<string>("correo"),
-                TelefonoCasa = row.GetValue<string>("tel_casa"),
-                TelefonoCelular = row.GetValue<string>("tel_celular"),
-                FechaNacimiento = row.GetValue<DateTime?>("fecha_nacimiento"),
+                TelCasa = row.GetValue<string>("tel_casa"),
+                TelCelular = row.GetValue<string>("tel_celular"),
+                FechaNacimiento = row.GetValue<DateTime>("fecha_nacimiento"),
                 EstadoCivil = row.GetValue<string>("estado_civil"),
-                UsuarioRegistro = row.GetValue<int?>("usuario_registro"),
-                UsuarioModifico = row.GetValue<int?>("usuario_modifico"),
-                FechaCreacion = row.GetValue<DateTime?>("fecha_creacion"),
-                FechaModificacion = row.GetValue<DateTime?>("fecha_modificacion")
+                UsuarioRegistro = row.GetValue<string>("usuario_creacion"),
+                FechaCreacion = row.GetValue<DateTime>("fecha_creacion"),
+                UsuarioModifico = row.GetValue<string>("usuario_modificacion"),
+                FechaModificacion = row.GetValue<DateTime>("fecha_modificacion")
             };
-        }
-
-        // UPDATE
-        public async Task ActualizarClienteAsync(ClienteModel c)
-        {
-            var query = @"UPDATE clientes SET
-                nombre_completo = ?, pais = ?, estado = ?, ciudad = ?, rfc = ?, correo = ?,
-                tel_casa = ?, tel_celular = ?, fecha_nacimiento = ?, estado_civil = ?,
-                usuario_modifico = ?, fecha_modificacion = toTimestamp(now())
-                WHERE cliente_id = ?";
-
-            var ps = _session.Prepare(query);
-
-            await _session.ExecuteAsync(ps.Bind(
-                c.NombreCompleto, c.Pais, c.Estado, c.Ciudad, c.RFC, c.Correo,
-                c.TelefonoCasa, c.TelefonoCelular, c.FechaNacimiento, c.EstadoCivil,
-                c.UsuarioModifico, c.ClienteId
-            ));
         }
     }
 }

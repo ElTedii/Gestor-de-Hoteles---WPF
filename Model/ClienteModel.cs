@@ -8,22 +8,24 @@ namespace Gestión_Hotelera.Model
 {
     public class ClienteModel
     {
-        public Guid ClienteId { get; set; }            // cliente_id (PK)
-        public string NombreCompleto { get; set; }     // nombre_completo
-        public string Pais { get; set; }               // pais
-        public string Estado { get; set; }             // estado
-        public string Ciudad { get; set; }             // ciudad
-        public string RFC { get; set; }                // rfc
-        public string Correo { get; set; }             // correo
-        public string TelefonoCasa { get; set; }       // tel_casa
-        public string TelefonoCelular { get; set; }    // tel_celular
-        public DateTime FechaNacimiento { get; set; } // fecha_nacimiento
-        public string EstadoCivil { get; set; }        // estado_civil
+        public Guid ClienteId { get; set; }
+        public string NombreCompleto { get; set; }
 
-        //AUDITORIA
-        public int UsuarioRegistro { get; set; }      // usuario_registro (numero_nomina)
-        public int UsuarioModifico { get; set; }      // usuario_modifico
-        public DateTime FechaCreacion { get; set; }   // fecha_creacion
-        public DateTime FechaModificacion { get; set; } // fecha_modificacion
+        public string Pais { get; set; }
+        public string Estado { get; set; }
+        public string Ciudad { get; set; }
+
+        public string RFC { get; set; }
+        public string Correo { get; set; }
+        public string TelCasa { get; set; }
+        public string TelCelular { get; set; }
+        public DateTime FechaNacimiento { get; set; }
+        public string EstadoCivil { get; set; }
+
+        // Auditoría
+        public string UsuarioRegistro { get; set; }      // usuario_creacion
+        public string UsuarioModifico { get; set; }      // usuario_modificacion
+        public DateTime FechaCreacion { get; set; }
+        public DateTime FechaModificacion { get; set; }
     }
 }

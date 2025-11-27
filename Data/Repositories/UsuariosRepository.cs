@@ -14,109 +14,122 @@ namespace Gestión_Hotelera.Data.Repositories
 
         public UsuarioRepository()
         {
-            _session = CassandraConnection.Session;
+            _session = CassandraConnection.GetSession();
         }
 
-        // Registrar usuario
-        public bool InsertarUsuario(UsersModel u)
+        // INSERT
+        public void Insert(UsersModel u)
         {
-            try
-            {
-                var query = _session.Prepare(@"
-                    INSERT INTO usuarios
-                    (nomina, correo, contrasena, nombre_completo,
-                     fecha_nacimiento, tel_casa, tel_celular,
-                     fecha_creacion, usuario_registro)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, toTimestamp(now()), ?)
-                ");
+            var query = @"INSERT INTO usuarios (
+                nomina, correo, contrasena, nombre_completo, fecha_nacimiento,
+                tel_casa, tel_celular,
+                usuario_creacion, fecha_creacion,
+                usuario_modificacion, fecha_modificacion
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?);";
 
-                _session.Execute(query.Bind(
-                    u.Nomina,
-                    u.Correo,
-                    u.Contrasena,
-                    u.NombreCompleto,
-                    u.FechaNacimiento,
-                    u.TelefonoCasa,
-                    u.TelefonoCelular,
-                    u.UsuarioRegistro
-                ));
+            var statement = _session.Prepare(query);
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error InsertarUsuario: " + ex.Message);
-                return false;
-            }
+            _session.Execute(statement.Bind(
+                u.Nomina, u.Correo, u.Pass, u.NombreCompleto, u.FechaNacimiento,
+                u.TelCasa, u.TelCelular,
+                u.UsuarioRegistro, u.FechaRegistro,
+                u.UusuarioModificacion, u.FechaModificacion
+            ));
         }
 
-        // Obtener usuario por correo
-        public UsersModel ObtenerPorCorreo(string correo)
+        // UPDATE
+        public void Update(UsersModel u)
         {
-            try
-            {
-                var query = _session.Prepare(@"
-                    SELECT * FROM usuarios WHERE correo = ? ALLOW FILTERING;
-                ");
+            var query = @"UPDATE usuarios SET
+                correo=?, contrasena=?, nombre_completo=?, fecha_nacimiento=?,
+                tel_casa=?, tel_celular=?,
+                usuario_modificacion=?, fecha_modificacion=?
+                WHERE nomina=?;";
 
-                var result = _session.Execute(query.Bind(correo)).FirstOrDefault();
-                if (result == null) return null;
+            var stmt = _session.Prepare(query);
 
-                return Map(result);
-            }
-            catch
-            {
-                return null;
-            }
+            _session.Execute(stmt.Bind(
+                u.Correo, u.Pass, u.NombreCompleto, u.FechaNacimiento,
+                u.TelCasa, u.TelCelular,
+                u.UusuarioModificacion, u.FechaModificacion,
+                u.Nomina
+            ));
         }
 
-        // Obtener usuario por nómina
-        public UsersModel ObtenerPorNomina(int nomina)
+        // GET BY ID
+        public UsersModel GetById(int nomina)
         {
-            try
-            {
-                var query = _session.Prepare("SELECT * FROM usuarios WHERE nomina = ?;");
-                var result = _session.Execute(query.Bind(nomina)).FirstOrDefault();
+            var query = "SELECT * FROM usuarios WHERE nomina = ?;";
+            var row = _session.Execute(_session.Prepare(query).Bind(nomina)).FirstOrDefault();
 
-                return result != null ? Map(result) : null;
-            }
-            catch
-            {
-                return null;
-            }
-        }
+            if (row == null) return null;
 
-        // Validar login
-        public UsersModel ValidarLogin(string correo, string password)
-        {
-            try
-            {
-                var usuario = ObtenerPorCorreo(correo);
-                if (usuario == null) return null;
-
-                return usuario.Contrasena == password ? usuario : null;
-            }
-            catch
-            {
-                return null;
-            }
-        }
-
-        // Map de Row → UsuarioModel
-        private UsersModel Map(Row row)
-        {
             return new UsersModel
             {
                 Nomina = row.GetValue<int>("nomina"),
                 Correo = row.GetValue<string>("correo"),
-                Contrasena = row.GetValue<string>("contrasena"),
+                Pass = row.GetValue<string>("contrasena"),
                 NombreCompleto = row.GetValue<string>("nombre_completo"),
                 FechaNacimiento = row.GetValue<DateTime>("fecha_nacimiento"),
-                TelefonoCasa = row.GetValue<string>("tel_casa"),
-                TelefonoCelular = row.GetValue<string>("tel_celular"),
-                FechaCreacion = row.GetValue<DateTime>("fecha_creacion"),
-                UsuarioRegistro = row.GetValue<int>("usuario_registro")
+                TelCasa = row.GetValue<string>("tel_casa"),
+                TelCelular = row.GetValue<string>("tel_celular"),
+                UsuarioRegistro = row.GetValue<string>("usuario_creacion"),
+                FechaRegistro = row.GetValue<DateTime>("fecha_creacion"),
+                UusuarioModificacion = row.GetValue<string>("usuario_modificacion"),
+                FechaModificacion = row.GetValue<DateTime>("fecha_modificacion")
             };
+        }
+
+        // GET ALL
+        public List<UsersModel> GetAll()
+        {
+            var result = _session.Execute("SELECT * FROM usuarios;");
+            var lista = new List<UsersModel>();
+
+            foreach (var row in result)
+            {
+                lista.Add(new UsersModel
+                {
+                    Nomina = row.GetValue<int>("nomina"),
+                    Correo = row.GetValue<string>("correo"),
+                    Pass = row.GetValue<string>("contrasena"),
+                    NombreCompleto = row.GetValue<string>("nombre_completo"),
+                    FechaNacimiento = row.GetValue<DateTime>("fecha_nacimiento"),
+                    TelCasa = row.GetValue<string>("tel_casa"),
+                    TelCelular = row.GetValue<string>("tel_celular"),
+                    UsuarioRegistro = row.GetValue<string>("usuario_creacion"),
+                    FechaRegistro = row.GetValue<DateTime>("fecha_creacion"),
+                    UusuarioModificacion = row.GetValue<string>("usuario_modificacion"),
+                    FechaModificacion = row.GetValue<DateTime>("fecha_modificacion")
+                });
+            }
+
+            return lista;
+        }
+
+        // DELETE
+        public void Delete(int nomina)
+        {
+            var query = "DELETE FROM usuarios WHERE nomina = ?;";
+            _session.Execute(_session.Prepare(query).Bind(nomina));
+        }
+
+        // LOGIN BÁSICO
+        public bool Login(string correo, string pass)
+        {
+            var query = "SELECT * FROM usuarios;";
+            var usuarios = _session.Execute(query);
+
+            foreach (var row in usuarios)
+            {
+                if (row.GetValue<string>("correo") == correo &&
+                    row.GetValue<string>("contrasena") == pass)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

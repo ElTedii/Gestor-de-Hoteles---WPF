@@ -6,21 +6,23 @@ using System.Threading.Tasks;
 
 namespace Gestión_Hotelera.Model
 {
-    public class ReservacionModel
+    public class EstanciaActivaModel
     {
-        public Guid ReservaId { get; set; }
-        public Guid ClienteId { get; set; }
         public Guid HotelId { get; set; }
+
+        public int NumeroHabitacion { get; set; }
+
+        public Guid EstanciaId { get; set; }
+        public Guid ClienteId { get; set; }
+        public Guid ReservaId { get; set; }
 
         public DateTime FechaEntrada { get; set; }
         public DateTime FechaSalida { get; set; }
 
         public decimal Anticipo { get; set; }
-        public string Estado { get; set; }
+        public decimal PrecioNoche { get; set; }
 
-        // Auditoría
-        public string UsuarioRegistro { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        public DateTime FechaModificacion { get; set; }
+        public int Adultos { get; set; }
+        public int Menores { get; set; }
     }
 }

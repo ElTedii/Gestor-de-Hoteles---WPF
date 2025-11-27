@@ -8,20 +8,25 @@ using System.Threading.Tasks;
 
 namespace Gestión_Hotelera.Data
 {
-    public sealed class CassandraConnection
+    public static class CassandraConnection
     {
-        private static readonly Lazy<ISession> _session = new Lazy<ISession>(() =>
+        private static ISession _session;
+
+        public static ISession GetSession()
         {
-            var clusterConfig = ConfigurationManager.AppSettings["Cluster"]; // ej: "localhost"
-            var keyspace = ConfigurationManager.AppSettings["KeySpace"];    // ej: "hotel_ks"
+            if (_session == null)
+            {
+                var clusterIp = ConfigurationManager.AppSettings["Cluster"];
+                var keyspace = ConfigurationManager.AppSettings["KeySpace"];
 
-            var cluster = Cluster.Builder()
-                                 .AddContactPoint(clusterConfig)
-                                 .Build();
+                var cluster = Cluster.Builder()
+                    .AddContactPoint(clusterIp)
+                    .Build();
 
-            return cluster.Connect(keyspace);
-        });
+                _session = cluster.Connect(keyspace);
+            }
 
-        public static ISession Session => _session.Value;
+            return _session;
+        }
     }
 }

@@ -14,36 +14,119 @@ namespace Gestión_Hotelera.Data.Repositories
 
         public TipoHabitacionRepository()
         {
-            _session = CassandraConnection.Session;
+            _session = CassandraConnection.GetSession();
         }
 
-        public async Task InsertarTipoAsync(TipoHabitacionModel t)
+        // ==========================================================
+        // INSERT
+        // ==========================================================
+        public void Insert(TipoHabitacionModel t)
         {
-            t.TipoId = Guid.NewGuid();
+            var query = @"INSERT INTO tipos_habitacion_por_hotel (
+                hotel_id, tipo_id, nombre_tipo, capacidad, precio_noche,
+                cantidad, caracteristicas, amenidades, nivel, vista,
+                usuario_registro, fecha_registro, fecha_modificacion
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
-            var query = @"INSERT INTO tipos_habitacion_por_hotel
-            (hotel_id, tipo_id, nombre_tipo, capacidad, precio_noche, cantidad,
-             caracteristicas, amenidades, nivel, vista, usuario_registro, fecha_registro)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, toTimestamp(now()));";
+            var stmt = _session.Prepare(query);
 
-            var ps = _session.Prepare(query);
-
-            await _session.ExecuteAsync(ps.Bind(
-                t.HotelId, t.TipoId, t.NombreTipo, t.Capacidad, t.PrecioNoche,
-                t.Cantidad, t.Caracteristicas, t.Amenidades, t.Nivel, t.Vista,
-                t.UsuarioRegistro
+            _session.Execute(stmt.Bind(
+                t.HotelId,
+                t.TipoId,
+                t.NombreTipo,
+                t.Capacidad,
+                t.PrecioNoche,
+                t.Cantidad,
+                t.Caracteristicas,
+                t.Amenidades,
+                t.Nivel,
+                t.Vista,
+                t.UsuarioRegistro,
+                t.FechaCreacion,
+                t.FechaModificacion
             ));
         }
 
-        public async Task<IEnumerable<TipoHabitacionModel>> ObtenerPorHotelAsync(Guid hotelId)
+        // ==========================================================
+        // UPDATE
+        // ==========================================================
+        public void Update(TipoHabitacionModel t)
         {
-            var query = "SELECT * FROM tipos_habitacion_por_hotel WHERE hotel_id = ?";
-            var ps = _session.Prepare(query);
-            var rs = await _session.ExecuteAsync(ps.Bind(hotelId));
+            var query = @"UPDATE tipos_habitacion_por_hotel SET
+                nombre_tipo=?, capacidad=?, precio_noche=?, cantidad=?,
+                caracteristicas=?, amenidades=?, nivel=?, vista=?,
+                fecha_modificacion=?
+                WHERE hotel_id=? AND tipo_id=?;";
 
-            return rs.Select(row => new TipoHabitacionModel
+            var stmt = _session.Prepare(query);
+
+            _session.Execute(stmt.Bind(
+                t.NombreTipo,
+                t.Capacidad,
+                t.PrecioNoche,
+                t.Cantidad,
+                t.Caracteristicas,
+                t.Amenidades,
+                t.Nivel,
+                t.Vista,
+                t.FechaModificacion,
+                t.HotelId,
+                t.TipoId
+            ));
+        }
+
+        // ==========================================================
+        // DELETE
+        // ==========================================================
+        public void Delete(Guid hotelId, Guid tipoId)
+        {
+            var stmt = _session.Prepare(
+                "DELETE FROM tipos_habitacion_por_hotel WHERE hotel_id=? AND tipo_id=?;"
+            );
+
+            _session.Execute(stmt.Bind(hotelId, tipoId));
+        }
+
+        // ==========================================================
+        // GET BY HOTEL
+        // ==========================================================
+        public List<TipoHabitacionModel> GetByHotel(Guid hotelId)
+        {
+            var result = _session.Execute(
+                _session.Prepare("SELECT * FROM tipos_habitacion_por_hotel WHERE hotel_id=?;")
+                .Bind(hotelId)
+            );
+
+            var list = new List<TipoHabitacionModel>();
+
+            foreach (var row in result)
+                list.Add(MapRow(row));
+
+            return list;
+        }
+
+        // ==========================================================
+        // GET BY HOTEL + TYPE
+        // ==========================================================
+        public TipoHabitacionModel GetByHotelAndTipo(Guid hotelId, Guid tipoId)
+        {
+            var row = _session.Execute(
+                _session.Prepare(@"SELECT * FROM tipos_habitacion_por_hotel 
+                                   WHERE hotel_id=? AND tipo_id=?;")
+                .Bind(hotelId, tipoId)
+            ).FirstOrDefault();
+
+            return row != null ? MapRow(row) : null;
+        }
+
+        // ==========================================================
+        // MAPEO
+        // ==========================================================
+        private TipoHabitacionModel MapRow(Row row)
+        {
+            return new TipoHabitacionModel
             {
-                HotelId = hotelId,
+                HotelId = row.GetValue<Guid>("hotel_id"),
                 TipoId = row.GetValue<Guid>("tipo_id"),
                 NombreTipo = row.GetValue<string>("nombre_tipo"),
                 Capacidad = row.GetValue<int>("capacidad"),
@@ -53,9 +136,10 @@ namespace Gestión_Hotelera.Data.Repositories
                 Amenidades = row.GetValue<List<string>>("amenidades"),
                 Nivel = row.GetValue<string>("nivel"),
                 Vista = row.GetValue<string>("vista"),
-                UsuarioRegistro = row.GetValue<int>("usuario_registro"),
-                FechaRegistro = row.GetValue<DateTime?>("fecha_registro")
-            });
+                UsuarioRegistro = row.GetValue<string>("usuario_registro"),
+                FechaCreacion = row.GetValue<DateTime>("fecha_registro"),
+                FechaModificacion = row.GetValue<DateTime>("fecha_modificacion")
+            };
         }
     }
 }

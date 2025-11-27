@@ -1,62 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\",
+  "WorkspaceRootPath": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\view\\loginview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:view\\loginview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\data\\repositories\\facturarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:data\\repositories\\facturarepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\viewmodel\\reservasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\reservasviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\model\\facturamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:model\\facturamodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\viewmodel\\registrohotelviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\registrohotelviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\viewmodel\\registrohabitacionviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\registrohabitacionviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\viewmodel\\nuevareservaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\nuevareservaviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\viewmodel\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\loginviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\data\\repositories\\usuariosrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:data\\repositories\\usuariosrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\model\\usersmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:model\\usersmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\viewmodel\\hotelesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\hotelesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\viewmodel\\habitacionesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\habitacionesviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\viewmodel\\clientviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\clientviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\services\\reservationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:services\\reservationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|c:\\users\\tedss\\documents\\gestor-de-hoteles---wpf\\services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:services\\clienteservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\data\\cassandraconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:data\\cassandraconnection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -69,177 +25,48 @@
           "SelectedChildIndex": 1,
           "Children": [
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CassandraConnection.cs",
+              "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\Data\\CassandraConnection.cs",
+              "RelativeDocumentMoniker": "Data\\CassandraConnection.cs",
+              "ToolTip": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\Data\\CassandraConnection.cs",
+              "RelativeToolTip": "Data\\CassandraConnection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-27T03:26:59.175Z",
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "LoginView.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\View\\LoginView.xaml.cs",
-              "RelativeDocumentMoniker": "View\\LoginView.xaml.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\View\\LoginView.xaml.cs",
-              "RelativeToolTip": "View\\LoginView.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC4AAAAJAAAAAAAAAA==",
+              "Title": "FacturaRepository.cs",
+              "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\Data\\Repositories\\FacturaRepository.cs",
+              "RelativeDocumentMoniker": "Data\\Repositories\\FacturaRepository.cs",
+              "ToolTip": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\Data\\Repositories\\FacturaRepository.cs",
+              "RelativeToolTip": "Data\\Repositories\\FacturaRepository.cs",
+              "ViewState": "AgIAAFsAAAAAAAAAAAAkwGUAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:48:10.753Z",
+              "WhenOpened": "2025-11-27T10:05:17.398Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ReservasViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\ReservasViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModel\\ReservasViewModel.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\ReservasViewModel.cs",
-              "RelativeToolTip": "ViewModel\\ReservasViewModel.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAhwB8AAABMAAAAAAAAAA==",
+              "Title": "FacturaModel.cs",
+              "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\Model\\FacturaModel.cs",
+              "RelativeDocumentMoniker": "Model\\FacturaModel.cs",
+              "ToolTip": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\Model\\FacturaModel.cs",
+              "RelativeToolTip": "Model\\FacturaModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:47:41.582Z"
+              "WhenOpened": "2025-11-27T10:05:15.211Z",
+              "EditorCaption": ""
             },
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "RegistroHotelViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\RegistroHotelViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModel\\RegistroHotelViewModel.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\RegistroHotelViewModel.cs",
-              "RelativeToolTip": "ViewModel\\RegistroHotelViewModel.cs",
-              "ViewState": "AgIAAFAAAAAAAAAAAAAhwHQAAAAPAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:47:13.15Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "RegistroHabitacionViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\RegistroHabitacionViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModel\\RegistroHabitacionViewModel.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\RegistroHabitacionViewModel.cs",
-              "RelativeToolTip": "ViewModel\\RegistroHabitacionViewModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:47:05.294Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "NuevaReservaViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\NuevaReservaViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModel\\NuevaReservaViewModel.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\NuevaReservaViewModel.cs",
-              "RelativeToolTip": "ViewModel\\NuevaReservaViewModel.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAhwE8AAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:46:42.81Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UserService.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Services\\UserService.cs",
-              "RelativeDocumentMoniker": "Services\\UserService.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Services\\UserService.cs",
-              "RelativeToolTip": "Services\\UserService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:40:02.849Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "UsuariosRepository.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Data\\Repositories\\UsuariosRepository.cs",
-              "RelativeDocumentMoniker": "Data\\Repositories\\UsuariosRepository.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Data\\Repositories\\UsuariosRepository.cs",
-              "RelativeToolTip": "Data\\Repositories\\UsuariosRepository.cs",
-              "ViewState": "AgIAAFEAAAAAAAAAAAAAAGsAAAAhAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:38:54.714Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "UsersModel.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Model\\UsersModel.cs",
-              "RelativeDocumentMoniker": "Model\\UsersModel.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Model\\UsersModel.cs",
-              "RelativeToolTip": "Model\\UsersModel.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAwAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:38:29.162Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "LoginViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\LoginViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModel\\LoginViewModel.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\LoginViewModel.cs",
-              "RelativeToolTip": "ViewModel\\LoginViewModel.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAAAAAA4AAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:31:01.953Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "HotelesViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\HotelesViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModel\\HotelesViewModel.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\HotelesViewModel.cs",
-              "RelativeToolTip": "ViewModel\\HotelesViewModel.cs",
-              "ViewState": "AgIAABAAAAAAAAAAAAAhwCgAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:30:40.283Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "HabitacionesViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\HabitacionesViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModel\\HabitacionesViewModel.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\HabitacionesViewModel.cs",
-              "RelativeToolTip": "ViewModel\\HabitacionesViewModel.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAhwBgAAAA0AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:30:27.697Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ClientViewModel.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\ClientViewModel.cs",
-              "RelativeDocumentMoniker": "ViewModel\\ClientViewModel.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\ViewModel\\ClientViewModel.cs",
-              "RelativeToolTip": "ViewModel\\ClientViewModel.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAhwB4AAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:30:17.467Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ReservationService.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Services\\ReservationService.cs",
-              "RelativeDocumentMoniker": "Services\\ReservationService.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Services\\ReservationService.cs",
-              "RelativeToolTip": "Services\\ReservationService.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAhwCoAAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:28:56.358Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "ClienteService.cs",
-              "DocumentMoniker": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Services\\ClienteService.cs",
-              "RelativeDocumentMoniker": "Services\\ClienteService.cs",
-              "ToolTip": "C:\\Users\\Tedss\\Documents\\Gestor-de-Hoteles---WPF\\Services\\ClienteService.cs",
-              "RelativeToolTip": "Services\\ClienteService.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAhwDQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-11-18T22:27:22.2Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
             }
           ]
         }

@@ -13,33 +13,114 @@ namespace Gestión_Hotelera.Data.Repositories
 
         public HotelRepository()
         {
-            _session = CassandraConnection.Session;
+            _session = CassandraConnection.GetSession();
         }
 
-        public async Task InsertarHotelAsync(HotelModel h)
+        // ==========================================================
+        // INSERT
+        // ==========================================================
+        public void Insert(HotelModel h)
         {
-            h.HotelId = Guid.NewGuid();
+            var query = @"INSERT INTO hoteles (
+                hotel_id, nombre, pais, estado, ciudad, domicilio,
+                num_pisos, zona_turistica, servicios, frente_playa,
+                num_piscinas, salones_eventos,
+                usuario_registro, fecha_registro, fecha_modificacion
+            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
-            var query = @"INSERT INTO hoteles
-            (hotel_id, nombre, pais, estado, ciudad, domicilio, num_pisos, zona_turistica,
-             servicios, frente_playa, num_piscinas, salones_eventos, usuario_registro,
-             fecha_registro, fecha_inicio_op, fecha_modificacion)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, toTimestamp(now()), ?, toTimestamp(now()));";
+            var stmt = _session.Prepare(query);
 
-            var ps = _session.Prepare(query);
-
-            await _session.ExecuteAsync(ps.Bind(
-                h.HotelId, h.Nombre, h.Pais, h.Estado, h.Ciudad, h.Domicilio, h.NumPisos,
-                h.ZonaTuristica, h.Servicios, h.FrentePlaya, h.NumPiscinas, h.SalonesEventos,
-                h.UsuarioRegistro, h.FechaInicioOperaciones
+            _session.Execute(stmt.Bind(
+                h.HotelId,
+                h.Nombre,
+                h.Pais,
+                h.Estado,
+                h.Ciudad,
+                h.Domicilio,
+                h.NumPisos,
+                h.ZonaTuristica,
+                h.Servicios,
+                h.FrentePlaya,
+                h.NumPiscinas,
+                h.SalonesEventos,
+                h.UsuarioRegistro,
+                h.FechaRegistro,        // fecha_registro
+                h.FechaModificacion
             ));
         }
 
-        public async Task<IEnumerable<HotelModel>> ObtenerTodosAsync()
+        // ==========================================================
+        // UPDATE
+        // ==========================================================
+        public void Update(HotelModel h)
         {
-            var result = await _session.ExecuteAsync(new SimpleStatement("SELECT * FROM hoteles"));
+            var query = @"UPDATE hoteles SET
+                nombre=?, pais=?, estado=?, ciudad=?, domicilio=?,
+                num_pisos=?, zona_turistica=?, servicios=?, frente_playa=?,
+                num_piscinas=?, salones_eventos=?,
+                fecha_modificacion=?
+                WHERE hotel_id=?;";
 
-            return result.Select(row => new HotelModel
+            var stmt = _session.Prepare(query);
+
+            _session.Execute(stmt.Bind(
+                h.Nombre,
+                h.Pais,
+                h.Estado,
+                h.Ciudad,
+                h.Domicilio,
+                h.NumPisos,
+                h.ZonaTuristica,
+                h.Servicios,
+                h.FrentePlaya,
+                h.NumPiscinas,
+                h.SalonesEventos,
+                h.FechaModificacion,
+                h.HotelId
+            ));
+        }
+
+        // ==========================================================
+        // DELETE
+        // ==========================================================
+        public void Delete(Guid hotelId)
+        {
+            var stmt = _session.Prepare("DELETE FROM hoteles WHERE hotel_id=?;");
+            _session.Execute(stmt.Bind(hotelId));
+        }
+
+        // ==========================================================
+        // GET BY ID
+        // ==========================================================
+        public HotelModel GetById(Guid id)
+        {
+            var row = _session.Execute(
+                _session.Prepare("SELECT * FROM hoteles WHERE hotel_id=?;").Bind(id)
+            ).FirstOrDefault();
+
+            return row != null ? MapRow(row) : null;
+        }
+
+        // ==========================================================
+        // GET ALL
+        // ==========================================================
+        public List<HotelModel> GetAll()
+        {
+            var results = _session.Execute("SELECT * FROM hoteles;");
+            var list = new List<HotelModel>();
+
+            foreach (var row in results)
+                list.Add(MapRow(row));
+
+            return list;
+        }
+
+        // ==========================================================
+        // MAPEO
+        // ==========================================================
+        private HotelModel MapRow(Row row)
+        {
+            return new HotelModel
             {
                 HotelId = row.GetValue<Guid>("hotel_id"),
                 Nombre = row.GetValue<string>("nombre"),
@@ -53,33 +134,11 @@ namespace Gestión_Hotelera.Data.Repositories
                 FrentePlaya = row.GetValue<bool>("frente_playa"),
                 NumPiscinas = row.GetValue<int>("num_piscinas"),
                 SalonesEventos = row.GetValue<int>("salones_eventos"),
-                UsuarioRegistro = row.GetValue<int>("usuario_registro"),
-                FechaRegistro = row.GetValue<DateTime?>("fecha_registro"),
-                FechaInicioOperaciones = row.GetValue<DateTime?>("fecha_inicio_op")
-            });
-        }
 
-        public async Task ActualizarHotelAsync(HotelModel h)
-        {
-            var query = @"UPDATE hoteles SET
-                nombre = ?, pais = ?, estado = ?, ciudad = ?, domicilio = ?,
-                num_pisos = ?, zona_turistica = ?, servicios = ?, frente_playa = ?,
-                num_piscinas = ?, salones_eventos = ?, fecha_modificacion = toTimestamp(now())
-                WHERE hotel_id = ?";
-
-            var ps = _session.Prepare(query);
-
-            await _session.ExecuteAsync(ps.Bind(
-                h.Nombre, h.Pais, h.Estado, h.Ciudad, h.Domicilio, h.NumPisos, h.ZonaTuristica,
-                h.Servicios, h.FrentePlaya, h.NumPiscinas, h.SalonesEventos, h.HotelId
-            ));
-        }
-
-        public async Task EliminarHotelAsync(Guid hotelId)
-        {
-            await _session.ExecuteAsync(
-                _session.Prepare("DELETE FROM hoteles WHERE hotel_id = ?").Bind(hotelId)
-            );
+                UsuarioRegistro = row.GetValue<string>("usuario_registro"),
+                FechaRegistro = row.GetValue<DateTime>("fecha_registro"),
+                FechaModificacion = row.GetValue<DateTime>("fecha_modificacion")
+            };
         }
     }
 }
