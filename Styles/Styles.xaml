@@ -8,6 +8,7 @@
         <Setter Property="Padding" Value="10,5"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -31,8 +32,7 @@
     </Style>
 
 
-
-    <!-- INPUT OSCURO NORMAL -->
+    <!-- TEXTBOX -->
     <Style x:Key="DarkInputStyle" TargetType="TextBox">
         <Setter Property="Background" Value="#1F2A40"/>
         <Setter Property="Foreground" Value="White"/>
@@ -41,8 +41,10 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="FontSize" Value="14"/>
     </Style>
-    
-    <!--ComboBox-->
+
+
+
+    <!-- COMBOBOX -->
     <Style x:Key="DarkComboBoxStyle" TargetType="ComboBox">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Background" Value="#1F2A40"/>
@@ -50,77 +52,14 @@
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Padding" Value="6"/>
         <Setter Property="FontSize" Value="14"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ComboBox">
-                    <Grid>
-                        <!-- Fondo -->
-                        <Border x:Name="Border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="6"/>
-
-                        <!-- Contenido -->
-                        <DockPanel Margin="5,0">
-                            <ContentPresenter
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            Margin="2"
-                            RecognizesAccessKey="True"/>
-                        </DockPanel>
-
-                        <!-- Flecha -->
-                        <Border HorizontalAlignment="Right"
-                            Width="28"
-                            Background="#25324A"
-                            CornerRadius="0,6,6,0">
-                            <Path Data="M 0 0 L 4 4 L 8 0 Z"
-                              Fill="White"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
-                        </Border>
-                    </Grid>
-
-                    <ControlTemplate.Triggers>
-
-                        <!-- Hover -->
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="Border"
-                                Property="Background"
-                                Value="#243453"/>
-                        </Trigger>
-
-                        <!-- Abierto -->
-                        <Trigger Property="IsDropDownOpen" Value="True">
-                            <Setter TargetName="Border"
-                                Property="Background"
-                                Value="#2E3C57"/>
-                            <Setter Property="BorderBrush" Value="#745DFC"/>
-                        </Trigger>
-
-                        <!-- Deshabilitado -->
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="Border"
-                                Property="Opacity" Value="0.6"/>
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
-    
-    <!--Listbox-->
+
+    <!-- Items del ComboBox -->
     <Style TargetType="ComboBoxItem" x:Key="DarkComboBoxItemStyle">
         <Setter Property="Foreground" Value="White"/>
         <Setter Property="Background" Value="#1F2A40"/>
         <Setter Property="Padding" Value="6"/>
         <Setter Property="FontSize" Value="14"/>
-
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
                 <Setter Property="Background" Value="#374A69"/>
@@ -128,5 +67,135 @@
         </Style.Triggers>
     </Style>
 
+
+
+    <!-- DATEPICKER -->
+    <Style x:Key="DarkDatePickerStyle" TargetType="DatePicker">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Background" Value="#1F2A40"/>
+        <Setter Property="BorderBrush" Value="#3C4A63"/>
+        <Setter Property="BorderThickness" Value="1"/>
+    </Style>
+
+    <Style TargetType="DatePickerTextBox">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Background" Value="#1F2A40"/>
+    </Style>
+
+    <!-- ======================== -->
+    <!--  ESTILOS PARA DATAGRID   -->
+    <!-- ======================== -->
+
+    <!-- HEADER -->
+    <Style x:Key="KumaDataGridHeader" TargetType="DataGridColumnHeader">
+        <Setter Property="Background" Value="{StaticResource panelColor}"/>
+        <Setter Property="Foreground" Value="{StaticResource plainTextColor1}"/>
+        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+        <Setter Property="Padding" Value="10,5,5,5"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <!-- FILAS -->
+    <Style x:Key="KumaDataGridRow" TargetType="DataGridRow">
+        <Setter Property="Background" Value="{StaticResource panelColor}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+    </Style>
+
+    <!-- CELDAS -->
+    <Style x:Key="KumaDataGridCell" TargetType="DataGridCell">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Padding" Value="6"/>
+    </Style>
+
+    <!-- =======================
+     KUMA DATA GRID STYLE
+     ======================= -->
+    <Style TargetType="DataGrid" x:Key="KumaDataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+        <Setter Property="Background" Value="{StaticResource panelColor}"/>
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="RowHeight" Value="40"/>
+        <Setter Property="ColumnHeaderHeight" Value="40"/>
+        <Setter Property="AlternatingRowBackground" Value="{StaticResource panelOverColor}"/>
+        <Setter Property="GridLinesVisibility" Value="None"/>
+
+        <!-- Column Header Style -->
+        <Setter Property="ColumnHeaderStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridColumnHeader">
+                    <Setter Property="Background" Value="{StaticResource panelColor}"/>
+                    <Setter Property="Foreground" Value="{StaticResource plainTextColor1}"/>
+                    <Setter Property="FontSize" Value="15"/>
+                    <Setter Property="FontWeight" Value="SemiBold"/>
+                    <Setter Property="Padding" Value="10,0,0,0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Left"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                    <Setter Property="BorderBrush" Value="#222"/>
+                </Style>
+            </Setter.Value>
+        </Setter>
+
+        <!-- Row Style -->
+        <Setter Property="RowStyle">
+            <Setter.Value>
+                <Style TargetType="DataGridRow">
+                    <Setter Property="Background" Value="{StaticResource panelColor}"/>
+                    <Setter Property="Foreground" Value="White"/>
+                    <Setter Property="BorderBrush" Value="#222"/>
+                    <Setter Property="BorderThickness" Value="0,0,0,1"/>
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#374151"/>
+                        </Trigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{StaticResource panelActiveColor}"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!-- =======================
+     KUMA DASHBOARD CARD
+     ======================= -->
+    <Style x:Key="KumaDashboardCard" TargetType="Border">
+        <Setter Property="Background" Value="{StaticResource panelOverColor}"/>
+        <Setter Property="CornerRadius" Value="12"/>
+        <Setter Property="Padding" Value="20"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="BorderBrush" Value="#242C3A"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect Color="Black"
+                              BlurRadius="12"
+                              ShadowDepth="0"
+                              Opacity="0.35"/>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <Style x:Key="KumaCardTitle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{StaticResource plainTextColor2}"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+
+    <Style x:Key="KumaCardValue" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="FontSize" Value="26"/>
+        <Setter Property="FontWeight" Value="SemiBold"/>
+    </Style>
 
 </ResourceDictionary>

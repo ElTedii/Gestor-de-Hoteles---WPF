@@ -1,5 +1,5 @@
 ﻿using Gestión_Hotelera.Model;
-using Gestión_Hotelera.Services;
+using Gestión_Hotelera.Data.Repositories;
 using System;
 using System.Windows;
 using System.Windows.Input;
@@ -8,10 +8,10 @@ namespace Gestión_Hotelera.ViewModel
 {
     public class LoginViewModel : ViewModelBase
     {
-        // Servicio de usuarios (no repositorio directo)
-        private readonly UsuarioService _usuarioService;
+        // Repositorio directo (simplificación del proyecto)
+        private readonly UsuarioRepository _usuarioRepo;
 
-        // Usuario logueado
+        // Usuario logueado (sesión)
         public static UsersModel UsuarioActual { get; private set; }
 
         // PROPIEDADES PARA LOGIN
@@ -37,7 +37,7 @@ namespace Gestión_Hotelera.ViewModel
 
         public LoginViewModel()
         {
-            _usuarioService = new UsuarioService();
+            _usuarioRepo = new UsuarioRepository();
 
             LoginCommand = new ViewModelCommand(ExecuteLogin, CanExecuteLogin);
         }
@@ -50,17 +50,18 @@ namespace Gestión_Hotelera.ViewModel
 
         private void ExecuteLogin(object obj)
         {
-            // Llama al servicio, no al repo
-            var usuario = _usuarioService.Login(Correo, Password);
+            // Buscar usuario por correo
+            var usuario = _usuarioRepo.GetByCorreo(Correo);
 
-            if (usuario == null)
+            // Validar credenciales
+            if (usuario == null || usuario.Contrasena != Password)
             {
                 MessageBox.Show("Correo o contraseña incorrectos.",
                     "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
-            // Guardar usuario en sesión estática (opcional)
+            // Guardar usuario en sesión
             UsuarioActual = usuario;
 
             // Abrir ventana principal

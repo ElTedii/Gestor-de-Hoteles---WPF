@@ -8,17 +8,18 @@ namespace Gestión_Hotelera.Model
 {
     public class UsersModel
     {
-        public int Nomina { get; set; }
         public string Correo { get; set; }
-        public string Pass { get; set; }
+        public string Contrasena { get; set; }
         public string NombreCompleto { get; set; }
-        public DateTime FechaNacimiento { get; set; }
+
+        public int Nomina { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
         public string TelCasa { get; set; }
         public string TelCelular { get; set; }
 
-        public string UsuarioRegistro { get; set; }
-        public DateTime FechaRegistro { get; set; }
-        public string UusuarioModificacion { get; set; }
-        public DateTime FechaModificacion { get; set; }
+        public string UsuarioCreacion { get; set; }
+        public DateTime FechaCreacion { get; set; }
+        public string UsuarioModificacion { get; set; }
+        public DateTime? FechaModificacion { get; set; }
     }
 }

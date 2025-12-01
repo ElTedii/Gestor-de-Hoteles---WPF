@@ -22,8 +22,10 @@ namespace Gestión_Hotelera.Model
         public string Nivel { get; set; }
         public string Vista { get; set; }
 
+        // Auditoría
         public string UsuarioRegistro { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        public DateTime FechaModificacion { get; set; }
+        public DateTime FechaRegistro { get; set; }
+        public string UsuarioModificacion { get; set; }
+        public DateTime? FechaModificacion { get; set; }
     }
 }

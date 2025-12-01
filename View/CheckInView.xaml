@@ -1,80 +1,82 @@
 ﻿<UserControl x:Class="Gestión_Hotelera.View.CheckInView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:Gestión_Hotelera.View"
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d"
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <Border Background="{StaticResource panelColor}"
-            Padding="15"
-            CornerRadius="10">
+            Padding="20"
+            CornerRadius="12">
 
         <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="50"/>
+                <RowDefinition Height="60"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
             <!-- ENCABEZADO -->
             <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="120"/>
-                </Grid.ColumnDefinitions>
-
-                <StackPanel Orientation="Horizontal"
-                            VerticalAlignment="Center">
-
-                    <TextBlock Text="Check-In"
-                               Foreground="{StaticResource plainTextColor1}"
-                               FontFamily="Verdana"
-                               FontSize="16"
-                               Padding="10"/>
-                </StackPanel>
+                <TextBlock Text="Check-In"
+                           Foreground="{StaticResource titleColor2}"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"/>
             </Grid>
 
             <!-- TABLA -->
             <Border Grid.Row="1"
+                    Margin="0,20,0,0"
                     Background="{StaticResource panelColor}"
                     CornerRadius="10"
                     Padding="10">
 
-                <DataGrid ColumnWidth="*"
+                <DataGrid ItemsSource="{Binding ReservasPendientes}" 
                           AutoGenerateColumns="False"
-                          IsReadOnly="True"
-                          HeadersVisibility="Column"
                           Background="{StaticResource panelColor}"
-                          BorderThickness="0"
                           AlternatingRowBackground="{StaticResource panelOverColor}"
+                          RowBackground="{StaticResource panelColor}"
                           Foreground="White"
-                          RowHeight="38"
-                          ColumnHeaderHeight="40">
-
-                    <DataGrid.ColumnHeaderStyle>
-                        <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="Background" Value="{StaticResource panelColor}"/>
-                            <Setter Property="Foreground" Value="{StaticResource plainTextColor1}"/>
-                            <Setter Property="FontSize" Value="15"/>
-                            <Setter Property="Padding" Value="10"/>
-                        </Style>
-                    </DataGrid.ColumnHeaderStyle>
+                          BorderThickness="0"
+                          RowHeight="40"
+                          HeadersVisibility="Column"
+                          ColumnHeaderHeight="40"
+                          RowStyle="{StaticResource KumaDataGridRow}"
+                          CellStyle="{StaticResource KumaDataGridCell}"
+                          ColumnHeaderStyle="{StaticResource KumaDataGridHeader}">
 
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Cliente" Binding="{Binding ClienteNombre}" Width="200"/>
-                        <DataGridTextColumn Header="Hotel" Binding="{Binding HotelNombre}" Width="200"/>
-                        <DataGridTextColumn Header="Habitación" Binding="{Binding Habitacion}" Width="100"/>
-                        <DataGridTextColumn Header="Entrada" Binding="{Binding FechaEntrada}" Width="120"/>
-                        <DataGridTextColumn Header="Salida" Binding="{Binding FechaSalida}" Width="120"/>
 
-                        <!-- BOTÓN CHECK-IN -->
+                        <DataGridTextColumn Header="Cliente"
+                            Binding="{Binding ClienteNombre}"
+                            Width="200"/>
+
+                        <DataGridTextColumn Header="Hotel"
+                            Binding="{Binding HotelNombre}"
+                            Width="200"/>
+
+                        <DataGridTextColumn Header="Hab."
+                            Binding="{Binding Habitacion}"
+                            Width="80"/>
+
+                        <DataGridTextColumn Header="Entrada"
+                            Binding="{Binding FechaEntrada, StringFormat=dd/MM/yyyy}"
+                            Width="120"/>
+
+                        <DataGridTextColumn Header="Salida"
+                            Binding="{Binding FechaSalida, StringFormat=dd/MM/yyyy}"
+                            Width="120"/>
+
                         <DataGridTemplateColumn Header="Check-In" Width="120">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="Check-In"
-                                            Width="90"
-                                            Style="{StaticResource KumaButton}"/>
+                            Style="{StaticResource KumaButton}"
+                            Width="90"
+                            Command="{Binding DataContext.AbrirCheckInCommand,
+                                        RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                            CommandParameter="{Binding}"/>
                                 </DataTemplate>
                             </DataGridTemplateColumn.CellTemplate>
                         </DataGridTemplateColumn>

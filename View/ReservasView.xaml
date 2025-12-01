@@ -43,21 +43,17 @@
                       AutoGenerateColumns="False"
                       Background="{StaticResource panelColor}"
                       AlternatingRowBackground="{StaticResource panelOverColor}"
+                      RowBackground="{StaticResource panelColor}"
                       Foreground="White"
                       RowHeight="40"
+                      HeadersVisibility="Column"
                       ColumnHeaderHeight="40"
                       BorderBrush="{StaticResource panelOverColor}"
                       BorderThickness="0"
-                      Margin="0,20,0,0">
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="{StaticResource panelColor}"/>
-                        <Setter Property="Foreground" Value="{StaticResource plainTextColor1}"/>
-                        <Setter Property="Padding" Value="10,0,0,10"/>
-                        <Setter Property="FontFamily" Value="Montserrat"/>
-                        <Setter Property="FontSize" Value="15"/>
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
+                      Margin="0,20,0,0"
+                      RowStyle="{StaticResource KumaDataGridRow}"
+                      CellStyle="{StaticResource KumaDataGridCell}"
+                      ColumnHeaderStyle="{StaticResource KumaDataGridHeader}">
 
                 <DataGrid.Columns>
 

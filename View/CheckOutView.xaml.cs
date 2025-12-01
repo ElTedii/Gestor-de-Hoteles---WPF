@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Gestión_Hotelera.ViewModel;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,14 +16,12 @@ using System.Windows.Shapes;
 
 namespace Gestión_Hotelera.View
 {
-    /// <summary>
-    /// Lógica de interacción para CheckOutView.xaml
-    /// </summary>
     public partial class CheckOutView : UserControl
     {
         public CheckOutView()
         {
             InitializeComponent();
+            DataContext = new CheckOutViewModel();
         }
     }
 }

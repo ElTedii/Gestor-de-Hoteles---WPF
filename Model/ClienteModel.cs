@@ -19,13 +19,12 @@ namespace Gestión_Hotelera.Model
         public string Correo { get; set; }
         public string TelCasa { get; set; }
         public string TelCelular { get; set; }
-        public DateTime FechaNacimiento { get; set; }
+        public DateTime? FechaNacimiento { get; set; }
         public string EstadoCivil { get; set; }
 
-        // Auditoría
-        public string UsuarioRegistro { get; set; }      // usuario_creacion
-        public string UsuarioModifico { get; set; }      // usuario_modificacion
-        public DateTime FechaCreacion { get; set; }
-        public DateTime FechaModificacion { get; set; }
+        public string UsuarioRegistro { get; set; }
+        public DateTime FechaRegistro { get; set; }
+        public string UsuarioModificacion { get; set; }
+        public DateTime? FechaModificacion { get; set; }
     }
 }

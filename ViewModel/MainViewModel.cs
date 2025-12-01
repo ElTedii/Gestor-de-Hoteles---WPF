@@ -2,52 +2,32 @@
 using Gestión_Hotelera.Model;
 using Gestión_Hotelera.View;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Gestión_Hotelera.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        // Fields
         private ViewModelBase _currentChildView;
         private string _caption;
         private IconChar _icon;
 
-        // Properties
         public ViewModelBase CurrentChildView
         {
             get => _currentChildView;
-            set
-            {
-                _currentChildView = value;
-                OnPropertyChanged(nameof(CurrentChildView));
-            }
+            set { _currentChildView = value; OnPropertyChanged(nameof(CurrentChildView)); }
         }
 
         public string Caption
         {
             get => _caption;
-            set
-            {
-                _caption = value;
-                OnPropertyChanged(nameof(Caption));
-            }
+            set { _caption = value; OnPropertyChanged(nameof(Caption)); }
         }
 
         public IconChar Icon
         {
             get => _icon;
-            set
-            {
-                _icon = value;
-                OnPropertyChanged(nameof(Icon));
-            }
+            set { _icon = value; OnPropertyChanged(nameof(Icon)); }
         }
 
         // Commands
@@ -60,15 +40,12 @@ namespace Gestión_Hotelera.ViewModel
         public ICommand ShowRegistroClienteCommand { get; }
         public ICommand ShowReservasViewCommand { get; }
         public ICommand ShowNuevaReservaCommand { get; }
-        public ICommand ShowEditarReservaCommand { get; }
         public ICommand ShowCheckInCommand { get; }
-        public ICommand ShowRealizarCheckInCommand { get; }
         public ICommand ShowCheckOutcommand { get; }
-        public ICommand ShowRealizarCheckOutCommand {  get; }
+        public ICommand ShowRealizarCheckOutCommand { get; }
 
         public MainViewModel()
         {
-            // Initialize commands
             ShowHomeViewCommand = new ViewModelCommand(ExecuteShowHomeViewCommand);
             ShowClientViewCommand = new ViewModelCommand(ExecuteShowClientViewCommand);
             ShowHotelsViewCommand = new ViewModelCommand(ExecuteShowHotelsViewCommand);
@@ -76,20 +53,18 @@ namespace Gestión_Hotelera.ViewModel
             ShowHabitacionesViewCommand = new ViewModelCommand(ExecuteShowHabitacionesViewCommand);
             ShowRegistroHabitacionViewCommand = new ViewModelCommand(ExecuteShowRegistroHabitacionViewCommand);
             ShowRegistroClienteCommand = new ViewModelCommand(ExecuteShowRegistroClienteCommand);
+
             ShowReservasViewCommand = new ViewModelCommand(ExecuteShowReservas);
             ShowNuevaReservaCommand = new ViewModelCommand(ExecuteShowNuevaReserva);
-            ShowEditarReservaCommand = new ViewModelCommand(ExecuteShowEditarReserva);
+
             ShowCheckInCommand = new ViewModelCommand(ExecuteShowCheckInCommand);
-            ShowRealizarCheckInCommand = new ViewModelCommand(ExecuteShowShowRealizarCheckInCommand);
             ShowCheckOutcommand = new ViewModelCommand(ExecuteShowCheckOutcommand);
             ShowRealizarCheckOutCommand = new ViewModelCommand(ExecuteShowRealziarCheckOutcommand);
 
-            // Default view
             ExecuteShowHomeViewCommand(null);
         }
 
-
-        // Navigation methods
+        // ===================== VISTAS ======================
         private void ExecuteShowHomeViewCommand(object obj)
         {
             CurrentChildView = new HomeViewModel();
@@ -128,20 +103,27 @@ namespace Gestión_Hotelera.ViewModel
         private void ExecuteShowRegistroHabitacionViewCommand(object obj)
         {
             CurrentChildView = new RegistroHabitacionViewModel();
-            Caption = "Registrar habitación";
+            Caption = "Registrar Habitación";
             Icon = IconChar.Bed;
         }
 
         private void ExecuteShowRegistroClienteCommand(object obj)
         {
             CurrentChildView = new RegistroClienteViewModel();
-            Caption = "Registro Cliente";
+            Caption = "Registrar Cliente";
             Icon = IconChar.UserPlus;
         }
 
         private void ExecuteShowReservas(object obj)
         {
-            CurrentChildView = new ReservasViewModel(this);
+            var vm = new ReservasViewModel();
+            vm.AbrirNuevaReservaAction = () =>
+            {
+                CurrentChildView = new NuevaReservaViewModel(this);
+                Caption = "Nueva Reservación";
+            };
+
+            CurrentChildView = vm;
             Caption = "Reservaciones";
             Icon = IconChar.CalendarCheck;
         }
@@ -153,43 +135,54 @@ namespace Gestión_Hotelera.ViewModel
             Icon = IconChar.PlusCircle;
         }
 
-        private void ExecuteShowEditarReserva(object obj)
-        {
-            if (obj is ReservationModel r)
-            {
-                CurrentChildView = new EditarReservaViewModel(this, r);
-                Caption = "Editar Reservación";
-                Icon = IconChar.Edit;
-            }
-        }
-
+        // ===================== CHECK-IN ======================
         private void ExecuteShowCheckInCommand(object obj)
         {
-            CurrentChildView = new CheckInViewModel();
+            var vm = new CheckInViewModel();
+            vm.AbrirRealizarCheckInAction = AbrirVentanaRealizarCheckIn;
+
+            CurrentChildView = vm;
             Caption = "Check In";
             Icon = IconChar.Check;
         }
 
-        private void ExecuteShowShowRealizarCheckInCommand(object obj)
+        private void AbrirVentanaRealizarCheckIn(RealizarCheckInModel model)
         {
-            CurrentChildView = new RealizarCheckInViewModel();
+            CurrentChildView = new RealizarCheckInViewModel(model);
             Caption = "Realizar Check In";
             Icon = IconChar.Check;
         }
 
+        // ===================== CHECK-OUT ======================
         private void ExecuteShowCheckOutcommand(object obj)
         {
             CurrentChildView = new CheckOutViewModel();
             Caption = "Check Out";
-            Icon = IconChar.Check;
+            Icon = IconChar.CheckDouble;
         }
 
         private void ExecuteShowRealziarCheckOutcommand(object obj)
         {
             CurrentChildView = new RealizarCheckOutViewModel();
             Caption = "Realizar Check Out";
-            Icon = IconChar.Check;
+            Icon = IconChar.CheckDouble;
         }
 
+        // ===================== PERFIL ======================
+        public string UserEmail => LoginViewModel.UsuarioActual?.Correo ?? "No email";
+
+        public string UserInitials
+        {
+            get
+            {
+                var nombre = LoginViewModel.UsuarioActual?.NombreCompleto ?? "U";
+                var partes = nombre.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+
+                if (partes.Length == 0) return "U";
+                if (partes.Length == 1) return partes[0][0].ToString().ToUpper();
+
+                return (partes[0][0].ToString() + partes[1][0].ToString()).ToUpper();
+            }
+        }
     }
 }

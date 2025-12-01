@@ -9,7 +9,6 @@ namespace Gestión_Hotelera.Model
     public class EstanciaActivaModel
     {
         public Guid HotelId { get; set; }
-
         public int NumeroHabitacion { get; set; }
 
         public Guid EstanciaId { get; set; }
@@ -24,5 +23,10 @@ namespace Gestión_Hotelera.Model
 
         public int Adultos { get; set; }
         public int Menores { get; set; }
+
+        // AUDITORÍA
+        public string UsuarioRegistro { get; set; }
+        public DateTime FechaRegistro { get; set; }
     }
+
 }

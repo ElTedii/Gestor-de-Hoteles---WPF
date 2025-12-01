@@ -17,13 +17,133 @@ namespace Gestión_Hotelera.Data.Repositories
             _session = CassandraConnection.GetSession();
         }
 
-        // -------------------------------------------------------
-        // MAPEO: Row → HabitacionModel
-        // -------------------------------------------------------
+        // ============================================================
+        // INSERTAR HABITACIÓN
+        // ============================================================
+        public void Insert(HabitacionModel h)
+        {
+            const string query = @"
+                INSERT INTO habitaciones (
+                    hotel_id, numero, tipo_id, piso,
+                    usuario_creacion, fecha_creacion,
+                    usuario_modificacion, fecha_modificacion
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+
+            _session.Execute(
+                _session.Prepare(query).Bind(
+                    h.HotelId,
+                    h.Numero,
+                    h.TipoId,
+                    h.Piso,
+                    h.UsuarioCreacion,
+                    h.FechaCreacion,
+                    h.UsuarioModificacion,
+                    h.FechaModificacion
+                )
+            );
+        }
+
+        // ============================================================
+        // ACTUALIZAR HABITACIÓN
+        // ============================================================
+        public void Update(HabitacionModel h)
+        {
+            const string query = @"
+                UPDATE habitaciones SET
+                    tipo_id = ?, piso = ?,
+                    usuario_modificacion = ?, fecha_modificacion = ?
+                WHERE hotel_id = ? AND numero = ?;";
+
+            _session.Execute(
+                _session.Prepare(query).Bind(
+                    h.TipoId,
+                    h.Piso,
+                    h.UsuarioModificacion,
+                    h.FechaModificacion,
+                    h.HotelId,
+                    h.Numero
+                )
+            );
+        }
+
+        // ============================================================
+        // ELIMINAR HABITACIÓN
+        // ============================================================
+        public void Delete(Guid hotelId, int numero)
+        {
+            var stmt = _session.Prepare(
+                "DELETE FROM habitaciones WHERE hotel_id=? AND numero=?;"
+            );
+
+            _session.Execute(stmt.Bind(hotelId, numero));
+        }
+
+        // ============================================================
+        // GET: HABITACIONES DE UN HOTEL
+        // ============================================================
+        public List<HabitacionModel> GetByHotel(Guid hotelId)
+        {
+            var result = _session.Execute(
+                _session.Prepare("SELECT * FROM habitaciones WHERE hotel_id=?;")
+                .Bind(hotelId)
+            );
+
+            return result.Select(MapRow).ToList();
+        }
+
+        // ============================================================
+        // GET: UNA HABITACIÓN ESPECÍFICA
+        // ============================================================
+        public HabitacionModel GetByHotelAndNumero(Guid hotelId, int numero)
+        {
+            var row = _session.Execute(
+                _session.Prepare(
+                    "SELECT * FROM habitaciones WHERE hotel_id=? AND numero=?;"
+                ).Bind(hotelId, numero)
+            ).FirstOrDefault();
+
+            return row == null ? null : MapRow(row);
+        }
+
+        // ============================================================
+        // GET: HABITACIONES POR TIPO
+        // ============================================================
+        public List<HabitacionModel> GetByHotelAndTipo(Guid hotelId, Guid tipoId)
+        {
+            var result = _session.Execute(
+                _session.Prepare(
+                    "SELECT * FROM habitaciones WHERE hotel_id=? ALLOW FILTERING;"
+                ).Bind(hotelId)
+            );
+
+            return result
+                .Where(h => h.GetValue<Guid>("tipo_id") == tipoId)
+                .Select(MapRow)
+                .ToList();
+        }
+
+        public List<HabitacionModel> GetHabitacionesLibres(Guid hotelId, DateTime entrada, DateTime salida)
+        {
+            var todas = GetByHotel(hotelId);
+
+            var estancias = new EstanciaActivaRepository().GetByHotel(hotelId);
+
+            // Habitaciones ocupadas en el rango
+            var ocupadas = estancias
+                .Where(e =>
+                    entrada < e.FechaSalida &&
+                    salida > e.FechaEntrada)
+                .Select(e => e.NumeroHabitacion)
+                .ToList();
+
+            return todas.Where(h => !ocupadas.Contains(h.Numero)).ToList();
+        }
+
+        // ============================================================
+        // MAPEO
+        // ============================================================
         private HabitacionModel MapRow(Row row)
         {
-            if (row == null) return null;
-
             return new HabitacionModel
             {
                 HotelId = row.GetValue<Guid>("hotel_id"),
@@ -31,104 +151,22 @@ namespace Gestión_Hotelera.Data.Repositories
                 TipoId = row.GetValue<Guid>("tipo_id"),
                 Piso = row.GetValue<int>("piso"),
 
-                UsuarioCreacion = row.GetValue<string>("usuario_creacion"),
-                FechaCreacion = row.GetValue<DateTime>("fecha_creacion"),
-                UsuarioModificacion = row.GetValue<string>("usuario_modificacion"),
-                FechaModificacion = row.GetValue<DateTime>("fecha_modificacion")
+                UsuarioCreacion = row.IsNull("usuario_creacion")
+                    ? ""
+                    : row.GetValue<string>("usuario_creacion"),
+
+                FechaCreacion = row.IsNull("fecha_creacion")
+                    ? DateTime.UtcNow
+                    : row.GetValue<DateTime>("fecha_creacion"),
+
+                UsuarioModificacion = row.IsNull("usuario_modificacion")
+                    ? ""
+                    : row.GetValue<string>("usuario_modificacion"),
+
+                FechaModificacion = row.IsNull("fecha_modificacion")
+                    ? DateTime.UtcNow
+                    : row.GetValue<DateTime>("fecha_modificacion"),
             };
-        }
-
-        // -------------------------------------------------------
-        // INSERT
-        // -------------------------------------------------------
-        public void Insert(HabitacionModel model)
-        {
-            var query = @"
-                INSERT INTO habitaciones (
-                    hotel_id, numero, tipo_id, piso,
-                    usuario_creacion, fecha_creacion,
-                    usuario_modificacion, fecha_modificacion
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
-
-            var stmt = _session.Prepare(query);
-
-            _session.Execute(stmt.Bind(
-                model.HotelId,
-                model.Numero,
-                model.TipoId,
-                model.Piso,
-                model.UsuarioCreacion,
-                model.FechaCreacion,
-                model.UsuarioModificacion,
-                model.FechaModificacion
-            ));
-        }
-
-        // -------------------------------------------------------
-        // GET → Habitaciones por hotel
-        // -------------------------------------------------------
-        public List<HabitacionModel> GetByHotel(Guid hotelId)
-        {
-            var stmt = _session.Prepare(
-                "SELECT * FROM habitaciones WHERE hotel_id = ?;"
-            );
-
-            var rows = _session.Execute(stmt.Bind(hotelId));
-            var lista = new List<HabitacionModel>();
-
-            foreach (var row in rows)
-                lista.Add(MapRow(row));
-
-            return lista;
-        }
-
-        // -------------------------------------------------------
-        // GET → Una habitación específica
-        // -------------------------------------------------------
-        public HabitacionModel GetByNumero(Guid hotelId, int numero)
-        {
-            var stmt = _session.Prepare(
-                "SELECT * FROM habitaciones WHERE hotel_id = ? AND numero = ?;"
-            );
-
-            var result = _session.Execute(stmt.Bind(hotelId, numero));
-
-            return MapRow(result.FirstOrDefault());
-        }
-
-        // -------------------------------------------------------
-        // UPDATE
-        // -------------------------------------------------------
-        public void Update(HabitacionModel model)
-        {
-            var query = @"
-                UPDATE habitaciones SET
-                    tipo_id = ?, piso = ?,
-                    usuario_modificacion = ?, fecha_modificacion = ?
-                WHERE hotel_id = ? AND numero = ?;";
-
-            var stmt = _session.Prepare(query);
-
-            _session.Execute(stmt.Bind(
-                model.TipoId,
-                model.Piso,
-                model.UsuarioModificacion,
-                model.FechaModificacion,
-                model.HotelId,
-                model.Numero
-            ));
-        }
-
-        // -------------------------------------------------------
-        // DELETE
-        // -------------------------------------------------------
-        public void Delete(Guid hotelId, int numero)
-        {
-            var stmt = _session.Prepare(
-                "DELETE FROM habitaciones WHERE hotel_id = ? AND numero = ?;"
-            );
-
-            _session.Execute(stmt.Bind(hotelId, numero));
         }
     }
 }

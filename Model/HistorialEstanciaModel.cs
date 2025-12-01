@@ -22,8 +22,7 @@ namespace Gestión_Hotelera.Model
         public decimal MontoServicios { get; set; }
         public decimal TotalFactura { get; set; }
 
-        // Auditoría
         public string UsuarioRegistro { get; set; }
-        public DateTime FechaCreacion { get; set; }
+        public DateTime FechaRegistro { get; set; }
     }
 }

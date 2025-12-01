@@ -14,9 +14,6 @@
     <Compile Update="View\Components\DashBoardCard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\EditarReservaView.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="View\HabitacionesView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -1,7 +1,24 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\viewmodel\\realizarcheckinviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\realizarcheckinviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\view\\realizarcheckinview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:view\\realizarcheckinview.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\model\\realizarcheckinmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:model\\realizarcheckinmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|d:\\users\\tedss\\documents\\desarrollo\\programacion\\c#\\gesti\u00F3n hotelera\\viewmodel\\checkinviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{515F1154-E2F0-40EF-8A3E-FFA27BE6D9C0}|Gesti\u00F3n Hotelera.csproj|solutionrelative:viewmodel\\checkinviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -9,11 +26,62 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": -1,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "RealizarCheckInViewModel.cs",
+              "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\ViewModel\\RealizarCheckInViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModel\\RealizarCheckInViewModel.cs",
+              "ToolTip": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\ViewModel\\RealizarCheckInViewModel.cs",
+              "RelativeToolTip": "ViewModel\\RealizarCheckInViewModel.cs",
+              "ViewState": "AgIAAE0AAAAAAAAAAAAQwIUAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-01T11:14:25.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RealizarCheckInView.xaml",
+              "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\View\\RealizarCheckInView.xaml",
+              "RelativeDocumentMoniker": "View\\RealizarCheckInView.xaml",
+              "ToolTip": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\View\\RealizarCheckInView.xaml",
+              "RelativeToolTip": "View\\RealizarCheckInView.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-12-01T11:13:55.084Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "RealizarCheckInModel.cs",
+              "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\Model\\RealizarCheckInModel.cs",
+              "RelativeDocumentMoniker": "Model\\RealizarCheckInModel.cs",
+              "ToolTip": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\Model\\RealizarCheckInModel.cs",
+              "RelativeToolTip": "Model\\RealizarCheckInModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-01T11:13:32.973Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CheckInViewModel.cs",
+              "DocumentMoniker": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\ViewModel\\CheckInViewModel.cs",
+              "RelativeDocumentMoniker": "ViewModel\\CheckInViewModel.cs",
+              "ToolTip": "D:\\Users\\Tedss\\Documents\\Desarrollo\\Programacion\\c#\\Gesti\u00F3n Hotelera\\ViewModel\\CheckInViewModel.cs",
+              "RelativeToolTip": "ViewModel\\CheckInViewModel.cs",
+              "ViewState": "AgIAADgAAAAAAAAAAAAQwFEAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-01T11:11:58.605Z",
+              "EditorCaption": ""
             }
           ]
         }

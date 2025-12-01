@@ -55,10 +55,6 @@
             <local:NuevaReservaView/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type viewModel:EditarReservaViewModel}">
-            <local:EditarReservaView/>
-        </DataTemplate>
-
         <DataTemplate DataType="{x:Type viewModel:CheckInViewModel}">
             <local:CheckInView/>
         </DataTemplate>

@@ -17,15 +17,24 @@ namespace Gestión_Hotelera.Data.Repositories
             _session = CassandraConnection.GetSession();
         }
 
-        // ==========================================================
-        // INSERT
-        // ==========================================================
+        // ============================================================
+        // INSERTAR CLIENTE
+        // ============================================================
         public void Insert(ClienteModel c)
         {
-            var query = @"INSERT INTO clientes (
-                cliente_id, nombre_completo, pais, estado, ciudad,
-                rfc, correo, tel_casa, tel_celular, fecha_nacimiento,
-                estado_civil, usuario_creacion, fecha_creacion,
+            if (c.ClienteId == Guid.Empty)
+                c.ClienteId = Guid.NewGuid();
+
+            if (c.FechaRegistro == default)
+                c.FechaRegistro = DateTime.UtcNow;
+
+            const string query = @"
+            INSERT INTO clientes (
+                cliente_id, nombre_completo,
+                pais, estado, ciudad,
+                rfc, correo, tel_casa, tel_celular,
+                fecha_nacimiento, estado_civil,
+                usuario_registro, fecha_registro,
                 usuario_modificacion, fecha_modificacion
             ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
@@ -44,50 +53,52 @@ namespace Gestión_Hotelera.Data.Repositories
                 c.FechaNacimiento,
                 c.EstadoCivil,
                 c.UsuarioRegistro,
-                c.FechaCreacion,
-                c.UsuarioModifico,
+                c.FechaRegistro,
+                c.UsuarioModificacion,
                 c.FechaModificacion
             ));
-
-            // También insertamos en índices secundarios
-            InsertClientePorCorreo(c);
-            InsertClientePorRFC(c);
         }
 
-        private void InsertClientePorCorreo(ClienteModel c)
+        // ============================================================
+        // OBTENER POR ID
+        // ============================================================
+        public ClienteModel GetById(Guid id)
         {
-            var q = @"INSERT INTO clientes_por_correo (correo, cliente_id, nombre_completo)
-                      VALUES (?,?,?);";
+            var row = _session.Execute(
+                _session.Prepare("SELECT * FROM clientes WHERE cliente_id=?;")
+                .Bind(id)
+            ).FirstOrDefault();
 
-            _session.Execute(
-                _session.Prepare(q).Bind(c.Correo, c.ClienteId, c.NombreCompleto)
-            );
+            return row == null ? null : MapRow(row);
         }
 
-        private void InsertClientePorRFC(ClienteModel c)
+        // ============================================================
+        // OBTENER TODOS
+        // ============================================================
+        public List<ClienteModel> GetAll()
         {
-            var q = @"INSERT INTO clientes_por_rfc (rfc, cliente_id, nombre_completo)
-                      VALUES (?,?,?);";
+            var rs = _session.Execute("SELECT * FROM clientes;");
 
-            _session.Execute(
-                _session.Prepare(q).Bind(c.RFC, c.ClienteId, c.NombreCompleto)
-            );
+            return rs.Select(MapRow).ToList();
         }
 
-        // ==========================================================
-        // UPDATE
-        // ==========================================================
+        // ============================================================
+        // ACTUALIZAR CLIENTE
+        // ============================================================
         public void Update(ClienteModel c)
         {
-            var query = @"UPDATE clientes SET
-                nombre_completo=?, pais=?, estado=?, ciudad=?,
-                rfc=?, correo=?, tel_casa=?, tel_celular=?, fecha_nacimiento=?,
-                estado_civil=?, usuario_modificacion=?, fecha_modificacion=?
-                WHERE cliente_id=?;";
+            c.FechaModificacion = DateTime.UtcNow;
 
-            var stmt = _session.Prepare(query);
+            const string query = @"
+            UPDATE clientes SET
+                nombre_completo=?,
+                pais=?, estado=?, ciudad=?,
+                rfc=?, correo=?, tel_casa=?, tel_celular=?,
+                fecha_nacimiento=?, estado_civil=?,
+                usuario_modificacion=?, fecha_modificacion=?
+            WHERE cliente_id=?;";
 
-            _session.Execute(stmt.Bind(
+            _session.Execute(_session.Prepare(query).Bind(
                 c.NombreCompleto,
                 c.Pais,
                 c.Estado,
@@ -98,104 +109,49 @@ namespace Gestión_Hotelera.Data.Repositories
                 c.TelCelular,
                 c.FechaNacimiento,
                 c.EstadoCivil,
-                c.UsuarioModifico,
+                c.UsuarioModificacion,
                 c.FechaModificacion,
                 c.ClienteId
             ));
-
-            // Índices secundarios deben actualizarse también
-            InsertClientePorCorreo(c);
-            InsertClientePorRFC(c);
         }
 
-        // ==========================================================
-        // DELETE
-        // ==========================================================
-        public void Delete(Guid id)
+        // ============================================================
+        // ELIMINAR CLIENTE
+        // ============================================================
+        public void Delete(Guid clienteId)
         {
-            var query = "DELETE FROM clientes WHERE cliente_id = ?";
-            var stmt = _session.Prepare(query);
-            _session.Execute(stmt.Bind(id));
+            _session.Execute(
+                _session.Prepare("DELETE FROM clientes WHERE cliente_id=?;")
+                .Bind(clienteId)
+            );
         }
 
-        // ==========================================================
-        // QUERY: Buscar por correo
-        // ==========================================================
-        public ClienteModel GetByCorreo(string correo)
-        {
-            var idxRow = _session.Execute(
-                _session.Prepare("SELECT cliente_id FROM clientes_por_correo WHERE correo=?;").Bind(correo)
-            ).FirstOrDefault();
-
-            if (idxRow == null) return null;
-
-            return GetById(idxRow.GetValue<Guid>("cliente_id"));
-        }
-
-        // ==========================================================
-        // QUERY: Buscar por RFC
-        // ==========================================================
-        public ClienteModel GetByRFC(string rfc)
-        {
-            var idxRow = _session.Execute(
-                _session.Prepare("SELECT cliente_id FROM clientes_por_rfc WHERE rfc=?;").Bind(rfc)
-            ).FirstOrDefault();
-
-            if (idxRow == null) return null;
-
-            return GetById(idxRow.GetValue<Guid>("cliente_id"));
-        }
-
-        // ==========================================================
-        // QUERY: Buscar por ID
-        // ==========================================================
-        public ClienteModel GetById(Guid id)
-        {
-            var row = _session.Execute(
-                _session.Prepare("SELECT * FROM clientes WHERE cliente_id=?;").Bind(id)
-            ).FirstOrDefault();
-
-            if (row == null) return null;
-
-            return MapRowToCliente(row);
-        }
-
-        // ==========================================================
-        // GET ALL (solo para interfaz)
-        // ==========================================================
-        public List<ClienteModel> GetAll()
-        {
-            var result = _session.Execute("SELECT * FROM clientes;");
-            var list = new List<ClienteModel>();
-
-            foreach (var row in result)
-                list.Add(MapRowToCliente(row));
-
-            return list;
-        }
-
-        // ==========================================================
+        // ============================================================
         // MAPEO
-        // ==========================================================
-        private ClienteModel MapRowToCliente(Row row)
+        // ============================================================
+        private ClienteModel MapRow(Row row)
         {
             return new ClienteModel
             {
                 ClienteId = row.GetValue<Guid>("cliente_id"),
                 NombreCompleto = row.GetValue<string>("nombre_completo"),
+
                 Pais = row.GetValue<string>("pais"),
                 Estado = row.GetValue<string>("estado"),
                 Ciudad = row.GetValue<string>("ciudad"),
+
                 RFC = row.GetValue<string>("rfc"),
                 Correo = row.GetValue<string>("correo"),
                 TelCasa = row.GetValue<string>("tel_casa"),
                 TelCelular = row.GetValue<string>("tel_celular"),
-                FechaNacimiento = row.GetValue<DateTime>("fecha_nacimiento"),
+
+                FechaNacimiento = row.GetValue<DateTime?>("fecha_nacimiento"),
                 EstadoCivil = row.GetValue<string>("estado_civil"),
-                UsuarioRegistro = row.GetValue<string>("usuario_creacion"),
-                FechaCreacion = row.GetValue<DateTime>("fecha_creacion"),
-                UsuarioModifico = row.GetValue<string>("usuario_modificacion"),
-                FechaModificacion = row.GetValue<DateTime>("fecha_modificacion")
+
+                UsuarioRegistro = row.GetValue<string>("usuario_registro"),
+                FechaRegistro = row.GetValue<DateTime>("fecha_registro"),
+                UsuarioModificacion = row.GetValue<string>("usuario_modificacion"),
+                FechaModificacion = row.GetValue<DateTime?>("fecha_modificacion")
             };
         }
     }

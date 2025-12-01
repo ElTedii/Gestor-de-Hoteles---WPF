@@ -16,12 +16,19 @@ namespace Gestión_Hotelera.Data.Repositories
             _session = CassandraConnection.GetSession();
         }
 
-        // ==========================================================
-        // INSERT
-        // ==========================================================
+        // ============================================================
+        // INSERTAR HOTEL
+        // ============================================================
         public void Insert(HotelModel h)
         {
-            var query = @"INSERT INTO hoteles (
+            if (h.HotelId == Guid.Empty)
+                h.HotelId = Guid.NewGuid();
+
+            if (h.FechaRegistro == default)
+                h.FechaRegistro = DateTime.UtcNow;
+
+            const string query = @"
+            INSERT INTO hoteles (
                 hotel_id, nombre, pais, estado, ciudad, domicilio,
                 num_pisos, zona_turistica, servicios, frente_playa,
                 num_piscinas, salones_eventos,
@@ -44,22 +51,46 @@ namespace Gestión_Hotelera.Data.Repositories
                 h.NumPiscinas,
                 h.SalonesEventos,
                 h.UsuarioRegistro,
-                h.FechaRegistro,        // fecha_registro
+                h.FechaRegistro,
                 h.FechaModificacion
             ));
         }
 
-        // ==========================================================
-        // UPDATE
-        // ==========================================================
+        // ============================================================
+        // OBTENER POR ID
+        // ============================================================
+        public HotelModel GetById(Guid id)
+        {
+            var row = _session.Execute(
+                _session.Prepare("SELECT * FROM hoteles WHERE hotel_id=?;").Bind(id)
+            ).FirstOrDefault();
+
+            return row == null ? null : MapRow(row);
+        }
+
+        // ============================================================
+        // OBTENER TODOS
+        // ============================================================
+        public List<HotelModel> GetAll()
+        {
+            var rs = _session.Execute("SELECT * FROM hoteles;");
+            return rs.Select(MapRow).ToList();
+        }
+
+        // ============================================================
+        // ACTUALIZAR HOTEL
+        // ============================================================
         public void Update(HotelModel h)
         {
-            var query = @"UPDATE hoteles SET
+            h.FechaModificacion = DateTime.UtcNow;
+
+            const string query = @"
+            UPDATE hoteles SET
                 nombre=?, pais=?, estado=?, ciudad=?, domicilio=?,
                 num_pisos=?, zona_turistica=?, servicios=?, frente_playa=?,
                 num_piscinas=?, salones_eventos=?,
-                fecha_modificacion=?
-                WHERE hotel_id=?;";
+                usuario_modificacion=?, fecha_modificacion=?
+            WHERE hotel_id=?;";
 
             var stmt = _session.Prepare(query);
 
@@ -75,49 +106,26 @@ namespace Gestión_Hotelera.Data.Repositories
                 h.FrentePlaya,
                 h.NumPiscinas,
                 h.SalonesEventos,
+                h.UsuarioModificacion,
                 h.FechaModificacion,
                 h.HotelId
             ));
         }
 
-        // ==========================================================
-        // DELETE
-        // ==========================================================
+        // ============================================================
+        // ELIMINAR HOTEL
+        // ============================================================
         public void Delete(Guid hotelId)
         {
-            var stmt = _session.Prepare("DELETE FROM hoteles WHERE hotel_id=?;");
-            _session.Execute(stmt.Bind(hotelId));
+            _session.Execute(
+                _session.Prepare("DELETE FROM hoteles WHERE hotel_id=?;")
+                .Bind(hotelId)
+            );
         }
 
-        // ==========================================================
-        // GET BY ID
-        // ==========================================================
-        public HotelModel GetById(Guid id)
-        {
-            var row = _session.Execute(
-                _session.Prepare("SELECT * FROM hoteles WHERE hotel_id=?;").Bind(id)
-            ).FirstOrDefault();
-
-            return row != null ? MapRow(row) : null;
-        }
-
-        // ==========================================================
-        // GET ALL
-        // ==========================================================
-        public List<HotelModel> GetAll()
-        {
-            var results = _session.Execute("SELECT * FROM hoteles;");
-            var list = new List<HotelModel>();
-
-            foreach (var row in results)
-                list.Add(MapRow(row));
-
-            return list;
-        }
-
-        // ==========================================================
+        // ============================================================
         // MAPEO
-        // ==========================================================
+        // ============================================================
         private HotelModel MapRow(Row row)
         {
             return new HotelModel
@@ -128,16 +136,18 @@ namespace Gestión_Hotelera.Data.Repositories
                 Estado = row.GetValue<string>("estado"),
                 Ciudad = row.GetValue<string>("ciudad"),
                 Domicilio = row.GetValue<string>("domicilio"),
+
                 NumPisos = row.GetValue<int>("num_pisos"),
                 ZonaTuristica = row.GetValue<string>("zona_turistica"),
                 Servicios = row.GetValue<List<string>>("servicios"),
+
                 FrentePlaya = row.GetValue<bool>("frente_playa"),
                 NumPiscinas = row.GetValue<int>("num_piscinas"),
                 SalonesEventos = row.GetValue<int>("salones_eventos"),
 
                 UsuarioRegistro = row.GetValue<string>("usuario_registro"),
                 FechaRegistro = row.GetValue<DateTime>("fecha_registro"),
-                FechaModificacion = row.GetValue<DateTime>("fecha_modificacion")
+                FechaModificacion = row.GetValue<DateTime?>("fecha_modificacion")
             };
         }
     }

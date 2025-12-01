@@ -6,26 +6,30 @@
              xmlns:local="clr-namespace:Gestión_Hotelera.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <ScrollViewer VerticalScrollBarVisibility="Auto">
 
         <Border Background="#162447"
-                Padding="30"
+                Padding="35"
                 CornerRadius="12"
                 BorderBrush="#25324A"
                 BorderThickness="1">
 
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
+                <!-- TÍTULO -->
                 <TextBlock Text="Nueva Reservación"
-                           FontSize="24"
+                           FontSize="26"
                            Foreground="White"
                            FontWeight="Bold"
-                           Margin="0,0,0,25"/>
+                           Margin="0 0 0 30"/>
 
-                <!-- CLIENTE -->
-                <Grid Margin="0,0,0,15">
+                <Separator Margin="0 0 0 20" Background="#25324A"/>
+
+                <!-- SECCIÓN CLIENTE -->
+                <Grid Margin="0 0 0 20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="220"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
@@ -35,17 +39,18 @@
 
                     <ComboBox Grid.Column="1"
                               ItemsSource="{Binding Clientes}"
-                              DisplayMemberPath="Nombre"
+                              DisplayMemberPath="NombreCompleto"
                               SelectedItem="{Binding ClienteSeleccionado}"
-                              Width="300"
-                              />
+                              Style="{StaticResource DarkComboBoxStyle}"
+                              Width="220"/>
                 </Grid>
 
-                <!-- HOTEL -->
-                <Grid Margin="0,0,0,15">
+                <!-- SECCIÓN HOTEL -->
+                <Grid Margin="0 0 0 20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="199*"/>
+                        <ColumnDefinition Width="293*"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Hotel"
@@ -54,76 +59,99 @@
 
                     <ComboBox Grid.Column="1"
                               ItemsSource="{Binding Hoteles}"
-                              DisplayMemberPath="Name"
+                              DisplayMemberPath="Nombre"
                               SelectedItem="{Binding HotelSeleccionado}"
-                              Width="300"
-                              />
+                              Width="220"
+                              Style="{StaticResource DarkComboBoxStyle}" Grid.ColumnSpan="2" Margin="136,0,135,0"/>
                 </Grid>
 
-                <!-- HABITACIÓN -->
-                <Grid Margin="0,0,0,15">
+                <!-- SECCIÓN HABITACIÓN -->
+                <Grid Margin="0 0 0 20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="188*"/>
+                        <ColumnDefinition Width="303*"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Habitación"
+                    <TextBlock Text="Habitación disponible"
                                Foreground="#C9D1E0"
                                VerticalAlignment="Center"/>
 
                     <ComboBox Grid.Column="1"
                               ItemsSource="{Binding Habitaciones}"
-                              DisplayMemberPath="NumeroHabitacion"
+                              DisplayMemberPath="Numero"
                               SelectedItem="{Binding HabitacionSeleccionada}"
-                              Width="200"
-                              />
+                              Width="220"
+                              Style="{StaticResource DarkComboBoxStyle}" Grid.ColumnSpan="2" Margin="136,0,135,0"/>
                 </Grid>
 
+                <Separator Margin="0 10 0 20" Background="#25324A"/>
+
                 <!-- FECHAS -->
-                <Grid Margin="0,0,0,15">
+                <Grid Margin="0 0 0 20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition Width="300"/>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition Width="300"/>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="250"/>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="250"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Text="Entrada" Foreground="#C9D1E0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Fecha Entrada"
+                               Foreground="#C9D1E0"
+                               VerticalAlignment="Center"/>
+
                     <DatePicker Grid.Column="1"
                                 SelectedDate="{Binding FechaEntrada}"
-                                />
+                                Style="{StaticResource DarkDatePickerStyle}"/>
 
-                    <TextBlock Grid.Column="2" Text="Salida" 
+                    <TextBlock Grid.Column="2"
+                               Text="Fecha Salida"
                                Foreground="#C9D1E0"
                                VerticalAlignment="Center"/>
 
                     <DatePicker Grid.Column="3"
                                 SelectedDate="{Binding FechaSalida}"
-                                />
+                                Style="{StaticResource DarkDatePickerStyle}"/>
                 </Grid>
 
-
-                <!-- PERSONAS -->
-                <Grid Margin="0,0,0,15">
+                <!-- ADULTOS / MENORES -->
+                <Grid Margin="0 0 0 20">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="150"/>
+                        <ColumnDefinition Width="150"/>
                     </Grid.ColumnDefinitions>
 
                     <TextBlock Text="Personas"
                                Foreground="#C9D1E0"
                                VerticalAlignment="Center"/>
 
-                    <TextBox Grid.Column="1"
-                             Width="120"
-                             Text="{Binding NumPersonas}"
-                             Style="{StaticResource DarkInputStyle}"/>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <TextBlock Text="Adultos:"
+                                   Foreground="#C9D1E0"
+                                   VerticalAlignment="Center"
+                                   Margin="0 0 10 0"/>
+                        <TextBox Width="60"
+                                 Text="{Binding Adultos}"
+                                 Style="{StaticResource DarkInputStyle}"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2" Orientation="Horizontal">
+                        <TextBlock Text="Menores:"
+                                   Foreground="#C9D1E0"
+                                   VerticalAlignment="Center"
+                                   Margin="0 0 10 0"/>
+                        <TextBox Width="60"
+                                 Text="{Binding Menores}"
+                                 Style="{StaticResource DarkInputStyle}"/>
+                    </StackPanel>
+
                 </Grid>
 
                 <!-- PRECIO -->
-                <Grid Margin="0,0,0,25">
+                <Grid Margin="0 0 0 30">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="220"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
 
@@ -132,22 +160,24 @@
                                VerticalAlignment="Center"/>
 
                     <TextBox Grid.Column="1"
-                             Width="160"
+                             Width="180"
                              Text="{Binding PrecioTotal}"
+                             IsReadOnly="True"
+                             ToolTip="Se calcula automáticamente según la habitación y fechas"
                              Style="{StaticResource DarkInputStyle}"/>
                 </Grid>
 
-                <!-- BOTÓN -->
+                <!-- BOTÓN FINAL -->
                 <Button Content="Guardar Reservación"
-                        Width="240"
-                        Height="45"
+                        Width="260"
+                        Height="48"
                         HorizontalAlignment="Right"
                         Command="{Binding CrearReservaCommand}"
                         Style="{StaticResource KumaButton}"/>
-
             </StackPanel>
 
         </Border>
 
     </ScrollViewer>
+
 </UserControl>

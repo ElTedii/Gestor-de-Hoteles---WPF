@@ -1,117 +1,146 @@
-﻿using Cassandra;
-using Gestión_Hotelera.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Cassandra;
+using Gestión_Hotelera.Model;
 
 namespace Gestión_Hotelera.Data.Repositories
 {
-    namespace Gestión_Hotelera.Data.Repositories
+    public class HistorialEstanciaRepository
     {
-        public class HistorialEstanciaRepository
+        private readonly ISession _session;
+
+        public HistorialEstanciaRepository()
         {
-            private readonly ISession _session;
+            _session = CassandraConnection.GetSession();
+        }
 
-            public HistorialEstanciaRepository()
+        // ======================================================
+        // INSERTAR HISTORIAL (POST CHECK-OUT)
+        // ======================================================
+        public void Insert(HistorialEstanciaModel h)
+        {
+            var ps = _session.Prepare(@"
+                INSERT INTO historial_estancias (
+                    cliente_id,
+                    estancia_id,
+                    hotel_id,
+                    numero_habitacion,
+                    fecha_entrada,
+                    fecha_salida,
+                    anticipo,
+                    monto_hospedaje,
+                    monto_servicios,
+                    total_factura,
+                    usuario_registro,
+                    fecha_registro
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            ");
+
+            var bs = ps.Bind(
+                h.ClienteId,
+                h.EstanciaId,
+                h.HotelId,
+                h.NumeroHabitacion,
+                h.FechaEntrada,
+                h.FechaSalida,
+                h.Anticipo,
+                h.MontoHospedaje,
+                h.MontoServicios,
+                h.TotalFactura,
+                h.UsuarioRegistro,
+                h.FechaRegistro
+            );
+
+            _session.Execute(bs);
+        }
+
+        // ======================================================
+        // OBTENER POR CLIENTE
+        // ======================================================
+        public List<HistorialEstanciaModel> GetByCliente(Guid clienteId)
+        {
+            var ps = _session.Prepare("SELECT * FROM historial_estancias WHERE cliente_id = ?;");
+            var bs = ps.Bind(clienteId);
+            var result = _session.Execute(bs);
+
+            var lista = new List<HistorialEstanciaModel>();
+
+            foreach (var row in result)
+                lista.Add(MapRow(row));
+
+            return lista;
+        }
+
+        // ======================================================
+        // OBTENER POR CLIENTE + ESTANCIA
+        // ======================================================
+        public HistorialEstanciaModel GetById(Guid clienteId, Guid estanciaId)
+        {
+            var ps = _session.Prepare("SELECT * FROM historial_estancias WHERE cliente_id = ? AND estancia_id = ?;");
+            var bs = ps.Bind(clienteId, estanciaId);
+            var result = _session.Execute(bs).FirstOrDefault();
+
+            return result == null ? null : MapRow(result);
+        }
+
+        // ======================================================
+        // OBTENER TODO EL HISTORIAL DE UN HOTEL
+        // ======================================================
+        public List<HistorialEstanciaModel> GetByHotel(Guid hotelId)
+        {
+            // Cassandra no permite WHERE con hotel_id → debemos filtrar en memoria
+            var result = _session.Execute("SELECT * FROM historial_estancias;");
+
+            var lista = new List<HistorialEstanciaModel>();
+
+            foreach (var row in result)
             {
-                _session = CassandraConnection.GetSession();
+                if (row.GetValue<Guid>("hotel_id") == hotelId)
+                    lista.Add(MapRow(row));
             }
 
-            // ==========================================================
-            // INSERT (Check-Out)
-            // ==========================================================
-            public void Insert(HistorialEstanciaModel h)
+            return lista;
+        }
+
+        // ======================================================
+        // OBTENER TODO EL HISTORIAL
+        // ======================================================
+        public List<HistorialEstanciaModel> GetAll()
+        {
+            var result = _session.Execute("SELECT * FROM historial_estancias;");
+
+            var lista = new List<HistorialEstanciaModel>();
+
+            foreach (var row in result)
+                lista.Add(MapRow(row));
+
+            return lista;
+        }
+
+        // ======================================================
+        // MAPEO CENTRAL — NULL SAFE
+        // ======================================================
+        private HistorialEstanciaModel MapRow(Row row)
+        {
+            return new HistorialEstanciaModel
             {
-                var query = @"INSERT INTO historial_estancias (
-                cliente_id, estancia_id, hotel_id, numero,
-                fecha_entrada, fecha_salida,
-                anticipo, monto_hospedaje, monto_servicios,
-                total_factura,
-                usuario_registro, fecha_registro
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?);";
+                ClienteId = row.GetValue<Guid>("cliente_id"),
+                EstanciaId = row.GetValue<Guid>("estancia_id"),
+                HotelId = row.GetValue<Guid>("hotel_id"),
 
-                var stmt = _session.Prepare(query);
+                NumeroHabitacion = row.GetValue<int?>("numero_habitacion") ?? 0,
 
-                _session.Execute(stmt.Bind(
-                    h.ClienteId,
-                    h.EstanciaId,
-                    h.HotelId,
-                    h.NumeroHabitacion,
-                    h.FechaEntrada,
-                    h.FechaSalida,
-                    h.Anticipo,
-                    h.MontoHospedaje,
-                    h.MontoServicios,
-                    h.TotalFactura,
-                    h.UsuarioRegistro,
-                    h.FechaCreacion
-                ));
-            }
+                FechaEntrada = row.GetValue<DateTime?>("fecha_entrada") ?? DateTime.MinValue,
+                FechaSalida = row.GetValue<DateTime?>("fecha_salida") ?? DateTime.MinValue,
 
-            // ==========================================================
-            // SELECT: obtener historial completo de un cliente
-            // ==========================================================
-            public List<HistorialEstanciaModel> GetByCliente(Guid clienteId)
-            {
-                var result = _session.Execute(
-                    _session.Prepare("SELECT * FROM historial_estancias WHERE cliente_id=?;")
-                    .Bind(clienteId)
-                );
+                Anticipo = row.GetValue<decimal?>("anticipo") ?? 0,
+                MontoHospedaje = row.GetValue<decimal?>("monto_hospedaje") ?? 0,
+                MontoServicios = row.GetValue<decimal?>("monto_servicios") ?? 0,
+                TotalFactura = row.GetValue<decimal?>("total_factura") ?? 0,
 
-                return result.Select(MapRow).ToList();
-            }
-
-            // ==========================================================
-            // SELECT: obtener una estancia por su ID
-            // ==========================================================
-            public HistorialEstanciaModel GetByEstancia(Guid clienteId, Guid estanciaId)
-            {
-                var row = _session.Execute(
-                    _session.Prepare("SELECT * FROM historial_estancias WHERE cliente_id=? AND estancia_id=?;")
-                    .Bind(clienteId, estanciaId)
-                ).FirstOrDefault();
-
-                return row == null ? null : MapRow(row);
-            }
-
-            // ==========================================================
-            // SELECT: obtener todas las estancias de un hotel
-            // ==========================================================
-            public List<HistorialEstanciaModel> GetByHotel(Guid hotelId)
-            {
-                var result = _session.Execute("SELECT * FROM historial_estancias;");
-
-                return result
-                    .Where(r => r.GetValue<Guid>("hotel_id") == hotelId)
-                    .Select(MapRow)
-                    .ToList();
-            }
-
-            // ==========================================================
-            // MAPEO (Row → Modelo)
-            // ==========================================================
-            private HistorialEstanciaModel MapRow(Row row)
-            {
-                return new HistorialEstanciaModel
-                {
-                    ClienteId = row.GetValue<Guid>("cliente_id"),
-                    EstanciaId = row.GetValue<Guid>("estancia_id"),
-                    HotelId = row.GetValue<Guid>("hotel_id"),
-                    NumeroHabitacion = row.GetValue<int>("numero"),
-
-                    FechaEntrada = row.GetValue<DateTime>("fecha_entrada"),
-                    FechaSalida = row.GetValue<DateTime>("fecha_salida"),
-
-                    Anticipo = row.GetValue<decimal>("anticipo"),
-                    MontoHospedaje = row.GetValue<decimal>("monto_hospedaje"),
-                    MontoServicios = row.GetValue<decimal>("monto_servicios"),
-                    TotalFactura = row.GetValue<decimal>("total_factura"),
-
-                    UsuarioRegistro = row.GetValue<string>("usuario_registro"),
-                    FechaCreacion = row.GetValue<DateTime>("fecha_registro")
-                };
-            }
+                UsuarioRegistro = row.GetValue<string>("usuario_registro"),
+                FechaRegistro = row.GetValue<DateTime?>("fecha_registro") ?? DateTime.MinValue
+            };
         }
     }
+}

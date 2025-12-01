@@ -3,8 +3,6 @@ using Gestión_Hotelera.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gestión_Hotelera.Data.Repositories
 {
@@ -17,86 +15,95 @@ namespace Gestión_Hotelera.Data.Repositories
             _session = CassandraConnection.GetSession();
         }
 
-        // INSERT ===================================================
+        // ==============================================================
+        // INSERTAR FACTURA
+        // ==============================================================
         public void Insert(FacturaModel f)
         {
-            var query = @"INSERT INTO facturas (
-                folio_factura, cliente_id, hotel_id, reserva_id, estancia_id,
-                fecha_emision, fecha_entrada, fecha_salida,
-                anticipo, monto_hospedaje, monto_servicios,
-                descuento, total_factura
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?);";
+            var ps = _session.Prepare(@"
+                INSERT INTO facturas (
+                    factura_id,
+                    estancia_id,
+                    cliente_id,
+                    hotel_id,
+                    fecha_emision,
+                    monto_hospedaje,
+                    monto_servicios,
+                    total,
+                    usuario_registro,
+                    fecha_registro
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            ");
 
-            var stmt = _session.Prepare(query);
-            _session.Execute(stmt.Bind(
-                f.FolioFactura, f.ClienteId, f.HotelId, f.ReservaId, f.EstanciaId,
-                f.FechaEmision, f.FechaEntrada, f.FechaSalida,
-                f.Anticipo, f.MontoHospedaje, f.MontoServicios,
-                f.Descuento, f.TotalFactura
-            ));
+            var bs = ps.Bind(
+                f.FacturaId,
+                f.EstanciaId,
+                f.ClienteId,
+                f.HotelId,
+                f.FechaEmision,
+                f.MontoHospedaje,
+                f.MontoServicios,
+                f.Total,
+                f.UsuarioRegistro,
+                f.FechaRegistro
+            );
+
+            _session.Execute(bs);
         }
 
-        // GET BY ID ================================================
-        public FacturaModel GetById(Guid folio)
+        // ==============================================================
+        // OBTENER POR ID
+        // ==============================================================
+        public FacturaModel GetById(Guid facturaId)
         {
-            var row = _session.Execute(
-                _session.Prepare("SELECT * FROM facturas WHERE folio_factura=?;")
-                .Bind(folio)
-            ).FirstOrDefault();
-
+            var ps = _session.Prepare("SELECT * FROM facturas WHERE factura_id = ?;");
+            var row = _session.Execute(ps.Bind(facturaId)).FirstOrDefault();
             return row == null ? null : MapRow(row);
         }
 
-        // GET BY CLIENTE ===========================================
-        public List<FacturaModel> GetByCliente(Guid clienteId)
+        // ==============================================================
+        // OBTENER TODAS LAS FACTURAS
+        // ==============================================================
+        public List<FacturaModel> GetAll()
         {
             var result = _session.Execute("SELECT * FROM facturas;");
-            return result
-                .Where(r => r.GetValue<Guid>("cliente_id") == clienteId)
-                .Select(MapRow)
-                .ToList();
+            return result.Select(MapRow).ToList();
         }
 
-        // GET BY HOTEL =============================================
-        public List<FacturaModel> GetByHotel(Guid hotelId)
+        // ==============================================================
+        // OBTENER INGRESOS DESDE UNA FECHA
+        // (Usado en Dashboard)
+        // ==============================================================
+        public decimal GetIngresosDesde(DateTime fecha)
         {
             var result = _session.Execute("SELECT * FROM facturas;");
+
             return result
-                .Where(r => r.GetValue<Guid>("hotel_id") == hotelId)
-                .Select(MapRow)
-                .ToList();
+                .Where(r =>
+                    r.GetValue<DateTime>("fecha_emision") >= fecha)
+                .Sum(r => r.GetValue<decimal>("total"));
         }
 
-        // GET BY RESERVA ===========================================
-        public FacturaModel GetByReserva(Guid reservaId)
-        {
-            var result = _session.Execute("SELECT * FROM facturas;");
-            return result
-                .Where(r => r.GetValue<Guid>("reserva_id") == reservaId)
-                .Select(MapRow)
-                .FirstOrDefault();
-        }
-
-        // MAPEO =====================================================
+        // ==============================================================
+        // MAPEO SEGURO
+        // ==============================================================
         private FacturaModel MapRow(Row row)
         {
             return new FacturaModel
             {
-                FolioFactura = row.GetValue<Guid>("folio_factura"),
+                FacturaId = row.GetValue<Guid>("factura_id"),
+                EstanciaId = row.GetValue<Guid>("estancia_id"),
                 ClienteId = row.GetValue<Guid>("cliente_id"),
                 HotelId = row.GetValue<Guid>("hotel_id"),
-                ReservaId = row.GetValue<Guid>("reserva_id"),
-                EstanciaId = row.GetValue<Guid>("estancia_id"),
 
-                FechaEmision = row.GetValue<DateTime>("fecha_emision"),
-                FechaEntrada = row.GetValue<DateTime>("fecha_entrada"),
-                FechaSalida = row.GetValue<DateTime>("fecha_salida"),
+                FechaEmision = row.GetValue<DateTime?>("fecha_emision") ?? DateTime.MinValue,
 
-                Anticipo = row.GetValue<decimal>("anticipo"),
-                MontoHospedaje = row.GetValue<decimal>("monto_hospedaje"),
-                MontoServicios = row.GetValue<decimal>("monto_servicios"),
-                Descuento = row.GetValue<decimal>("descuento"),
-                TotalFactura = row.GetValue<decimal>("total_factura")
+                MontoHospedaje = row.GetValue<decimal?>("monto_hospedaje") ?? 0,
+                MontoServicios = row.GetValue<decimal?>("monto_servicios") ?? 0,
+                Total = row.GetValue<decimal?>("total") ?? 0,
+
+                UsuarioRegistro = row.GetValue<string>("usuario_registro"),
+                FechaRegistro = row.GetValue<DateTime?>("fecha_registro") ?? DateTime.MinValue
             };
         }
     }

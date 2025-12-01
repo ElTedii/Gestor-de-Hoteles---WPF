@@ -8,8 +8,8 @@ namespace Gestión_Hotelera.Model
 {
     public class ReservacionModel
     {
-        public Guid ReservaId { get; set; }
         public Guid ClienteId { get; set; }
+        public Guid ReservaId { get; set; }
         public Guid HotelId { get; set; }
 
         public DateTime FechaEntrada { get; set; }
@@ -18,9 +18,11 @@ namespace Gestión_Hotelera.Model
         public decimal Anticipo { get; set; }
         public string Estado { get; set; }
 
+        public int Adultos { get; set; }
+        public int Menores { get; set; }
+
         // Auditoría
         public string UsuarioRegistro { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        public DateTime FechaModificacion { get; set; }
+        public DateTime FechaRegistro { get; set; }
     }
 }
