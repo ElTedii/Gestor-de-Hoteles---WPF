@@ -1,8 +1,8 @@
 ﻿using Gestión_Hotelera.Data.Repositories;
 using Gestión_Hotelera.Model;
+using Gestión_Hotelera.Services;
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -11,123 +11,90 @@ namespace Gestión_Hotelera.ViewModel
     public class RealizarCheckInViewModel : ViewModelBase
     {
         private readonly HabitacionRepository _habitacionRepo;
-        private readonly EstanciaActivaRepository _estanciaRepo;
-        private readonly ReservaRepository _reservaRepo;
+        private readonly TipoHabitacionRepository _tipoRepo;
+        private readonly CheckInService _checkInService;
 
-        // Datos enviados desde CheckInViewModel
-        public RealizarCheckInModel Datos { get; }
+        public RealizarCheckInModel Modelo { get; }
 
-        // Habitaciones disponibles
-        public ObservableCollection<int> Habitaciones { get; set; }
+        public ObservableCollection<HabitacionModel> Habitaciones { get; }
 
-        private int _habitacionSeleccionada;
-        public int HabitacionSeleccionada
+        private HabitacionModel _habitacionSeleccionada;
+        public HabitacionModel HabitacionSeleccionada
         {
             get => _habitacionSeleccionada;
             set
             {
                 _habitacionSeleccionada = value;
                 OnPropertyChanged(nameof(HabitacionSeleccionada));
+                PrecioNoche = value?.PrecioBase ?? 0;
             }
         }
 
-        public ICommand RealizarCheckInCommand { get; }
+        private decimal _precioNoche;
+        public decimal PrecioNoche
+        {
+            get => _precioNoche;
+            set { _precioNoche = value; OnPropertyChanged(nameof(PrecioNoche)); }
+        }
+
+        public ICommand ConfirmarCheckInCommand { get; }
+        public ICommand CancelarCommand { get; }
 
         public Action CloseAction { get; set; }
 
-        public RealizarCheckInViewModel(RealizarCheckInModel datos)
+        public RealizarCheckInViewModel(RealizarCheckInModel modelo, MainViewModel parent = null)
         {
-            Datos = datos ?? throw new ArgumentNullException(nameof(datos));
+            Modelo = modelo;
 
             _habitacionRepo = new HabitacionRepository();
-            _estanciaRepo = new EstanciaActivaRepository();
-            _reservaRepo = new ReservaRepository();
+            _tipoRepo = new TipoHabitacionRepository();
+            _checkInService = new CheckInService();
 
-            Habitaciones = new ObservableCollection<int>();
+            Habitaciones = new ObservableCollection<HabitacionModel>();
+
+            ConfirmarCheckInCommand = new ViewModelCommand(
+                ExecuteConfirmarCheckIn,
+                _ => HabitacionSeleccionada != null
+            );
+
+            CancelarCommand = new ViewModelCommand(_ => CloseAction?.Invoke());
 
             CargarHabitaciones();
-
-            RealizarCheckInCommand = new ViewModelCommand(ExecuteCheckIn, CanExecuteCheckIn);
         }
 
-        // ============================================================
-        // CARGAR HABITACIONES DEL HOTEL
-        // ============================================================
         private void CargarHabitaciones()
         {
             Habitaciones.Clear();
 
-            var habitaciones = _habitacionRepo.GetByHotel(Datos.HotelId);
+            var lista = _habitacionRepo.GetByHotel(Modelo.HotelId);
 
-            foreach (var h in habitaciones)
-                Habitaciones.Add(h.Numero);
+            foreach (var h in lista)
+            {
+                var tipo = _tipoRepo.GetByHotelAndTipo(h.HotelId, h.TipoId);
+                if (tipo != null)
+                    h.PrecioBase = tipo.PrecioNoche;
+
+                Habitaciones.Add(h);
+            }
         }
 
-        // ============================================================
-        // VALIDAR
-        // ============================================================
-        private bool CanExecuteCheckIn(object obj)
+        private void ExecuteConfirmarCheckIn(object obj)
         {
-            return HabitacionSeleccionada > 0;
-        }
-
-        // ============================================================
-        // REALIZAR CHECK-IN
-        // ============================================================
-        private void ExecuteCheckIn(object obj)
-        {
-            if (HabitacionSeleccionada == 0)
-            {
-                MessageBox.Show("Seleccione una habitación.", "Advertencia");
-                return;
-            }
-
-            // Validar que no esté ocupada
-            var estancia = _estanciaRepo.GetByHotelAndHabitacion(Datos.HotelId, HabitacionSeleccionada);
-
-            if (estancia != null)
-            {
-                MessageBox.Show("La habitación ya tiene una estancia activa.", "Error");
-                return;
-            }
-
             try
             {
-                // Crear estancia activa
-                var nueva = new EstanciaActivaModel
-                {
-                    EstanciaId = Guid.NewGuid(),
-                    HotelId = Datos.HotelId,
-                    NumeroHabitacion = HabitacionSeleccionada,
+                var estanciaId = _checkInService.RealizarCheckIn(
+                    Modelo.ClienteId,
+                    Modelo.ReservaId,
+                    HabitacionSeleccionada.Numero,
+                    Modelo.UsuarioRegistro
+                );
 
-                    ClienteId = Datos.ClienteId,
-                    ReservaId = Datos.ReservaId,
-
-                    FechaEntrada = Datos.FechaEntrada,
-                    FechaSalida = Datos.FechaSalida,
-
-                    Adultos = Datos.Adultos,
-                    Menores = Datos.Menores,
-
-                    Anticipo = 0, // se actualiza en Checkout
-                    PrecioNoche = 0, // si luego agregas tabla de precios se actualiza
-
-                    UsuarioRegistro = Datos.UsuarioRegistro,
-                    FechaRegistro = DateTime.UtcNow
-                };
-
-                _estanciaRepo.Insert(nueva);
-
-                // Actualizar reserva → EN_ESTANCIA
-                _reservaRepo.UpdateEstado(Datos.ClienteId, Datos.ReservaId, "EN_ESTANCIA");
-
-                MessageBox.Show("Check-In realizado correctamente.", "Éxito");
-
+                MessageBox.Show("Check-In realizado con éxito.");
                 CloseAction?.Invoke();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al realizar Check-In:\n" + ex.Message, "Error");
+                MessageBox.Show($"Error: {ex.Message}");
             }
         }
     }

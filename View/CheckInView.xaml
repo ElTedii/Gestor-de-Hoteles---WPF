@@ -33,6 +33,7 @@
                     Padding="10">
 
                 <DataGrid ItemsSource="{Binding ReservasPendientes}" 
+                          SelectedItem="{Binding Seleccionada, Mode=TwoWay}" 
                           AutoGenerateColumns="False"
                           Background="{StaticResource panelColor}"
                           AlternatingRowBackground="{StaticResource panelOverColor}"

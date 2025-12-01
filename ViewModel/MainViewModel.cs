@@ -1,6 +1,5 @@
 ﻿using FontAwesome.Sharp;
 using Gestión_Hotelera.Model;
-using Gestión_Hotelera.View;
 using System;
 using System.Windows.Input;
 
@@ -40,6 +39,7 @@ namespace Gestión_Hotelera.ViewModel
         public ICommand ShowRegistroClienteCommand { get; }
         public ICommand ShowReservasViewCommand { get; }
         public ICommand ShowNuevaReservaCommand { get; }
+
         public ICommand ShowCheckInCommand { get; }
         public ICommand ShowCheckOutcommand { get; }
         public ICommand ShowRealizarCheckOutCommand { get; }
@@ -64,7 +64,7 @@ namespace Gestión_Hotelera.ViewModel
             ExecuteShowHomeViewCommand(null);
         }
 
-        // ===================== VISTAS ======================
+        // ===================== VISTAS PRINCIPALES ======================
         private void ExecuteShowHomeViewCommand(object obj)
         {
             CurrentChildView = new HomeViewModel();
@@ -121,6 +121,7 @@ namespace Gestión_Hotelera.ViewModel
             {
                 CurrentChildView = new NuevaReservaViewModel(this);
                 Caption = "Nueva Reservación";
+                Icon = IconChar.PlusCircle;
             };
 
             CurrentChildView = vm;
@@ -148,7 +149,12 @@ namespace Gestión_Hotelera.ViewModel
 
         private void AbrirVentanaRealizarCheckIn(RealizarCheckInModel model)
         {
-            CurrentChildView = new RealizarCheckInViewModel(model);
+            var vm = new RealizarCheckInViewModel(model, this);
+
+            // Cuando el usuario cierre el Check-In, regresamos a la lista de Check-In
+            vm.CloseAction = () => ExecuteShowCheckInCommand(null);
+
+            CurrentChildView = vm;
             Caption = "Realizar Check In";
             Icon = IconChar.Check;
         }
@@ -163,7 +169,12 @@ namespace Gestión_Hotelera.ViewModel
 
         private void ExecuteShowRealziarCheckOutcommand(object obj)
         {
-            CurrentChildView = new RealizarCheckOutViewModel();
+            var vm = new RealizarCheckOutViewModel
+            {
+                CloseAction = () => ExecuteShowCheckOutcommand(null)
+            };
+
+            CurrentChildView = vm;
             Caption = "Realizar Check Out";
             Icon = IconChar.CheckDouble;
         }

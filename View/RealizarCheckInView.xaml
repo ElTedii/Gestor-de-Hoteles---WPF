@@ -2,56 +2,65 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <Border Background="{StaticResource panelColor}"
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Border Background="{StaticResource panelColor}"
             Padding="25"
-            CornerRadius="10">
+            CornerRadius="12">
 
-        <StackPanel>
+            <StackPanel Orientation="Vertical" Margin="10">
 
-            <TextBlock Text="Realizar Check-In"
-                       FontSize="24"
+                <TextBlock Text="Realizar Check-In"
+                       FontSize="26"
                        FontWeight="Bold"
                        Foreground="{StaticResource titleColor2}"
-                       Margin="0,0,0,20"/>
+                       Margin="0 0 0 20"/>
 
-            <!-- CLIENTE -->
-            <TextBlock Text="Cliente:" Foreground="{StaticResource plainTextColor2}" />
-            <TextBlock Text="{Binding ClienteNombre}" Foreground="White" Margin="0,0,0,15"/>
+                <!-- Cliente -->
+                <TextBlock Text="Cliente" Foreground="{StaticResource plainTextColor2}" />
+                <TextBlock Text="{Binding Modelo.ClienteNombre}"
+                       FontSize="16" Foreground="White" Margin="0 0 0 10"/>
 
-            <!-- HOTEL -->
-            <TextBlock Text="Hotel:" Foreground="{StaticResource plainTextColor2}" />
-            <TextBlock Text="{Binding HotelNombre}" Foreground="White" Margin="0,0,0,15"/>
+                <!-- Hotel -->
+                <TextBlock Text="Hotel" Foreground="{StaticResource plainTextColor2}" />
+                <TextBlock Text="{Binding Modelo.HotelNombre}"
+                       FontSize="16" Foreground="White" Margin="0 0 0 10"/>
 
-            <!-- FECHAS -->
-            <TextBlock Text="Entrada:" Foreground="{StaticResource plainTextColor2}" />
-            <TextBlock Text="{Binding FechaEntrada}" Foreground="White" Margin="0,0,0,15"/>
+                <!-- Habitaciones -->
+                <TextBlock Text="Habitación disponible" Foreground="{StaticResource plainTextColor2}" />
 
-            <TextBlock Text="Salida:" Foreground="{StaticResource plainTextColor2}" />
-            <TextBlock Text="{Binding FechaSalida}" Foreground="White" Margin="0,0,0,15"/>
-
-            <!-- ADULTOS -->
-            <TextBlock Text="Personas:" Foreground="{StaticResource plainTextColor2}" />
-            <TextBlock Text="{Binding Adultos}" Foreground="White" />
-
-            <!-- HABITACIÓN -->
-            <StackPanel Margin="0,20,0,0">
-                <TextBlock Text="Habitación a asignar" Foreground="{StaticResource plainTextColor2}" />
                 <ComboBox ItemsSource="{Binding Habitaciones}"
-                          SelectedItem="{Binding HabitacionSeleccionada}"
-                          Style="{StaticResource DarkComboBoxStyle}"
-                          Width="200"/>
+                      SelectedItem="{Binding HabitacionSeleccionada}"
+                      DisplayMemberPath="Numero"
+                      Style="{StaticResource DarkComboBoxStyle}"
+                      Margin="0 0 0 15"/>
+
+                <!-- PRECIO -->
+                <TextBlock Text="Precio por noche ($)" 
+                       Foreground="{StaticResource plainTextColor2}" />
+                <TextBlock Text="{Binding PrecioNoche}"
+                       Foreground="White"
+                       FontSize="16"
+                       Margin="0 0 0 15"/>
+
+                <!-- BOTONES -->
+                <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0 20 0 0">
+
+                    <Button Content="Cancelar"
+                        Width="120"
+                        Margin="0 0 10 0"
+                        Command="{Binding CancelarCommand}"
+                        Style="{StaticResource KumaButton}"/>
+
+                    <Button Content="Confirmar Check-In"
+                        Width="160"
+                        Command="{Binding ConfirmarCheckInCommand}"
+                        Style="{StaticResource KumaButton}" />
+                </StackPanel>
+
             </StackPanel>
-
-            <!-- BOTÓN -->
-            <Button Content="Confirmar Check-In"
-                    Style="{StaticResource KumaButton}"
-                    Margin="0,30,0,0"
-                    Width="220"
-                    HorizontalAlignment="Right"
-                    Command="{Binding RealizarCheckInCommand}"/>
-
-        </StackPanel>
-
-    </Border>
+        </Border>
+    </ScrollViewer>
 
 </UserControl>
