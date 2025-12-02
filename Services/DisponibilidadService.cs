@@ -37,7 +37,7 @@ namespace Gestión_Hotelera.Services
 
             // 4. Habitación disponible = no aparece en ocupadas
             return habitaciones
-                .Where(h => !ocupadas.Contains(h.Numero))
+                .Where(h => !ocupadas.Contains(h.NumeroHabitacion))
                 .ToList();
         }
     }

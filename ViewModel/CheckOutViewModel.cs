@@ -100,7 +100,7 @@ namespace Gestión_Hotelera.ViewModel
 
             var habs = _habitacionRepo.GetByHotel(HotelSeleccionado);
             foreach (var h in habs)
-                Habitaciones.Add(h.Numero);
+                Habitaciones.Add(h.NumeroHabitacion);
         }
 
         // ============================================================

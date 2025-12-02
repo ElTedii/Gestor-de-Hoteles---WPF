@@ -9,19 +9,19 @@ namespace Gestión_Hotelera.Model
     public class HabitacionModel
     {
         public Guid HotelId { get; set; }
-        public int Numero { get; set; }
-
+        public Guid HabitacionId { get; set; }
         public Guid TipoId { get; set; }
+
+        public int NumeroHabitacion { get; set; }
         public int Piso { get; set; }
+        public string Estado { get; set; }
 
-        // AUDITORÍA
-        public string UsuarioCreacion { get; set; }
-        public DateTime FechaCreacion { get; set; }
+        // NO viene de Cassandra — se llena al consultar el TipoHabitacion
+        public decimal PrecioNoche { get; set; }
 
+        public string UsuarioRegistro { get; set; }
+        public DateTime FechaRegistro { get; set; }
         public string UsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
-
-        // SOLO PARA CÁLCULO DE PRECIO (NO se guarda en Cassandra)
-        public decimal PrecioBase { get; set; }
     }
 }

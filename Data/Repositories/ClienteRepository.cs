@@ -1,10 +1,8 @@
-﻿using Gestión_Hotelera.Model;
-using Cassandra;
+﻿using Cassandra;
+using Gestión_Hotelera.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gestión_Hotelera.Data.Repositories
 {
@@ -17,51 +15,62 @@ namespace Gestión_Hotelera.Data.Repositories
             _session = CassandraConnection.GetSession();
         }
 
-        // ============================================================
-        // INSERTAR CLIENTE
-        // ============================================================
+        // INSERTAR
         public void Insert(ClienteModel c)
         {
             if (c.ClienteId == Guid.Empty)
                 c.ClienteId = Guid.NewGuid();
 
-            if (c.FechaRegistro == default)
-                c.FechaRegistro = DateTime.UtcNow;
+            c.FechaRegistro = DateTime.UtcNow;
 
             const string query = @"
-            INSERT INTO clientes (
-                cliente_id, nombre_completo,
-                pais, estado, ciudad,
-                rfc, correo, tel_casa, tel_celular,
-                fecha_nacimiento, estado_civil,
-                usuario_registro, fecha_registro,
-                usuario_modificacion, fecha_modificacion
-            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+                INSERT INTO clientes (
+                    cliente_id, nombre_completo, pais, estado, ciudad,
+                    rfc, correo, tel_casa, tel_celular, fecha_nacimiento,
+                    estado_civil, usuario_registro, fecha_registro,
+                    usuario_modificacion, fecha_modificacion
+                ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
-            var stmt = _session.Prepare(query);
-
-            _session.Execute(stmt.Bind(
-                c.ClienteId,
-                c.NombreCompleto,
-                c.Pais,
-                c.Estado,
-                c.Ciudad,
-                c.RFC,
-                c.Correo,
-                c.TelCasa,
-                c.TelCelular,
-                c.FechaNacimiento,
-                c.EstadoCivil,
-                c.UsuarioRegistro,
-                c.FechaRegistro,
-                c.UsuarioModificacion,
-                c.FechaModificacion
+            _session.Execute(_session.Prepare(query).Bind(
+                c.ClienteId, c.NombreCompleto, c.Pais, c.Estado, c.Ciudad,
+                c.RFC, c.Correo, c.TelCasa, c.TelCelular, c.FechaNacimiento,
+                c.EstadoCivil, c.UsuarioRegistro, c.FechaRegistro,
+                c.UsuarioModificacion, c.FechaModificacion
             ));
         }
 
-        // ============================================================
+        // ACTUALIZAR
+        public void Update(ClienteModel c)
+        {
+            c.UsuarioModificacion ??= c.UsuarioRegistro;
+            c.FechaModificacion = DateTime.UtcNow;
+
+            const string q = @"
+                UPDATE clientes SET
+                    nombre_completo=?, pais=?, estado=?, ciudad=?,
+                    rfc=?, correo=?, tel_casa=?, tel_celular=?, 
+                    fecha_nacimiento=?, estado_civil=?,
+                    usuario_modificacion=?, fecha_modificacion=?
+                WHERE cliente_id=?;";
+
+            _session.Execute(_session.Prepare(q).Bind(
+                c.NombreCompleto, c.Pais, c.Estado, c.Ciudad,
+                c.RFC, c.Correo, c.TelCasa, c.TelCelular,
+                c.FechaNacimiento, c.EstadoCivil,
+                c.UsuarioModificacion, c.FechaModificacion,
+                c.ClienteId
+            ));
+        }
+
+        // OBTENER TODO
+        public List<ClienteModel> GetAll()
+        {
+            var rows = _session.Execute("SELECT * FROM clientes;");
+
+            return rows.Select(MapRow).ToList();
+        }
+
         // OBTENER POR ID
-        // ============================================================
         public ClienteModel GetById(Guid id)
         {
             var row = _session.Execute(
@@ -72,86 +81,35 @@ namespace Gestión_Hotelera.Data.Repositories
             return row == null ? null : MapRow(row);
         }
 
-        // ============================================================
-        // OBTENER TODOS
-        // ============================================================
-        public List<ClienteModel> GetAll()
-        {
-            var rs = _session.Execute("SELECT * FROM clientes;");
-
-            return rs.Select(MapRow).ToList();
-        }
-
-        // ============================================================
-        // ACTUALIZAR CLIENTE
-        // ============================================================
-        public void Update(ClienteModel c)
-        {
-            c.FechaModificacion = DateTime.UtcNow;
-
-            const string query = @"
-            UPDATE clientes SET
-                nombre_completo=?,
-                pais=?, estado=?, ciudad=?,
-                rfc=?, correo=?, tel_casa=?, tel_celular=?,
-                fecha_nacimiento=?, estado_civil=?,
-                usuario_modificacion=?, fecha_modificacion=?
-            WHERE cliente_id=?;";
-
-            _session.Execute(_session.Prepare(query).Bind(
-                c.NombreCompleto,
-                c.Pais,
-                c.Estado,
-                c.Ciudad,
-                c.RFC,
-                c.Correo,
-                c.TelCasa,
-                c.TelCelular,
-                c.FechaNacimiento,
-                c.EstadoCivil,
-                c.UsuarioModificacion,
-                c.FechaModificacion,
-                c.ClienteId
-            ));
-        }
-
-        // ============================================================
-        // ELIMINAR CLIENTE
-        // ============================================================
-        public void Delete(Guid clienteId)
-        {
-            _session.Execute(
-                _session.Prepare("DELETE FROM clientes WHERE cliente_id=?;")
-                .Bind(clienteId)
-            );
-        }
-
-        // ============================================================
         // MAPEO
-        // ============================================================
-        private ClienteModel MapRow(Row row)
+        private ClienteModel MapRow(Row r)
         {
             return new ClienteModel
             {
-                ClienteId = row.GetValue<Guid>("cliente_id"),
-                NombreCompleto = row.GetValue<string>("nombre_completo"),
+                ClienteId = r.GetValue<Guid>("cliente_id"),
+                NombreCompleto = r.GetValue<string>("nombre_completo"),
+                Pais = r.GetValue<string>("pais"),
+                Estado = r.GetValue<string>("estado"),
+                Ciudad = r.GetValue<string>("ciudad"),
 
-                Pais = row.GetValue<string>("pais"),
-                Estado = row.GetValue<string>("estado"),
-                Ciudad = row.GetValue<string>("ciudad"),
+                RFC = r.GetValue<string>("rfc"),
+                Correo = r.GetValue<string>("correo"),
+                TelCasa = r.GetValue<string>("tel_casa"),
+                TelCelular = r.GetValue<string>("tel_celular"),
 
-                RFC = row.GetValue<string>("rfc"),
-                Correo = row.GetValue<string>("correo"),
-                TelCasa = row.GetValue<string>("tel_casa"),
-                TelCelular = row.GetValue<string>("tel_celular"),
+                FechaNacimiento = r.IsNull("fecha_nacimiento")
+                    ? (DateTime?)null
+                    : r.GetValue<DateTime>("fecha_nacimiento"),
 
-                FechaNacimiento = row.GetValue<DateTime?>("fecha_nacimiento"),
-                EstadoCivil = row.GetValue<string>("estado_civil"),
+                EstadoCivil = r.GetValue<string>("estado_civil"),
 
-                UsuarioRegistro = row.GetValue<string>("usuario_registro"),
-                FechaRegistro = row.GetValue<DateTime>("fecha_registro"),
-                UsuarioModificacion = row.GetValue<string>("usuario_modificacion"),
-                FechaModificacion = row.GetValue<DateTime?>("fecha_modificacion")
+                UsuarioRegistro = r.GetValue<string>("usuario_registro"),
+                FechaRegistro = r.GetValue<DateTime>("fecha_registro"),
+
+                UsuarioModificacion = r.GetValue<string>("usuario_modificacion"),
+                FechaModificacion = r.IsNull("fecha_modificacion")
+                    ? (DateTime?)null
+                    : r.GetValue<DateTime>("fecha_modificacion")
             };
         }
     }

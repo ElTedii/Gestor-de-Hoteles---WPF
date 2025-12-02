@@ -151,7 +151,7 @@ namespace Gestión_Hotelera.ViewModel
             int dias = (FechaSalida.Value - FechaEntrada.Value).Days;
             if (dias < 1) dias = 1;
 
-            PrecioTotal = HabitacionSeleccionada.PrecioBase * dias;
+            PrecioTotal = HabitacionSeleccionada.PrecioNoche * dias;
         }
 
         // ============================================================

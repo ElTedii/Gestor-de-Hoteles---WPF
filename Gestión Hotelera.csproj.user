@@ -14,6 +14,9 @@
     <Compile Update="View\Components\DashBoardCard.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\HabitacionesListaView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\HabitacionesView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -60,6 +63,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="View\ReservasView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\TipoHabitacionView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

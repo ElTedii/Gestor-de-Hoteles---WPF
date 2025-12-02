@@ -3,119 +3,97 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="clr-namespace:Gestión_Hotelera.View"
-             mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
+    <Border Background="{StaticResource panelColor}"
+            Padding="30"
+            CornerRadius="15">
 
-        <Border Background="#162447"
-                Padding="30"
-                CornerRadius="15"
-                BorderBrush="#25324A"
-                BorderThickness="1">
+        <StackPanel>
 
-            <StackPanel>
+            <TextBlock Text="Registrar Habitación"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource titleColor1}"
+                       Margin="0,0,0,20"/>
 
-                <TextBlock Text="Registrar Habitación"
-                           FontSize="24"
-                           FontWeight="Bold"
-                           Foreground="{StaticResource titleColor1}"
-                           Margin="0,0,0,20"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                <!-- FORMULARIO -->
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="180"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
+                <!-- HOTEL -->
+                <TextBlock Grid.Row="0" Text="Hotel"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource plainTextColor1}"/>
 
-                    <!-- TIPO -->
-                    <TextBlock Grid.Row="0" Text="Tipo de habitación"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource titleColor2}"/>
-                    <TextBox Grid.Row="0" Grid.Column="1"
-                             Style="{StaticResource DarkInputStyle}" 
-                             Width="250"/>
+                <ComboBox Grid.Row="0" Grid.Column="1"
+                          ItemsSource="{Binding Hoteles}"
+                          DisplayMemberPath="Nombre"
+                          SelectedValuePath="HotelId"
+                          SelectedValue="{Binding HotelSeleccionado}"
+                          Style="{StaticResource DarkComboBoxStyle}"
+                          Width="250"/>
 
-                    <!-- CAPACIDAD -->
-                    <TextBlock Grid.Row="1" Text="Capacidad"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource titleColor2}"
-                               Margin="0,15,0,0"/>
-                    <TextBox Grid.Row="1" Grid.Column="1"
-                             Style="{StaticResource DarkInputStyle}"
-                             Width="250" 
-                             Margin="0,15,0,0"/>
+                <!-- TIPO -->
+                <TextBlock Grid.Row="1" Text="Tipo de habitación"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource plainTextColor1}"
+                           Margin="0,15,0,0"/>
 
-                    <!-- PRECIO -->
-                    <TextBlock Grid.Row="2" Text="Precio por noche"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource titleColor2}"
-                               Margin="0,15,0,0"/>
-                    <TextBox Grid.Row="2" Grid.Column="1"
-                             Style="{StaticResource DarkInputStyle}"
-                             Width="250" 
-                             Margin="0,15,0,0"/>
+                <ComboBox Grid.Row="1" Grid.Column="1"
+                          ItemsSource="{Binding TiposHab}"
+                          DisplayMemberPath="NombreTipo"
+                          SelectedValuePath="TipoId"
+                          SelectedValue="{Binding TipoSeleccionado}"
+                          Style="{StaticResource DarkComboBoxStyle}"
+                          Width="250"
+                          Margin="0,15,0,0"/>
 
-                    <!-- Tipo de cama -->
-                    <TextBlock Grid.Row="3" Text="Tipo de Cama"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource titleColor2}"
-                               Margin="0,15,0,0"/>
-                    <ComboBox Grid.Row="3" Grid.Column="1"
-                              ItemsSource="{Binding Hoteles}"
-                              DisplayMemberPath="Name"
-                              ItemContainerStyle="{StaticResource DarkComboBoxItemStyle}"
-                              Style="{StaticResource DarkComboBoxStyle}"
-                              Width="250"
-                              Margin="0,15,0,0"/>
+                <!-- NUMERO -->
+                <TextBlock Grid.Row="2" Text="Número habitación"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource plainTextColor1}"
+                           Margin="0,15,0,0"/>
 
-                    <!-- Hotel -->
-                    <TextBlock Grid.Row="4" Text="Hotel"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource titleColor2}"
-                               Margin="0,15,0,0"/>
-                    <ComboBox Grid.Row="4" Grid.Column="1"
-                              ItemsSource="{Binding Hoteles}"
-                              DisplayMemberPath="Name"
-                              ItemContainerStyle="{StaticResource DarkComboBoxItemStyle}"
-                              Style="{StaticResource DarkComboBoxStyle}"
-                              Width="250"
-                              Margin="0,15,0,0"/>
+                <TextBox Grid.Row="2" Grid.Column="1"
+                         Style="{StaticResource DarkInputStyle}"
+                         Text="{Binding NumeroHabitacion}"
+                         Width="250"
+                         Margin="0,15,0,0"/>
 
-                    <!-- Descripción -->
-                    <TextBlock Grid.Row="5" Text="Descripcion"
-                               VerticalAlignment="Center"
-                               Foreground="{StaticResource titleColor2}"
-                               Margin="0,15,0,0"/>
-                    <TextBox Grid.Row="5" Grid.Column="1"
-                             Style="{StaticResource DarkInputStyle}"
-                             Width="250"
-                             Height="75"
-                             Margin="0,15,0,0"/>
+                <!-- PISO -->
+                <TextBlock Grid.Row="3" Text="Piso"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource plainTextColor1}"
+                           Margin="0,15,0,0"/>
 
+                <TextBox Grid.Row="3" Grid.Column="1"
+                         Style="{StaticResource DarkInputStyle}"
+                         Text="{Binding Piso}"
+                         Width="250"
+                         Margin="0,15,0,0"/>
+            </Grid>
 
-                    <!-- BOTÓN -->
-                    <Button Grid.Row="6" Grid.ColumnSpan="2"
-                            Content="Registrar"
-                            Style="{StaticResource KumaButton}"
-                            Width="180"
-                            Height="45"
-                            Margin="0,30,0,0"
-                            HorizontalAlignment="Center"/>
-                </Grid>
-            </StackPanel>
-        </Border>
-    </ScrollViewer>
+            <!-- BOTÓN -->
+            <Button Content="Registrar Habitación"
+                    Style="{StaticResource KumaButton}"
+                    Command="{Binding GuardarCommand}"
+                    Width="220"
+                    Height="45"
+                    Margin="0,30,0,0"
+                    HorizontalAlignment="Center"/>
+
+        </StackPanel>
+
+    </Border>
+
 </UserControl>

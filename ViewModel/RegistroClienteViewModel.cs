@@ -1,31 +1,45 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Gestión_Hotelera.Data.Repositories;
+using Gestión_Hotelera.Model;
+using System;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Gestión_Hotelera.ViewModel
 {
     public class RegistroClienteViewModel : ViewModelBase
     {
-        public string Nombre { get; set; }
-        public string Apellidos { get; set; }
-        public string Telefono { get; set; }
-        public string Email { get; set; }
-        public string Nacionalidad { get; set; }
-        public string Documento { get; set; }
+        private readonly ClienteRepository _repo;
+        private readonly MainViewModel _main;
 
-        public ICommand RegistrarClienteCommand { get; }
+        public ClienteModel Cliente { get; set; }
 
-        public RegistroClienteViewModel()
+        public ICommand GuardarCommand { get; }
+
+        public RegistroClienteViewModel(MainViewModel main)
         {
-            RegistrarClienteCommand = new ViewModelCommand(RegistrarCliente);
+            _repo = new ClienteRepository();
+            _main = main;
+
+            Cliente = new ClienteModel
+            {
+                UsuarioRegistro = LoginViewModel.UsuarioActual?.Correo ?? "sistema"
+            };
+
+            GuardarCommand = new ViewModelCommand(ExecuteGuardar);
         }
 
-        private void RegistrarCliente(object obj)
+        private void ExecuteGuardar(object obj)
         {
-            // Aquí conectaremos Cassandra después :)
+            try
+            {
+                _repo.Insert(Cliente);
+                MessageBox.Show("Cliente registrado correctamente.");
+                _main.CurrentChildView = new ClientesViewModel(_main);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
         }
     }
 }

@@ -13,17 +13,13 @@
         Background="Transparent"
         AllowsTransparency="True">
 
-    <Window.DataContext>
-        <viewModel:MainViewModel/>
-    </Window.DataContext>
-
     <Window.Resources>
         
         <DataTemplate DataType="{x:Type viewModel:HomeViewModel}">
             <local:HomeView/>
         </DataTemplate>
 
-        <DataTemplate DataType="{x:Type viewModel:ClientViewModel}">
+        <DataTemplate DataType="{x:Type viewModel:ClientesViewModel}">
             <local:ClientView/>
         </DataTemplate>
 
@@ -69,6 +65,14 @@
 
         <DataTemplate DataType="{x:Type viewModel:RealizarCheckOutViewModel}">
             <local:RealizarCheckOut/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:HabitacionesListaViewModel}">
+            <local:HabitacionesListaView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:TipoHabitacionViewModel}">
+            <local:TipoHabitacionView/>
         </DataTemplate>
 
     </Window.Resources>

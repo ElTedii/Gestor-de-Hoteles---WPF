@@ -26,7 +26,7 @@ namespace Gestión_Hotelera.ViewModel
             {
                 _habitacionSeleccionada = value;
                 OnPropertyChanged(nameof(HabitacionSeleccionada));
-                PrecioNoche = value?.PrecioBase ?? 0;
+                PrecioNoche = value?.PrecioNoche ?? 0;
             }
         }
 
@@ -72,7 +72,7 @@ namespace Gestión_Hotelera.ViewModel
             {
                 var tipo = _tipoRepo.GetByHotelAndTipo(h.HotelId, h.TipoId);
                 if (tipo != null)
-                    h.PrecioBase = tipo.PrecioNoche;
+                    h.PrecioNoche = tipo.PrecioNoche;
 
                 Habitaciones.Add(h);
             }
@@ -85,7 +85,7 @@ namespace Gestión_Hotelera.ViewModel
                 var estanciaId = _checkInService.RealizarCheckIn(
                     Modelo.ClienteId,
                     Modelo.ReservaId,
-                    HabitacionSeleccionada.Numero,
+                    HabitacionSeleccionada.NumeroHabitacion,
                     Modelo.UsuarioRegistro
                 );
 

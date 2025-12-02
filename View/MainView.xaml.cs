@@ -1,6 +1,10 @@
-﻿using System;
+﻿using Gestión_Hotelera.ViewModel;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -8,12 +12,10 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using System.Runtime;
-using System.Runtime.InteropServices;
-using System.Windows.Interop;
 
 namespace Gestión_Hotelera.View
 {
@@ -25,6 +27,12 @@ namespace Gestión_Hotelera.View
         public MainView()
         {
             InitializeComponent();
+
+            // Evitar crear el ViewModel cuando está el diseñador
+            if (!DesignerProperties.GetIsInDesignMode(this))
+            {
+                DataContext = new MainViewModel();
+            }
         }
 
         [DllImport("user32.dll")]

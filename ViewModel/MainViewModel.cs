@@ -74,7 +74,7 @@ namespace Gestión_Hotelera.ViewModel
 
         private void ExecuteShowClientViewCommand(object obj)
         {
-            CurrentChildView = new ClientViewModel(this);
+            CurrentChildView = new ClientesViewModel(this);
             Caption = "Clientes";
             Icon = IconChar.User;
         }
@@ -109,7 +109,7 @@ namespace Gestión_Hotelera.ViewModel
 
         private void ExecuteShowRegistroClienteCommand(object obj)
         {
-            CurrentChildView = new RegistroClienteViewModel();
+            CurrentChildView = new RegistroClienteViewModel(this);
             Caption = "Registrar Cliente";
             Icon = IconChar.UserPlus;
         }

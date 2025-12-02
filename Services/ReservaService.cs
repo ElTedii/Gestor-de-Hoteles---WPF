@@ -38,7 +38,7 @@ namespace Gestión_Hotelera.Services
                 var tipo = _tipoRepo.GetByHotelAndTipo(h.HotelId, h.TipoId); // ✅ CORREGIDO
 
                 if (tipo != null)
-                    h.PrecioBase = tipo.PrecioNoche;  // Asegúrate que HabitacionModel tenga esta propiedad
+                    h.PrecioNoche = tipo.PrecioNoche;  // Asegúrate que HabitacionModel tenga esta propiedad
             }
 
             // (Versión simple: no filtramos por fechas)

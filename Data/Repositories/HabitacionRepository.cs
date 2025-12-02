@@ -32,11 +32,11 @@ namespace Gestión_Hotelera.Data.Repositories
             _session.Execute(
                 _session.Prepare(query).Bind(
                     h.HotelId,
-                    h.Numero,
+                    h.NumeroHabitacion,
                     h.TipoId,
                     h.Piso,
-                    h.UsuarioCreacion,
-                    h.FechaCreacion,
+                    h.UsuarioRegistro,
+                    h.FechaRegistro,
                     h.UsuarioModificacion,
                     h.FechaModificacion
                 )
@@ -61,7 +61,7 @@ namespace Gestión_Hotelera.Data.Repositories
                     h.UsuarioModificacion,
                     h.FechaModificacion,
                     h.HotelId,
-                    h.Numero
+                    h.NumeroHabitacion
                 )
             );
         }
@@ -136,7 +136,13 @@ namespace Gestión_Hotelera.Data.Repositories
                 .Select(e => e.NumeroHabitacion)
                 .ToList();
 
-            return todas.Where(h => !ocupadas.Contains(h.Numero)).ToList();
+            return todas.Where(h => !ocupadas.Contains(h.NumeroHabitacion)).ToList();
+        }
+
+        public List<HabitacionModel> GetAll()
+        {
+            var rows = _session.Execute("SELECT * FROM habitaciones;");
+            return rows.Select(MapRow).ToList();
         }
 
         // ============================================================
@@ -147,15 +153,15 @@ namespace Gestión_Hotelera.Data.Repositories
             return new HabitacionModel
             {
                 HotelId = row.GetValue<Guid>("hotel_id"),
-                Numero = row.GetValue<int>("numero"),
+                NumeroHabitacion = row.GetValue<int>("numero"),
                 TipoId = row.GetValue<Guid>("tipo_id"),
                 Piso = row.GetValue<int>("piso"),
 
-                UsuarioCreacion = row.IsNull("usuario_creacion")
+                UsuarioRegistro = row.IsNull("usuario_creacion")
                     ? ""
                     : row.GetValue<string>("usuario_creacion"),
 
-                FechaCreacion = row.IsNull("fecha_creacion")
+                FechaRegistro = row.IsNull("fecha_creacion")
                     ? DateTime.UtcNow
                     : row.GetValue<DateTime>("fecha_creacion"),
 

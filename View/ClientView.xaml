@@ -7,166 +7,38 @@
              xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="120"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Orientation="Horizontal"
-                        VerticalAlignment="Top"
-                        Grid.Column="0">
-                <fa:IconImage Icon="Search" Height="20" Width="20" Foreground="{StaticResource plainTextColor3}"/>
-                <TextBox Text="Search..."   
-                    FontSize="13"
-                         Height="24"
-                           Width="300"
-                           Background="Transparent"
-                             FontWeight="Medium"
-                             FontFamily="Verdana"                            
-                             Foreground="{StaticResource plainTextColor3}"
-                             CaretBrush="{StaticResource plainTextColor3}"
-                             BorderBrush="{StaticResource plainTextColor3}"
-                             BorderThickness="0,0,0,1"                             
-                             VerticalContentAlignment="Center"
-                             Margin="5,5,0,0"></TextBox>
+    <Border Background="{StaticResource panelColor}" Padding="20" CornerRadius="12">
+
+        <StackPanel>
+
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 20">
+                <TextBlock Text="Clientes"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource titleColor2}"/>
+
+                <Button Content="Nuevo Cliente"
+                        Command="{Binding NuevoClienteCommand}"
+                        Style="{StaticResource KumaButton}"
+                        Margin="20 0 0 0"/>
             </StackPanel>
-            <Button Grid.Column="1"
-                            Command="{Binding LoginCommand}"                            
-                            Content="Search"                            
-                            FontSize="12"
-                            FontFamily="Montserrat"
-                            Cursor="Hand"
-                            BorderThickness="0"
-                            Foreground="White"
-                    VerticalAlignment="Top">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Background" Value="{StaticResource panelColor}"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Height="30"
-                                                    CornerRadius="15"
-                                                    Background="{TemplateBinding Background}">
-                                        <ContentPresenter VerticalAlignment="Center"
-                                                          HorizontalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#836EFB"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-            <Button Command="{Binding AbrirRegistroClienteCommand}" 
-                    Grid.Column="2"
-                    Content="Agregar"                            
-                    FontSize="12"
-                    FontFamily="Montserrat"
-                    Cursor="Hand"
-                    BorderThickness="0"
-                    Foreground="White"
-                    VerticalAlignment="Top">
-                <Button.Style>
-                    <Style TargetType="Button">
-                        <Setter Property="Background" Value="{StaticResource panelColor}"/>
-                        <Setter Property="Template">
-                            <Setter.Value>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Height="30"
-                                                    CornerRadius="15"
-                                                    Background="{TemplateBinding Background}">
-                                        <ContentPresenter VerticalAlignment="Center"
-                                                          HorizontalAlignment="Center"/>
-                                    </Border>
-                                </ControlTemplate>
-                            </Setter.Value>
-                        </Setter>
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#836EFB"/>
-                            </Trigger>
-                        </Style.Triggers>
-                    </Style>
-                </Button.Style>
-            </Button>
-        </Grid>
-        <Border Grid.Row="1"
-                Background="{StaticResource panelColor}"
-                CornerRadius="10" 
-                Padding="10">
 
             <DataGrid ItemsSource="{Binding Clientes}"
-                          ColumnWidth="*"
-                          AutoGenerateColumns="False"
-                          IsReadOnly="True"
-                          HeadersVisibility="Column"
-                          Background="{StaticResource panelColor}"
-                          BorderThickness="0"
-                          BorderBrush="{StaticResource color4}"
-                          RowHeight="38"
-                          ColumnHeaderHeight="40"
-                          AlternatingRowBackground="{StaticResource panelOverColor}"
-                          Margin="0,0,0,0">
-                <DataGrid.ColumnHeaderStyle>
-                    <Style TargetType="DataGridColumnHeader">
-                        <Setter Property="Background" Value="{StaticResource panelColor}"/>
-                        <Setter Property="Foreground" Value="{StaticResource plainTextColor1}"/>
-                        <Setter Property="Padding" Value="10,0,0,10"/>
-                        <Setter Property="FontFamily" Value="Montserrat"/>
-                        <Setter Property="FontSize" Value="15"/>
-                    </Style>
-                </DataGrid.ColumnHeaderStyle>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Nombre" Binding="{Binding Nombre}"/>
-                    <DataGridTextColumn Header="Apellidos" Binding="{Binding Apellidos}"/>
-                    <DataGridTextColumn Header="Teléfono" Binding="{Binding Telefono}"/>
-                    <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
-                    <DataGridTextColumn Header="Documento" Binding="{Binding Documento}"/>
-                    <!-- EDITAR -->
-                    <DataGridTemplateColumn Header="Editar" Width="80">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="✏"
-                                        FontSize="16"
-                                        Width="40"
-                                        Style="{StaticResource KumaButton}"
-                                        Command="{Binding DataContext.AbrirEditarReservaCommand, 
-                                                          RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                        CommandParameter="{Binding}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                      Style="{StaticResource KumaDataGrid}"
+                      AutoGenerateColumns="False">
 
-                    <!-- ELIMINAR -->
-                    <DataGridTemplateColumn Header="Eliminar" Width="90">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <Button Content="🗑"
-                                        FontSize="16"
-                                        Width="40"
-                                        Background="#D9534F"
-                                        Foreground="White"
-                                        BorderThickness="0"
-                                        Command="{Binding DataContext.EliminarReservaCommand,
-                                                          RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                        CommandParameter="{Binding}"/>
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Nombre" Binding="{Binding NombreCompleto}" Width="200"/>
+                    <DataGridTextColumn Header="Correo" Binding="{Binding Correo}" Width="200"/>
+                    <DataGridTextColumn Header="RFC" Binding="{Binding RFC}" Width="130"/>
+                    <DataGridTextColumn Header="País" Binding="{Binding Pais}" Width="100"/>
+                    <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="120"/>
+                    <DataGridTextColumn Header="Ciudad" Binding="{Binding Ciudad}" Width="120"/>
                 </DataGrid.Columns>
+
             </DataGrid>
 
-        </Border>
-    </Grid>
+        </StackPanel>
+
+    </Border>
 </UserControl>

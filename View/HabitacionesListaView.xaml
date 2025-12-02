@@ -1,0 +1,43 @@
+﻿<UserControl x:Class="Gestión_Hotelera.View.HabitacionesListaView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Border Background="{StaticResource panelColor}"
+        Padding="20"
+        CornerRadius="12"
+        MaxWidth="1100"
+        HorizontalAlignment="Center">
+
+        <StackPanel>
+
+            <TextBlock Text="Habitaciones Registradas"
+                       FontSize="22"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource titleColor1}"
+                       Margin="0,0,0,20"/>
+
+            <DataGrid ItemsSource="{Binding Habitaciones}"
+                      AutoGenerateColumns="False"
+                      Background="{StaticResource panelColor}"
+                      AlternatingRowBackground="{StaticResource panelOverColor}"
+                      BorderThickness="0"
+                      RowHeight="35"
+                      ColumnHeaderHeight="35"
+                      Style="{StaticResource KumaDataGrid}"
+                      RowStyle="{StaticResource KumaDataGridRow}"
+                      CellStyle="{StaticResource KumaDataGridCell}"
+                      ColumnHeaderStyle="{StaticResource KumaDataGridHeader}">
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="Número" Binding="{Binding NumeroHabitacion}" Width="80"/>
+                    <DataGridTextColumn Header="Piso" Binding="{Binding Piso}" Width="60"/>
+                    <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="120"/>
+                    <DataGridTextColumn Header="Tipo" Binding="{Binding TipoNombre}" Width="200"/>
+                </DataGrid.Columns>
+
+            </DataGrid>
+
+        </StackPanel>
+
+    </Border>
+</UserControl>
