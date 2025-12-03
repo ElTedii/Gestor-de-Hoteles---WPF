@@ -49,13 +49,14 @@ namespace Gestión_Hotelera.ViewModel
             ReservasPendientes.Clear();
 
             var hoy = DateTime.UtcNow.Date;
-            var mañana = hoy.AddDays(1);
+            var manana = hoy.AddDays(1);
 
             var reservas = _reservaRepo.GetAll()
                 .Where(r =>
-                    (r.Estado == "PENDIENTE" || r.Estado == "CONFIRMADA") &&
                     r.FechaEntrada >= hoy &&
-                    r.FechaEntrada < mañana)
+                    r.FechaEntrada < manana &&
+                    (r.Estado == "PENDIENTE" || r.Estado == "CONFIRMADA")
+                )
                 .OrderBy(r => r.FechaEntrada)
                 .ToList();
 
@@ -78,7 +79,6 @@ namespace Gestión_Hotelera.ViewModel
 
                     Adultos = r.Adultos,
                     Menores = r.Menores,
-
                     Habitacion = "(Sin asignar)"
                 });
             }

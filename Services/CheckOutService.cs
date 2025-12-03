@@ -1,9 +1,17 @@
-﻿using Gestión_Hotelera.Data.Repositories;
+﻿using System;
+using Gestión_Hotelera.Data.Repositories;
 using Gestión_Hotelera.Model;
-using System;
 
 namespace Gestión_Hotelera.Services
 {
+    public class CheckOutResult
+    {
+        public FacturaModel Factura { get; set; }
+        public ClienteModel Cliente { get; set; }
+        public HotelModel Hotel { get; set; }
+        public string RutaPdf { get; set; }
+    }
+
     public class CheckOutService
     {
         private readonly EstanciaActivaRepository _estanciaRepo;
@@ -11,6 +19,8 @@ namespace Gestión_Hotelera.Services
         private readonly FacturaRepository _facturaRepo;
         private readonly HotelRepository _hotelRepo;
         private readonly ClienteRepository _clienteRepo;
+        private readonly ReservaRepository _reservaRepo;
+        private readonly FacturaPrinter _pdfService;
 
         public CheckOutService()
         {
@@ -19,96 +29,83 @@ namespace Gestión_Hotelera.Services
             _facturaRepo = new FacturaRepository();
             _hotelRepo = new HotelRepository();
             _clienteRepo = new ClienteRepository();
+            _reservaRepo = new ReservaRepository();
+            _pdfService = new FacturaPrinter();
         }
 
-        // ============================================================
-        // REALIZAR CHECK-OUT COMPLETO
-        // ============================================================
-        public Guid RealizarCheckOut(Guid hotelId, int numeroHabitacion, decimal montoServicios, decimal descuento, string usuario)
+        public CheckOutResult RealizarCheckOut(
+            Guid hotelId,
+            int numeroHabitacion,
+            decimal montoServicios,
+            decimal descuento,
+            string usuario)
         {
-            // 1) Obtener estancia activa
-            var estancia = _estanciaRepo.GetByHotelAndHabitacion(hotelId, numeroHabitacion);
-
+            var estancia = _estanciaRepo.GetByHotelAndNumero(hotelId, numeroHabitacion);
             if (estancia == null)
                 throw new Exception("No existe una estancia activa para esta habitación.");
 
-            // 2) Obtener datos auxiliares
             var hotel = _hotelRepo.GetById(estancia.HotelId);
             var cliente = _clienteRepo.GetById(estancia.ClienteId);
-
             if (hotel == null || cliente == null)
                 throw new Exception("No se pudo cargar información del cliente u hotel.");
 
-            // 3) Calcular noches
             int noches = (int)(estancia.FechaSalida.Date - estancia.FechaEntrada.Date).TotalDays;
             if (noches < 1) noches = 1;
 
-            // 4) Subtotal hospedaje
             decimal subtotalHospedaje = noches * estancia.PrecioNoche;
-
-            // 5) Total final
             decimal total = subtotalHospedaje + montoServicios - estancia.Anticipo - descuento;
             if (total < 0) total = 0;
 
-            // ============================================================
-            // GUARDAR EN HISTORIAL_ESTANCIAS
-            // ============================================================
+            // ----- Guardar en historial_estancias -----
             var historial = new HistorialEstanciaModel
             {
                 ClienteId = estancia.ClienteId,
                 EstanciaId = estancia.EstanciaId,
                 HotelId = estancia.HotelId,
                 NumeroHabitacion = estancia.NumeroHabitacion,
-
                 FechaEntrada = estancia.FechaEntrada,
                 FechaSalida = estancia.FechaSalida,
-
                 Anticipo = estancia.Anticipo,
                 MontoHospedaje = subtotalHospedaje,
                 MontoServicios = montoServicios,
                 TotalFactura = total,
-
                 UsuarioRegistro = usuario,
                 FechaRegistro = DateTime.UtcNow
             };
-
             _historialRepo.Insert(historial);
 
-            // ============================================================
-            // CREAR FACTURA FINAL
-            // ============================================================
+            // ----- Crear factura -----
             var factura = new FacturaModel
             {
                 FacturaId = Guid.NewGuid(),
                 EstanciaId = estancia.EstanciaId,
                 ClienteId = estancia.ClienteId,
                 HotelId = estancia.HotelId,
-
                 FechaEmision = DateTime.UtcNow,
-
                 MontoHospedaje = subtotalHospedaje,
                 MontoServicios = montoServicios,
                 Total = total,
-
                 UsuarioRegistro = usuario,
                 FechaRegistro = DateTime.UtcNow
             };
-
             _facturaRepo.Insert(factura);
 
-            // ============================================================
-            // ELIMINAR ESTANCIA ACTIVA
-            // ============================================================
+            // ----- Generar PDF -----
+            string rutaPdf = _pdfService.GenerarFacturaPDF(factura, cliente, hotel);
+
+            // ----- Marcar reserva como FINALIZADA -----
+            _reservaRepo.UpdateEstado(estancia.ClienteId, estancia.ReservaId, "FINALIZADA");
+
+            // ----- Eliminar estancia activa -----
             _estanciaRepo.Delete(estancia.HotelId, estancia.NumeroHabitacion);
 
-            // ============================================================
-            // (Opcional) GENERAR PDF
-            // ============================================================
-            // var printer = new FacturaPrinter();
-            // string path = printer.GenerarPDF(factura, cliente.NombreCompleto, hotel.Nombre);
-            // Process.Start(path);
-
-            return factura.FacturaId;
+            return new CheckOutResult
+            {
+                Factura = factura,
+                Cliente = cliente,
+                Hotel = hotel,
+                RutaPdf = rutaPdf
+            };
         }
     }
 }

@@ -22,6 +22,8 @@ namespace Gestión_Hotelera.Model
         public int Adultos { get; set; }
         public int Menores { get; set; }
 
+        public decimal PrecioTotal { get; set; }
+
         // Auditoría
         public string UsuarioRegistro { get; set; }
         public DateTime FechaRegistro { get; set; }

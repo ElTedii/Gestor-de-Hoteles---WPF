@@ -1,4 +1,5 @@
-﻿using Gestión_Hotelera.Data.Repositories;
+﻿using FontAwesome.Sharp;
+using Gestión_Hotelera.Data.Repositories;
 using Gestión_Hotelera.Model;
 using Gestión_Hotelera.Services;
 using System;
@@ -111,7 +112,7 @@ namespace Gestión_Hotelera.ViewModel
             if (HotelSeleccionado == Guid.Empty || HabitacionSeleccionada == 0)
                 return;
 
-            Estancia = _estanciaRepo.GetByHotelAndHabitacion(HotelSeleccionado, HabitacionSeleccionada);
+            Estancia = _estanciaRepo.GetByHotelAndNumero(HotelSeleccionado, HabitacionSeleccionada);
 
             if (Estancia == null)
             {
@@ -155,7 +156,7 @@ namespace Gestión_Hotelera.ViewModel
 
             try
             {
-                Guid facturaId = _checkOutService.RealizarCheckOut(
+                var resultado = _checkOutService.RealizarCheckOut(
                     Estancia.HotelId,
                     Estancia.NumeroHabitacion,
                     MontoServicios,
@@ -163,12 +164,17 @@ namespace Gestión_Hotelera.ViewModel
                     LoginViewModel.UsuarioActual?.Correo ?? "sistema"
                 );
 
-                MessageBox.Show($"Check-Out exitoso.\nFactura generada: {facturaId}");
+                // Navegar al detalle de factura
+                var main = MainViewModel.Instance;
 
-                Estancia = null;
-                ClienteNombre = "—";
-                TotalCalculado = 0;
-                HabitacionSeleccionada = 0;
+                main.CurrentChildView = new FacturaDetalleViewModel(
+                    resultado.Factura,
+                    resultado.Cliente,
+                    resultado.Hotel,
+                    resultado.RutaPdf);
+
+                main.Caption = "Factura generada";
+                main.Icon = IconChar.FileInvoiceDollar;
             }
             catch (Exception ex)
             {

@@ -1,8 +1,8 @@
 ﻿using Gestión_Hotelera.Data.Repositories;
 using Gestión_Hotelera.Model;
-using Gestión_Hotelera.Services;
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,92 +10,93 @@ namespace Gestión_Hotelera.ViewModel
 {
     public class RealizarCheckInViewModel : ViewModelBase
     {
-        private readonly HabitacionRepository _habitacionRepo;
-        private readonly TipoHabitacionRepository _tipoRepo;
-        private readonly CheckInService _checkInService;
+        public Action CloseAction { get; set; }
 
-        public RealizarCheckInModel Modelo { get; }
+        private readonly EstanciaActivaRepository _estanciaRepo;
+        private readonly HabitacionRepository _habRepo;
+        private readonly ReservaRepository _reservaRepo;
 
-        public ObservableCollection<HabitacionModel> Habitaciones { get; }
+        private readonly MainViewModel _main;
 
-        private HabitacionModel _habitacionSeleccionada;
-        public HabitacionModel HabitacionSeleccionada
+        public RealizarCheckInModel Datos { get; }
+
+        public ObservableCollection<HabitacionModel> HabitacionesDisponibles { get; set; }
+
+        private HabitacionModel _habSeleccionada;
+        public HabitacionModel HabSeleccionada
         {
-            get => _habitacionSeleccionada;
+            get => _habSeleccionada;
             set
             {
-                _habitacionSeleccionada = value;
-                OnPropertyChanged(nameof(HabitacionSeleccionada));
-                PrecioNoche = value?.PrecioNoche ?? 0;
+                _habSeleccionada = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(PrecioNoche));
             }
         }
 
-        private decimal _precioNoche;
-        public decimal PrecioNoche
-        {
-            get => _precioNoche;
-            set { _precioNoche = value; OnPropertyChanged(nameof(PrecioNoche)); }
-        }
+        public decimal PrecioNoche => HabSeleccionada?.PrecioNoche ?? 0;
 
-        public ICommand ConfirmarCheckInCommand { get; }
+        public ICommand ConfirmarCommand { get; }
         public ICommand CancelarCommand { get; }
 
-        public Action CloseAction { get; set; }
-
-        public RealizarCheckInViewModel(RealizarCheckInModel modelo, MainViewModel parent = null)
+        public RealizarCheckInViewModel(RealizarCheckInModel datos, MainViewModel main)
         {
-            Modelo = modelo;
+            Datos = datos;
+            _main = main;
 
-            _habitacionRepo = new HabitacionRepository();
-            _tipoRepo = new TipoHabitacionRepository();
-            _checkInService = new CheckInService();
+            _estanciaRepo = new EstanciaActivaRepository();
+            _habRepo = new HabitacionRepository();
+            _reservaRepo = new ReservaRepository();
 
-            Habitaciones = new ObservableCollection<HabitacionModel>();
+            HabitacionesDisponibles = new ObservableCollection<HabitacionModel>();
 
-            ConfirmarCheckInCommand = new ViewModelCommand(
-                ExecuteConfirmarCheckIn,
-                _ => HabitacionSeleccionada != null
-            );
-
-            CancelarCommand = new ViewModelCommand(_ => CloseAction?.Invoke());
+            ConfirmarCommand = new ViewModelCommand(ExecuteConfirmar);
+            CancelarCommand = new ViewModelCommand(_ => CloseAction?.Invoke());   // ← FALTABA
 
             CargarHabitaciones();
         }
 
         private void CargarHabitaciones()
         {
-            Habitaciones.Clear();
+            HabitacionesDisponibles.Clear();
 
-            var lista = _habitacionRepo.GetByHotel(Modelo.HotelId);
+            var libres = _habRepo.GetHabitacionesLibres(
+                Datos.HotelId,
+                Datos.FechaEntrada,
+                Datos.FechaSalida);
 
-            foreach (var h in lista)
-            {
-                var tipo = _tipoRepo.GetByHotelAndTipo(h.HotelId, h.TipoId);
-                if (tipo != null)
-                    h.PrecioNoche = tipo.PrecioNoche;
-
-                Habitaciones.Add(h);
-            }
+            foreach (var h in libres)
+                HabitacionesDisponibles.Add(h);
         }
 
-        private void ExecuteConfirmarCheckIn(object obj)
+        private void ExecuteConfirmar(object obj)
         {
-            try
+            if (HabSeleccionada == null)
             {
-                var estanciaId = _checkInService.RealizarCheckIn(
-                    Modelo.ClienteId,
-                    Modelo.ReservaId,
-                    HabitacionSeleccionada.NumeroHabitacion,
-                    Modelo.UsuarioRegistro
-                );
+                MessageBox.Show("Seleccione una habitación.");
+                return;
+            }
 
-                MessageBox.Show("Check-In realizado con éxito.");
-                CloseAction?.Invoke();
-            }
-            catch (Exception ex)
+            _estanciaRepo.Insert(new EstanciaActivaModel
             {
-                MessageBox.Show($"Error: {ex.Message}");
-            }
+                HotelId = Datos.HotelId,
+                NumeroHabitacion = HabSeleccionada.NumeroHabitacion,
+                ClienteId = Datos.ClienteId,
+                ReservaId = Datos.ReservaId,
+                FechaEntrada = Datos.FechaEntrada,
+                FechaSalida = Datos.FechaSalida,
+                Adultos = Datos.Adultos,
+                Menores = Datos.Menores,
+                UsuarioRegistro = Datos.UsuarioRegistro,
+                FechaRegistro = DateTime.UtcNow,
+                PrecioNoche = HabSeleccionada.PrecioNoche  // recomendable
+            });
+
+            _reservaRepo.UpdateEstado(Datos.ClienteId, Datos.ReservaId, "EN_ESTANCIA");
+
+            MessageBox.Show("Check-In realizado correctamente.");
+
+            CloseAction?.Invoke();    // ← FALTABA PARA VOLVER A LA LISTA
         }
     }
 }

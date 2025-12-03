@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gestión_Hotelera.View"
+        xmlns:view="clr-namespace:Gestión_Hotelera.View"
         xmlns:viewModel="clr-namespace:Gestión_Hotelera.ViewModel"
         xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
         mc:Ignorable="d"
@@ -77,6 +78,10 @@
 
         <DataTemplate DataType="{x:Type viewModel:ReservaDetalleViewModel}">
             <local:ReservaDetalleView/>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type viewModel:FacturaDetalleViewModel}">
+            <local:FacturaDetalleView/>
         </DataTemplate>
 
     </Window.Resources>

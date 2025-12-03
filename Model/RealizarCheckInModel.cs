@@ -22,5 +22,7 @@ namespace Gestión_Hotelera.Model
         public int Menores { get; set; }
 
         public string UsuarioRegistro { get; set; }
+
+        public Action CloseAction { get; set; }
     }
 }

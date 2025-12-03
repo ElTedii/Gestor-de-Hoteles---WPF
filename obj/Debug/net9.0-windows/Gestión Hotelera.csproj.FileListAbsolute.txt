@@ -81,49 +81,6 @@ C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\refint
 C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.pdb
 C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\Gestión Hotelera.genruntimeconfig.cache
 C:\Users\Tedss\Documents\Gestor-de-Hoteles---WPF\obj\Debug\net9.0-windows\ref\Gestión Hotelera.dll
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Gestión Hotelera.csproj.AssemblyReference.cache
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Styles\ButtonStyles.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Styles\Styles.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Styles\UIColors.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\CheckInView.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\CheckOutView.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\Components\DashBoardCard.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HabitacionesListaView.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HotelsView.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\NuevaReservaView.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RealizarCheckInView.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RealizarCheckOut.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RegistroHabitacionView.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReservaDetalleView.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReservasView.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\TipoHabitacionView.baml
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\CheckInView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\CheckOutView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ClientView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\Components\DashBoardCard.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HabitacionesListaView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HabitacionesView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HomeView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HotelsView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\LoginView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\MainView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\NuevaReservaView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RealizarCheckInView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RealizarCheckOut.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RegistroClienteView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RegistroHabitacionView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RegistroHotelView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReporteClientesView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReporteEstanciasView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReporteHabitacionesView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReporteReservacionesView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReservaDetalleView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReservasView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\TipoHabitacionView.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\App.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.cs
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Gestión Hotelera_MarkupCompile.cache
-D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Gestión Hotelera_MarkupCompile.lref
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\net9.0-windows\Gestión Hotelera.exe
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\net9.0-windows\Gestión Hotelera.dll.config
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\net9.0-windows\Gestión Hotelera.deps.json
@@ -146,6 +103,52 @@ D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\net9.0-windows\System.Management.dll
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\net9.0-windows\de\PdfSharpCore.resources.dll
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\bin\Debug\net9.0-windows\runtimes\win\lib\netcoreapp2.0\System.Management.dll
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Gestión Hotelera.csproj.AssemblyReference.cache
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Styles\ButtonStyles.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Styles\Styles.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Styles\UIColors.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\CheckInView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\CheckOutView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\Components\DashBoardCard.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\FacturaDetalleView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HabitacionesListaView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HotelsView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\NuevaReservaView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RealizarCheckInView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RealizarCheckOut.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RegistroHabitacionView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReservaDetalleView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReservasView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\TipoHabitacionView.baml
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\CheckInView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\CheckOutView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ClientView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\Components\DashBoardCard.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\FacturaDetalleView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HabitacionesListaView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HabitacionesView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HomeView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HotelsView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\LoginView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\MainView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\NuevaReservaView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RealizarCheckInView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RealizarCheckOut.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RegistroClienteView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RegistroHabitacionView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\RegistroHotelView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReporteClientesView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReporteEstanciasView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReporteHabitacionesView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReporteReservacionesView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReservaDetalleView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ReservasView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\TipoHabitacionView.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\App.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Gestión Hotelera_Content.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\GeneratedInternalTypeHelper.g.cs
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Gestión Hotelera_MarkupCompile.cache
+D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\Gestión Hotelera_MarkupCompile.lref
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\App.baml
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\ClientView.baml
 D:\Users\Tedss\Documents\Desarrollo\Programacion\c#\Gestión Hotelera\obj\Debug\net9.0-windows\View\HabitacionesView.baml

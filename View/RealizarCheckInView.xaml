@@ -4,59 +4,80 @@
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Border Background="{StaticResource panelColor}"
-            Padding="25"
-            CornerRadius="12">
+                Padding="25"
+                CornerRadius="12">
 
             <StackPanel Orientation="Vertical" Margin="10">
 
+                <!-- TÍTULO -->
                 <TextBlock Text="Realizar Check-In"
-                       FontSize="26"
-                       FontWeight="Bold"
-                       Foreground="{StaticResource titleColor2}"
-                       Margin="0 0 0 20"/>
+                           FontSize="26"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource titleColor2}"
+                           Margin="0 0 0 20"/>
 
-                <!-- Cliente -->
-                <TextBlock Text="Cliente" Foreground="{StaticResource plainTextColor2}" />
-                <TextBlock Text="{Binding Modelo.ClienteNombre}"
-                       FontSize="16" Foreground="White" Margin="0 0 0 10"/>
+                <!-- CLIENTE -->
+                <TextBlock Text="Cliente" 
+                           Foreground="{StaticResource plainTextColor2}" />
+                <TextBlock Text="{Binding Datos.ClienteNombre}"
+                           FontSize="16" 
+                           Foreground="White" 
+                           Margin="0 0 0 10"/>
 
-                <!-- Hotel -->
-                <TextBlock Text="Hotel" Foreground="{StaticResource plainTextColor2}" />
-                <TextBlock Text="{Binding Modelo.HotelNombre}"
-                       FontSize="16" Foreground="White" Margin="0 0 0 10"/>
+                <!-- HOTEL -->
+                <TextBlock Text="Hotel" 
+                           Foreground="{StaticResource plainTextColor2}" />
+                <TextBlock Text="{Binding Datos.HotelNombre}"
+                           FontSize="16" 
+                           Foreground="White" 
+                           Margin="0 0 0 10"/>
 
-                <!-- Habitaciones -->
-                <TextBlock Text="Habitación disponible" Foreground="{StaticResource plainTextColor2}" />
+                <!-- HABITACIONES DISPONIBLES -->
+                <TextBlock Text="Habitación disponible" 
+                           Foreground="{StaticResource plainTextColor2}" />
 
-                <ComboBox ItemsSource="{Binding Habitaciones}"
-                      SelectedItem="{Binding HabitacionSeleccionada}"
-                      DisplayMemberPath="Numero"
-                      Style="{StaticResource DarkComboBoxStyle}"
-                      Margin="0 0 0 15"/>
+                <ComboBox ItemsSource="{Binding HabitacionesDisponibles}"
+                          SelectedItem="{Binding HabSeleccionada}"
+                          Style="{StaticResource DarkComboBoxStyle}"
+                          Margin="0 0 0 15">
 
-                <!-- PRECIO -->
+                    <!-- Cómo se muestra cada habitación en la lista -->
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock>
+                <!-- Número de habitación -->
+                <Run Text="{Binding NumeroHabitacion}" />
+                <!-- Opcional: tipo de habitación -->
+                <Run Text=" - " />
+                <Run Text="{Binding TipoNombre}" />
+                            </TextBlock>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+                <!-- PRECIO POR NOCHE -->
                 <TextBlock Text="Precio por noche ($)" 
-                       Foreground="{StaticResource plainTextColor2}" />
+                           Foreground="{StaticResource plainTextColor2}" />
                 <TextBlock Text="{Binding PrecioNoche}"
-                       Foreground="White"
-                       FontSize="16"
-                       Margin="0 0 0 15"/>
+                           Foreground="White"
+                           FontSize="16"
+                           Margin="0 0 0 15"/>
 
                 <!-- BOTONES -->
                 <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Right"
-                        Margin="0 20 0 0">
+                            HorizontalAlignment="Right"
+                            Margin="0 20 0 0">
 
                     <Button Content="Cancelar"
-                        Width="120"
-                        Margin="0 0 10 0"
-                        Command="{Binding CancelarCommand}"
-                        Style="{StaticResource KumaButton}"/>
+                            Width="120"
+                            Margin="0 0 10 0"
+                            Command="{Binding CancelarCommand}"
+                            Style="{StaticResource KumaButton}"/>
 
                     <Button Content="Confirmar Check-In"
-                        Width="160"
-                        Command="{Binding ConfirmarCheckInCommand}"
-                        Style="{StaticResource KumaButton}" />
+                            Width="160"
+                            Command="{Binding ConfirmarCommand}"
+                            Style="{StaticResource KumaButton}" />
                 </StackPanel>
 
             </StackPanel>

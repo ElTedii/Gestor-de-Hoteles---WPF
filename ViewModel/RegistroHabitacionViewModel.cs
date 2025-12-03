@@ -3,6 +3,7 @@ using Gestión_Hotelera.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 
 namespace Gestión_Hotelera.ViewModel
@@ -237,9 +238,11 @@ namespace Gestión_Hotelera.ViewModel
             }
 
             // Validar número repetido
-            if (_habRepo.ExistsNumero(HotelSeleccionado.HotelId, NumeroHabitacion))
+            var existe = _habRepo.GetByHotelAndNumero(HotelSeleccionado.HotelId, NumeroHabitacion) != null;
+
+            if (existe)
             {
-                ShowMessage("Ya existe una habitación con ese número en este hotel.");
+                MessageBox.Show("Ya existe una habitación con ese número.");
                 return;
             }
 

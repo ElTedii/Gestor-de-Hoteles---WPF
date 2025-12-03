@@ -3,8 +3,6 @@ using Gestión_Hotelera.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gestión_Hotelera.Data.Repositories
 {
@@ -18,16 +16,13 @@ namespace Gestión_Hotelera.Data.Repositories
         }
 
         // ============================================================
-        // INSERTAR RESERVA  (escribe en 3 tablas)
+        // INSERTAR RESERVA  (Escribe en 3 tablas)
         // ============================================================
         public void Insert(ReservacionModel r)
         {
             r.ReservaId = r.ReservaId == Guid.Empty ? Guid.NewGuid() : r.ReservaId;
-            r.FechaRegistro = r.FechaRegistro == default ? DateTime.UtcNow : r.FechaRegistro;
+            r.FechaRegistro = DateTime.UtcNow;
             r.Estado ??= "PENDIENTE";
-
-            int adultos = r.Adultos;
-            int menores = r.Menores;
 
             // ---------------- reservas_por_cliente ----------------
             const string qCliente = @"
@@ -39,15 +34,13 @@ namespace Gestión_Hotelera.Data.Repositories
                     usuario_registro, fecha_registro
                 ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
-            _session.Execute(
-                _session.Prepare(qCliente).Bind(
-                    r.ClienteId, r.ReservaId, r.HotelId,
-                    r.FechaEntrada, r.FechaSalida,
-                    r.Anticipo, r.Estado,
-                    adultos, menores,
-                    r.UsuarioRegistro, r.FechaRegistro
-                )
-            );
+            _session.Execute(_session.Prepare(qCliente).Bind(
+                r.ClienteId, r.ReservaId, r.HotelId,
+                r.FechaEntrada, r.FechaSalida,
+                r.Anticipo, r.Estado,
+                r.Adultos, r.Menores,
+                r.UsuarioRegistro, r.FechaRegistro
+            ));
 
             // ---------------- reservas_por_hotel ----------------
             const string qHotel = @"
@@ -56,12 +49,10 @@ namespace Gestión_Hotelera.Data.Repositories
                     cliente_id, fecha_salida, estado
                 ) VALUES (?, ?, ?, ?, ?, ?);";
 
-            _session.Execute(
-                _session.Prepare(qHotel).Bind(
-                    r.HotelId, r.FechaEntrada, r.ReservaId,
-                    r.ClienteId, r.FechaSalida, r.Estado
-                )
-            );
+            _session.Execute(_session.Prepare(qHotel).Bind(
+                r.HotelId, r.FechaEntrada, r.ReservaId,
+                r.ClienteId, r.FechaSalida, r.Estado
+            ));
 
             // ---------------- reservas_por_fecha ----------------
             const string qFecha = @"
@@ -71,50 +62,48 @@ namespace Gestión_Hotelera.Data.Repositories
                     estado
                 ) VALUES (?, ?, ?, ?, ?);";
 
-            _session.Execute(
-                _session.Prepare(qFecha).Bind(
-                    r.FechaEntrada, r.ReservaId,
-                    r.HotelId, r.ClienteId,
-                    r.Estado
-                )
-            );
+            _session.Execute(_session.Prepare(qFecha).Bind(
+                r.FechaEntrada, r.ReservaId,
+                r.HotelId, r.ClienteId,
+                r.Estado
+            ));
         }
 
         // ============================================================
         // UPDATE ESTADO EN 3 TABLAS
         // ============================================================
-        public void UpdateEstado(Guid clienteId, Guid reservaId, string nuevo)
+        public void UpdateEstado(Guid clienteId, Guid reservaId, string nuevoEstado)
         {
             // --- reservas_cliente ---
             _session.Execute(
                 _session.Prepare(
                     @"UPDATE reservas_por_cliente SET estado=? 
                       WHERE cliente_id=? AND reserva_id=?;")
-                .Bind(nuevo, clienteId, reservaId)
+                .Bind(nuevoEstado, clienteId, reservaId)
             );
 
             var r = GetByClienteAndReserva(clienteId, reservaId);
             if (r == null) return;
 
-            // --- reservas_por_hotel ---
+            // --- reservas_hotel ---
             _session.Execute(
                 _session.Prepare(
                     @"UPDATE reservas_por_hotel SET estado=? 
                       WHERE hotel_id=? AND fecha_entrada=? AND reserva_id=?;")
-                .Bind(nuevo, r.HotelId, r.FechaEntrada, r.ReservaId)
+                .Bind(nuevoEstado, r.HotelId, r.FechaEntrada, r.ReservaId)
             );
 
-            // --- reservas_por_fecha ---
+            // --- reservas_fecha ---
             _session.Execute(
                 _session.Prepare(
                     @"UPDATE reservas_por_fecha SET estado=? 
                       WHERE fecha_entrada=? AND reserva_id=?;")
-                .Bind(nuevo, r.FechaEntrada, r.ReservaId)
+                .Bind(nuevoEstado, r.FechaEntrada, r.ReservaId)
             );
         }
 
         // ============================================================
-        // DELETE (3 tablas)
+        // DELETE EN 3 TABLAS
         // ============================================================
         public void DeleteByCliente(Guid clienteId, Guid reservaId)
         {
@@ -128,17 +117,31 @@ namespace Gestión_Hotelera.Data.Repositories
 
             _session.Execute(
                 _session.Prepare("DELETE FROM reservas_por_hotel WHERE hotel_id=? AND fecha_entrada=? AND reserva_id=?;")
-                .Bind(r.HotelId, r.FechaEntrada, r.ReservaId)
+                .Bind(r.HotelId, r.FechaEntrada, reservaId)
             );
 
             _session.Execute(
                 _session.Prepare("DELETE FROM reservas_por_fecha WHERE fecha_entrada=? AND reserva_id=?;")
-                .Bind(r.FechaEntrada, r.ReservaId)
+                .Bind(r.FechaEntrada, reservaId)
             );
         }
 
         // ============================================================
-        // CONSULTAS
+        // GET RESERVA (cliente + reserva)
+        // ============================================================
+        public ReservacionModel GetByClienteAndReserva(Guid clienteId, Guid reservaId)
+        {
+            var row = _session.Execute(
+                _session.Prepare(
+                    "SELECT * FROM reservas_por_cliente WHERE cliente_id=? AND reserva_id=?;")
+                .Bind(clienteId, reservaId)
+            ).FirstOrDefault();
+
+            return row == null ? null : MapFromCliente(row);
+        }
+
+        // ============================================================
+        // GET SOLO POR CLIENTE
         // ============================================================
         public List<ReservacionModel> GetByCliente(Guid clienteId)
         {
@@ -150,27 +153,9 @@ namespace Gestión_Hotelera.Data.Repositories
             return rows.Select(MapFromCliente).ToList();
         }
 
-        public List<ReservacionModel> GetByFecha(DateTime fecha)
-        {
-            var rows = _session.Execute(
-                _session.Prepare("SELECT * FROM reservas_por_fecha WHERE fecha_entrada=?;")
-                .Bind(fecha)
-            );
-
-            return rows.Select(MapFromFecha).ToList();
-        }
-
-        public ReservacionModel GetByClienteAndReserva(Guid clienteId, Guid rId)
-        {
-            var row = _session.Execute(
-                _session.Prepare(
-                    "SELECT * FROM reservas_por_cliente WHERE cliente_id=? AND reserva_id=?;")
-                .Bind(clienteId, rId)
-            ).FirstOrDefault();
-
-            return row == null ? null : MapFromCliente(row);
-        }
-
+        // ============================================================
+        // GET TODAS
+        // ============================================================
         public List<ReservacionModel> GetAll()
         {
             var rows = _session.Execute("SELECT * FROM reservas_por_cliente;");
@@ -178,8 +163,100 @@ namespace Gestión_Hotelera.Data.Repositories
         }
 
         // ============================================================
-        // MAPEO SEGURO NULL-SAFE
+        // UPDATE ANTICIPO
         // ============================================================
+        public void UpdateAnticipo(Guid clienteId, Guid reservaId, decimal anticipo)
+        {
+            _session.Execute(
+                _session.Prepare(
+                    @"UPDATE reservas_por_cliente SET anticipo=? 
+                      WHERE cliente_id=? AND reserva_id=?;")
+                .Bind(anticipo, clienteId, reservaId)
+            );
+        }
+
+        // ============================================================
+        // LISTADO COMPLETO PARA PANTALLA DE RESERVAS
+        // ============================================================
+        public List<ReservaListadoModel> GetListadoReservas()
+        {
+            var rows = _session.Execute("SELECT * FROM reservas_por_cliente ALLOW FILTERING;");
+
+            var lista = new List<ReservaListadoModel>();
+
+            var clienteRepo = new ClienteRepository();
+            var hotelRepo = new HotelRepository();
+            var estanciaRepo = new EstanciaActivaRepository();
+            var habRepo = new HabitacionRepository();
+            var tipoRepo = new TipoHabitacionRepository();
+
+            foreach (var r in rows)
+            {
+                var model = new ReservaListadoModel
+                {
+                    ReservaId = r.GetValue<Guid>("reserva_id"),
+                    ClienteId = r.GetValue<Guid>("cliente_id"),
+                    HotelId = r.GetValue<Guid>("hotel_id"),
+
+                    FechaEntrada = SafeDate(r, "fecha_entrada"),
+                    FechaSalida = SafeDate(r, "fecha_salida"),
+
+                    Anticipo = r.GetValue<decimal?>("anticipo") ?? 0,
+                    Estado = r.GetValue<string>("estado") ?? "PENDIENTE",
+
+                    Adultos = r.GetValue<int?>("adultos") ?? 0,
+                    Menores = r.GetValue<int?>("menores") ?? 0,
+
+                    NumPersonas = (r.GetValue<int?>("adultos") ?? 0) + (r.GetValue<int?>("menores") ?? 0)
+                };
+
+                // ---------------- Datos relacionados ----------------
+
+                var cliente = clienteRepo.GetById(model.ClienteId);
+                if (cliente != null)
+                    model.ClienteNombre = cliente.NombreCompleto;
+
+                var hotel = hotelRepo.GetById(model.HotelId);
+                if (hotel != null)
+                    model.HotelNombre = hotel.Nombre;
+
+                // buscar estancia activa → habitación asignada
+                var estancia = estanciaRepo.GetByReserva(model.ReservaId);
+
+                if (estancia != null)
+                {
+                    var hab = habRepo.GetByHotelAndNumero(estancia.HotelId, estancia.NumeroHabitacion);
+                    if (hab != null)
+                    {
+                        model.NumeroHabitacion = hab.NumeroHabitacion;
+
+                        var tipo = tipoRepo.GetByHotelAndTipo(model.HotelId, hab.TipoId);
+                        if (tipo != null)
+                        {
+                            model.TipoNombre = tipo.NombreTipo;
+
+                            int dias = (model.FechaSalida - model.FechaEntrada).Days;
+                            if (dias < 1) dias = 1;
+
+                            model.PrecioTotal = tipo.PrecioNoche * dias;
+                        }
+                    }
+                }
+
+                lista.Add(model);
+            }
+
+            return lista;
+        }
+
+        // ============================================================
+        // HELPERS
+        // ============================================================
+        private DateTime SafeDate(Row r, string col)
+        {
+            return r.IsNull(col) ? DateTime.UtcNow : r.GetValue<DateTime>(col);
+        }
+
         private ReservacionModel MapFromCliente(Row row)
         {
             return new ReservacionModel
@@ -200,117 +277,6 @@ namespace Gestión_Hotelera.Data.Repositories
                 UsuarioRegistro = row.GetValue<string>("usuario_registro") ?? "",
                 FechaRegistro = SafeDate(row, "fecha_registro")
             };
-        }
-
-        private ReservacionModel MapFromFecha(Row row)
-        {
-            return new ReservacionModel
-            {
-                FechaEntrada = SafeDate(row, "fecha_entrada"),
-                ReservaId = row.GetValue<Guid>("reserva_id"),
-                HotelId = row.GetValue<Guid>("hotel_id"),
-                ClienteId = row.GetValue<Guid>("cliente_id"),
-                Estado = row.GetValue<string>("estado") ?? "PENDIENTE"
-            };
-        }
-
-        private DateTime SafeDate(Row r, string column)
-        {
-            if (r.IsNull(column)) return DateTime.UtcNow;
-            return r.GetValue<DateTime>(column);
-        }
-
-        public void MarcarEnEstancia(Guid clienteId, Guid reservaId)
-        {
-            UpdateEstado(clienteId, reservaId, "EN_ESTANCIA");
-        }
-        // ============================================================
-        // PARA LISTA DE RESERVAS (vista principal)
-        // ============================================================
-        public List<ReservaListadoModel> GetListadoReservas()
-        {
-            var rows = _session.Execute("SELECT * FROM reservas_por_cliente ALLOW FILTERING;");
-
-            var lista = new List<ReservaListadoModel>();
-
-            var clienteRepo = new ClienteRepository();
-            var hotelRepo = new HotelRepository();
-            var habRepo = new HabitacionRepository();
-            var tipoRepo = new TipoHabitacionRepository();
-
-            foreach (var r in rows)
-            {
-                var model = new ReservaListadoModel
-                {
-                    ReservaId = r.GetValue<Guid>("reserva_id"),
-                    ClienteId = r.GetValue<Guid>("cliente_id"),
-                    HotelId = r.GetValue<Guid>("hotel_id"),
-
-                    FechaEntrada = SafeDate(r, "fecha_entrada"),
-                    FechaSalida = SafeDate(r, "fecha_salida"),
-
-                    Anticipo = r.GetValue<decimal?>("anticipo") ?? 0,
-                    Estado = r.GetValue<string>("estado") ?? "PENDIENTE",
-
-                    Adultos = r.GetValue<int?>("adultos") ?? 0,
-                    Menores = r.GetValue<int?>("menores") ?? 0
-                };
-
-                // Datos relacionados
-                var cliente = clienteRepo.GetById(model.ClienteId);
-                var hotel = hotelRepo.GetById(model.HotelId);
-
-                if (cliente != null) model.ClienteNombre = cliente.NombreCompleto;
-                if (hotel != null) model.HotelNombre = hotel.Nombre;
-
-                var habitacion = habRepo.GetByReserva(model.HotelId, model.ReservaId);
-                if (habitacion != null)
-                {
-                    model.NumeroHabitacion = habitacion.NumeroHabitacion;
-
-                    var tipo = tipoRepo.GetByHotelAndTipo(model.HotelId, habitacion.TipoId);
-                    if (tipo != null)
-                    {
-                        model.TipoNombre = tipo.NombreTipo;
-
-                        int dias = (model.FechaSalida - model.FechaEntrada).Days;
-                        if (dias < 1) dias = 1;
-
-                        model.PrecioTotal = tipo.PrecioNoche * dias;
-                    }
-                }
-
-                model.NumPersonas = model.Adultos + model.Menores;
-
-                lista.Add(model);
-            }
-
-            return lista;
-        }
-
-        // ============================================================
-        // ACTUALIZAR ANTICIPO (para edición simple)
-        // ============================================================
-        public void UpdateAnticipo(Guid clienteId, Guid reservaId, decimal anticipo)
-        {
-            // Solo tabla reservas_por_cliente (la que usamos como base)
-            _session.Execute(
-                _session.Prepare(
-                    "UPDATE reservas_por_cliente SET anticipo=? WHERE cliente_id=? AND reserva_id=?;")
-                .Bind(anticipo, clienteId, reservaId)
-            );
-        }
-
-        public HabitacionModel GetByReserva(Guid hotelId, Guid reservaId)
-        {
-            var estanciaRepo = new EstanciaActivaRepository();
-            var estancia = estanciaRepo.GetByReserva(reservaId);
-
-            if (estancia == null)
-                return null; // no tiene habitación asignada aún
-
-            var habRepo = new HabitacionRepository();
-            return habRepo.GetByHotelAndNumero(estancia.HotelId, estancia.NumeroHabitacion);
         }
     }
 }
