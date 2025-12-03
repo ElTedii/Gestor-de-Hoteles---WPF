@@ -1,5 +1,6 @@
 ﻿using System;
 using Gestión_Hotelera.Data.Repositories;
+using Gestión_Hotelera.Helpers;
 using Gestión_Hotelera.Model;
 
 namespace Gestión_Hotelera.Services
@@ -20,7 +21,6 @@ namespace Gestión_Hotelera.Services
         private readonly HotelRepository _hotelRepo;
         private readonly ClienteRepository _clienteRepo;
         private readonly ReservaRepository _reservaRepo;
-        private readonly FacturaPrinter _pdfService;
 
         public CheckOutService()
         {
@@ -30,7 +30,7 @@ namespace Gestión_Hotelera.Services
             _hotelRepo = new HotelRepository();
             _clienteRepo = new ClienteRepository();
             _reservaRepo = new ReservaRepository();
-            _pdfService = new FacturaPrinter();
+
         }
 
         public CheckOutResult RealizarCheckOut(
@@ -91,9 +91,10 @@ namespace Gestión_Hotelera.Services
             _facturaRepo.Insert(factura);
 
             // ----- Generar PDF -----
-            string rutaPdf = _pdfService.GenerarFacturaPDF(factura, cliente, hotel);
+            string rutaPdf = FacturaPrinter.GenerarFacturaPDF(factura, cliente, hotel, estancia, descuento);
+            string rutaXml = FacturaPrinter.GenerarFacturaXML(factura, cliente, hotel, estancia, descuento);
+            string rutaJson = FacturaPrinter.GenerarFacturaJSON(factura, cliente, hotel, estancia, descuento);
 
-            // ----- Marcar reserva como FINALIZADA -----
             _reservaRepo.UpdateEstado(estancia.ClienteId, estancia.ReservaId, "FINALIZADA");
 
             // ----- Eliminar estancia activa -----

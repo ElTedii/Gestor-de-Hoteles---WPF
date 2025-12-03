@@ -1,174 +1,172 @@
-﻿using iTextSharp.text;
+﻿using System;
+using System.IO;
+using System.Windows;
+using iTextSharp.text;
 using iTextSharp.text.pdf;
 using Gestión_Hotelera.Model;
-using System;
-using System.IO;
 
-namespace Gestión_Hotelera.Services
+namespace Gestión_Hotelera.Helpers
 {
-    public class FacturaPrinter
+    public static class FacturaPrinter
     {
-        private static readonly Font fontNormal = FontFactory.GetFont(FontFactory.HELVETICA, 11, BaseColor.BLACK);
-        private static readonly Font fontBold = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 11, BaseColor.BLACK);
-        private static readonly Font fontTitleWhite = FontFactory.GetFont(FontFactory.HELVETICA_BOLD, 22, BaseColor.WHITE);
+        private static readonly string _folder =
+            Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "FacturasKuma");
 
         // ============================================================
-        // GENERAR FACTURA PDF
+        // MÉTODO PRINCIPAL
         // ============================================================
-        public string GenerarFacturaPDF(FacturaModel factura, ClienteModel cliente, HotelModel hotel)
+        public static string GenerarFacturaPDF(
+            FacturaModel factura,
+            ClienteModel cliente,
+            HotelModel hotel,
+            EstanciaActivaModel estancia,
+            decimal descuento)
         {
-            string carpeta = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-                "KumaHotel_Facturas");
+            if (!Directory.Exists(_folder))
+                Directory.CreateDirectory(_folder);
 
-            if (!Directory.Exists(carpeta))
-                Directory.CreateDirectory(carpeta);
+            string filePath = Path.Combine(_folder, $"Factura{factura.FacturaId}.pdf");
 
-            string ruta = Path.Combine(carpeta, $"Factura_{factura.FacturaId}.pdf");
-
-            using (var fs = new FileStream(ruta, FileMode.Create))
+            using (var fs = new FileStream(filePath, FileMode.Create, FileAccess.Write))
             {
-                var doc = new Document(PageSize.LETTER, 40, 40, 40, 40);
+                var doc = new Document(PageSize.A4, 40, 40, 40, 40);
                 var writer = PdfWriter.GetInstance(doc, fs);
-
                 doc.Open();
 
-                // ============================================================
-                // ENCABEZADO PROFESIONAL CON LOGO
-                // ============================================================
-                PdfPTable encabezado = new PdfPTable(2);
-                encabezado.WidthPercentage = 100;
-                encabezado.SetWidths(new float[] { 1f, 2f });
-
-                // LOGO
+                // Logo
                 var logo = CargarLogo();
-                PdfPCell celdaLogo;
-
                 if (logo != null)
                 {
-                    logo.ScaleAbsolute(70, 70);
-                    celdaLogo = new PdfPCell(logo)
-                    {
-                        Border = Rectangle.NO_BORDER,
-                        HorizontalAlignment = Element.ALIGN_LEFT,
-                        PaddingBottom = 10
-                    };
-                }
-                else
-                {
-                    celdaLogo = new PdfPCell(new Phrase("")) { Border = Rectangle.NO_BORDER };
+                    logo.ScaleAbsolute(65, 65);
+                    logo.Alignment = Image.ALIGN_LEFT;
+                    doc.Add(logo);
                 }
 
-                encabezado.AddCell(celdaLogo);
-
-                // TITULO
-                var celdaTitulo = new PdfPCell(new Phrase("FACTURA DE HOSPEDAJE", fontTitleWhite))
+                // Título de la factura
+                var titulo = new Paragraph("FACTURA DE HOSPEDAJE", new Font(Font.FontFamily.HELVETICA, 20, Font.BOLD, BaseColor.WHITE))
                 {
-                    Border = Rectangle.NO_BORDER,
-                    HorizontalAlignment = Element.ALIGN_RIGHT,
-                    VerticalAlignment = Element.ALIGN_MIDDLE,
-                    PaddingRight = 10,
-                    PaddingBottom = 10,
-                    BackgroundColor = new BaseColor(13, 27, 75)
+                    Alignment = Element.ALIGN_CENTER,
+                    SpacingAfter = 20f
                 };
 
-                encabezado.AddCell(celdaTitulo);
+                PdfPTable headerBg = new PdfPTable(1);
+                headerBg.WidthPercentage = 100;
+                PdfPCell cellTitle = new PdfPCell(titulo)
+                {
+                    BackgroundColor = new BaseColor(14, 23, 55), // Azul oscuro hotel
+                    Border = Rectangle.NO_BORDER,
+                    Padding = 15
+                };
+                headerBg.AddCell(cellTitle);
+                doc.Add(headerBg);
 
-                doc.Add(encabezado);
+                // DATOS GENERALES
+                PdfPTable tablaDatos = new PdfPTable(2);
+                tablaDatos.WidthPercentage = 100;
+                tablaDatos.SetWidths(new float[] { 2, 5 });
+
+                AgregarFila(tablaDatos, "Hotel", hotel.Nombre);
+                AgregarFila(tablaDatos, "Dirección", hotel.Domicilio);
+                AgregarFila(tablaDatos, "Cliente", cliente.NombreCompleto);
+                AgregarFila(tablaDatos, "Correo", cliente.Correo);
+                AgregarFila(tablaDatos, "Número factura", factura.FacturaId.ToString());
+                AgregarFila(tablaDatos, "Fecha emisión", factura.FechaEmision.ToLocalTime().ToString("dd/MM/yyyy HH:mm"));
+                AgregarFila(tablaDatos, "Código reservación", estancia.ReservaId.ToString());
+                AgregarFila(tablaDatos, "Entrada", estancia.FechaEntrada.ToString("dd/MM/yyyy"));
+                AgregarFila(tablaDatos, "Salida", estancia.FechaSalida.ToString("dd/MM/yyyy"));
+                AgregarFila(tablaDatos, "Habitación", estancia.NumeroHabitacion.ToString());
+                AgregarFila(tablaDatos, "Precio por noche", estancia.PrecioNoche.ToString("C"));
+                AgregarFila(tablaDatos, "Noches", ((int)(estancia.FechaSalida - estancia.FechaEntrada).TotalDays).ToString());
+
+                doc.Add(tablaDatos);
                 doc.Add(new Paragraph("\n"));
 
-                // ============================================================
-                // INFORMACIÓN DEL HOTEL / CLIENTE
-                // ============================================================
-                PdfPTable tablaInfo = new PdfPTable(2);
-                tablaInfo.WidthPercentage = 100;
-                tablaInfo.SetWidths(new float[] { 1f, 2f });
+                // TABLA DE IMPORTES
+                PdfPTable tablaTotales = new PdfPTable(2);
+                tablaTotales.WidthPercentage = 100;
+                tablaTotales.SetWidths(new float[] { 4, 2 });
 
-                AgregarFilaInfo(tablaInfo, "Hotel", hotel.Nombre);
-                AgregarFilaInfo(tablaInfo, "Dirección", $"{hotel.Ciudad}, {hotel.Estado}, {hotel.Pais}");
-                AgregarFilaInfo(tablaInfo, "Cliente", cliente.NombreCompleto);
-                AgregarFilaInfo(tablaInfo, "Correo", cliente.Correo);
-                AgregarFilaInfo(tablaInfo, "Folio factura", factura.FacturaId.ToString());
-                AgregarFilaInfo(tablaInfo, "Fecha emisión", factura.FechaEmision.ToString("dd/MM/yyyy HH:mm"));
+                AgregarEncabezado(tablaTotales, "Concepto");
+                AgregarEncabezado(tablaTotales, "Importe");
 
-                doc.Add(tablaInfo);
+                // Hospedaje
+                decimal noches = (decimal)(estancia.FechaSalida - estancia.FechaEntrada).TotalDays;
+                if (noches < 1) noches = 1;
+
+                decimal hospedaje = noches * estancia.PrecioNoche;
+
+                AgregarFila2(tablaTotales, "Hospedaje", hospedaje.ToString("C"));
+
+                // Servicios adicionales
+                AgregarFila2(tablaTotales, "Servicios adicionales", factura.MontoServicios.ToString("C"));
+
+                // Anticipo
+                AgregarFila2(tablaTotales, "Anticipo", $"-{estancia.Anticipo:C}");
+
+                // Descuento
+                if (descuento > 0)
+                    AgregarFila2(tablaTotales, "Descuento", $"-{descuento:C}");
+
+                doc.Add(tablaTotales);
+
                 doc.Add(new Paragraph("\n"));
 
-                // ============================================================
-                // TABLA DE DETALLE
-                // ============================================================
-                PdfPTable tabla = new PdfPTable(2);
-                tabla.WidthPercentage = 100;
-                tabla.SetWidths(new float[] { 2f, 1f });
-
-                // ENCABEZADOS
-                tabla.AddCell(CeldaEncabezado("Concepto"));
-                tabla.AddCell(CeldaEncabezado("Importe"));
-
-                tabla.AddCell(CeldaCampo("Hospedaje"));
-                tabla.AddCell(CeldaPrecio(factura.MontoHospedaje));
-
-                tabla.AddCell(CeldaCampo("Servicios adicionales"));
-                tabla.AddCell(CeldaPrecio(factura.MontoServicios));
-
-                doc.Add(tabla);
-                doc.Add(new Paragraph("\n"));
-
-                // ============================================================
                 // TOTAL
-                // ============================================================
                 PdfPTable tablaTotal = new PdfPTable(2);
                 tablaTotal.WidthPercentage = 100;
-                tablaTotal.SetWidths(new float[] { 2f, 1f });
+                tablaTotal.SetWidths(new float[] { 4, 2 });
 
-                tablaTotal.AddCell(new PdfPCell(new Phrase("")) { Border = Rectangle.NO_BORDER });
-
-                var celdaTotal = new PdfPCell(new Phrase($"TOTAL    ${factura.Total:N2}", fontTitleWhite))
+                PdfPCell lblTotal = new PdfPCell(new Phrase("TOTAL", new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD, new BaseColor(44, 84, 255))))
                 {
                     Border = Rectangle.NO_BORDER,
                     HorizontalAlignment = Element.ALIGN_RIGHT,
-                    BackgroundColor = new BaseColor(240, 240, 255),
                     Padding = 10
                 };
 
-                tablaTotal.AddCell(celdaTotal);
+                PdfPCell valTotal = new PdfPCell(new Phrase(factura.Total.ToString("C"), new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD, new BaseColor(44, 84, 255))))
+                {
+                    Border = Rectangle.NO_BORDER,
+                    HorizontalAlignment = Element.ALIGN_RIGHT,
+                    Padding = 10
+                };
+
+                tablaTotal.AddCell(lblTotal);
+                tablaTotal.AddCell(valTotal);
+
                 doc.Add(tablaTotal);
 
-                // ============================================================
-                // PIE DE PÁGINA
-                // ============================================================
-                doc.Add(new Paragraph("\n"));
-                doc.Add(new Paragraph("Gracias por su preferencia.", fontNormal));
+                // Pie
+                var pie = new Paragraph("\nGracias por su preferencia.\nKuma Hotel",
+                    new Font(Font.FontFamily.HELVETICA, 10, Font.ITALIC, BaseColor.DARK_GRAY))
+                {
+                    Alignment = Element.ALIGN_CENTER,
+                    SpacingBefore = 25f
+                };
+
+                doc.Add(pie);
 
                 doc.Close();
-                writer.Close();
             }
 
-            return ruta;
+            return filePath;
         }
 
         // ============================================================
-        // CARGAR LOGO DESDE /Resources
+        // LOGO
         // ============================================================
-        private static iTextSharp.text.Image CargarLogo()
+        private static Image CargarLogo()
         {
             try
             {
-                var uri = new Uri("pack://application:,,,/Resources/logo-minimal.png");
-                var resourceStream = System.Windows.Application.GetResourceStream(uri);
-
-                if (resourceStream == null)
+                var uri = new Uri("pack://application:,,,/Resources/logo-minimal.png", UriKind.Absolute);
+                var stream = Application.GetResourceStream(uri)?.Stream;
+                if (stream == null)
                     return null;
 
                 using (var ms = new MemoryStream())
                 {
-                    resourceStream.Stream.CopyTo(ms);
-                    var img = iTextSharp.text.Image.GetInstance(ms.ToArray());
-
-                    img.ScaleAbsolute(70, 70);
-                    img.Alignment = iTextSharp.text.Image.ALIGN_LEFT;
-
-                    return img;
+                    stream.CopyTo(ms);
+                    return Image.GetInstance(ms.ToArray());
                 }
             }
             catch
@@ -178,35 +176,141 @@ namespace Gestión_Hotelera.Services
         }
 
         // ============================================================
-        // CELDAS UTILITARIAS
+        // HELPERS TABLAS
         // ============================================================
-        private void AgregarFilaInfo(PdfPTable tabla, string titulo, string valor)
+        private static void AgregarFila(PdfPTable tabla, string etiqueta, string valor)
         {
-            tabla.AddCell(new PdfPCell(new Phrase(titulo, fontBold)) { Border = Rectangle.NO_BORDER });
-            tabla.AddCell(new PdfPCell(new Phrase(valor, fontNormal)) { Border = Rectangle.NO_BORDER });
-        }
-
-        private PdfPCell CeldaEncabezado(string texto)
-        {
-            return new PdfPCell(new Phrase(texto, fontBold))
+            tabla.AddCell(new PdfPCell(new Phrase(etiqueta, new Font(Font.FontFamily.HELVETICA, 10, Font.BOLD)))
             {
-                BackgroundColor = new BaseColor(235, 235, 250),
-                Padding = 8
-            };
-        }
-
-        private PdfPCell CeldaCampo(string texto)
-        {
-            return new PdfPCell(new Phrase(texto, fontNormal)) { Padding = 8 };
-        }
-
-        private PdfPCell CeldaPrecio(decimal monto)
-        {
-            return new PdfPCell(new Phrase($"${monto:N2}", fontNormal))
+                BackgroundColor = new BaseColor(235, 235, 235),
+                BorderWidth = 0.5f
+            });
+            tabla.AddCell(new PdfPCell(new Phrase(valor, new Font(Font.FontFamily.HELVETICA, 10)))
             {
-                HorizontalAlignment = Element.ALIGN_RIGHT,
-                Padding = 8
+                BorderWidth = 0.5f
+            });
+        }
+
+        private static void AgregarEncabezado(PdfPTable tabla, string texto)
+        {
+            tabla.AddCell(new PdfPCell(new Phrase(texto, new Font(Font.FontFamily.HELVETICA, 12, Font.BOLD, new BaseColor(90, 110, 255))))
+            {
+                BackgroundColor = new BaseColor(240, 240, 255),
+                Padding = 8,
+                Border = Rectangle.NO_BORDER
+            });
+        }
+
+        private static void AgregarFila2(PdfPTable tabla, string concepto, string importe)
+        {
+            tabla.AddCell(new PdfPCell(new Phrase(concepto, new Font(Font.FontFamily.HELVETICA, 10)))
+            {
+                BorderWidth = 0.2f
+            });
+            tabla.AddCell(new PdfPCell(new Phrase(importe, new Font(Font.FontFamily.HELVETICA, 10)))
+            {
+                BorderWidth = 0.2f,
+                HorizontalAlignment = Element.ALIGN_RIGHT
+            });
+        }
+
+        public static string GenerarFacturaXML(
+    FacturaModel factura,
+    ClienteModel cliente,
+    HotelModel hotel,
+    EstanciaActivaModel estancia,
+    decimal descuento)
+        {
+            string filePath = Path.Combine(_folder, $"Factura{factura.FacturaId}.xml");
+
+            using (var writer = new StreamWriter(filePath))
+            {
+                writer.WriteLine("<Factura>");
+
+                writer.WriteLine($"  <FacturaId>{factura.FacturaId}</FacturaId>");
+                writer.WriteLine($"  <FechaEmision>{factura.FechaEmision:yyyy-MM-dd HH:mm}</FechaEmision>");
+
+                writer.WriteLine("  <Hotel>");
+                writer.WriteLine($"    <Nombre>{hotel.Nombre}</Nombre>");
+                writer.WriteLine($"    <Direccion>{hotel.Domicilio}</Direccion>");
+                writer.WriteLine("  </Hotel>");
+
+                writer.WriteLine("  <Cliente>");
+                writer.WriteLine($"    <Nombre>{cliente.NombreCompleto}</Nombre>");
+                writer.WriteLine($"    <Correo>{cliente.Correo}</Correo>");
+                writer.WriteLine("  </Cliente>");
+
+                writer.WriteLine("  <Reservacion>");
+                writer.WriteLine($"    <ReservaId>{estancia.ReservaId}</ReservaId>");
+                writer.WriteLine($"    <Entrada>{estancia.FechaEntrada:yyyy-MM-dd}</Entrada>");
+                writer.WriteLine($"    <Salida>{estancia.FechaSalida:yyyy-MM-dd}</Salida>");
+                writer.WriteLine($"    <Habitacion>{estancia.NumeroHabitacion}</Habitacion>");
+                writer.WriteLine($"    <PrecioNoche>{estancia.PrecioNoche}</PrecioNoche>");
+                writer.WriteLine("  </Reservacion>");
+
+                writer.WriteLine("  <Montos>");
+                writer.WriteLine($"    <Hospedaje>{factura.MontoHospedaje}</Hospedaje>");
+                writer.WriteLine($"    <Servicios>{factura.MontoServicios}</Servicios>");
+                writer.WriteLine($"    <Anticipo>{estancia.Anticipo}</Anticipo>");
+                writer.WriteLine($"    <Descuento>{descuento}</Descuento>");
+                writer.WriteLine($"    <Total>{factura.Total}</Total>");
+                writer.WriteLine("  </Montos>");
+
+                writer.WriteLine("</Factura>");
+            }
+
+            return filePath;
+        }
+
+        public static string GenerarFacturaJSON(
+    FacturaModel factura,
+    ClienteModel cliente,
+    HotelModel hotel,
+    EstanciaActivaModel estancia,
+    decimal descuento)
+        {
+            string filePath = Path.Combine(_folder, $"Factura{factura.FacturaId}.json");
+
+            var jsonObj = new
+            {
+                facturaId = factura.FacturaId,
+                fechaEmision = factura.FechaEmision.ToString("yyyy-MM-dd HH:mm"),
+
+                hotel = new
+                {
+                    nombre = hotel.Nombre,
+                    direccion = hotel.Domicilio
+                },
+
+                cliente = new
+                {
+                    nombre = cliente.NombreCompleto,
+                    correo = cliente.Correo
+                },
+
+                reservacion = new
+                {
+                    reservaId = estancia.ReservaId,
+                    entrada = estancia.FechaEntrada.ToString("yyyy-MM-dd"),
+                    salida = estancia.FechaSalida.ToString("yyyy-MM-dd"),
+                    habitacion = estancia.NumeroHabitacion,
+                    precioNoche = estancia.PrecioNoche
+                },
+
+                montos = new
+                {
+                    hospedaje = factura.MontoHospedaje,
+                    servicios = factura.MontoServicios,
+                    anticipo = estancia.Anticipo,
+                    descuento = descuento,
+                    total = factura.Total
+                }
             };
+
+            File.WriteAllText(filePath,
+                Newtonsoft.Json.JsonConvert.SerializeObject(jsonObj, Newtonsoft.Json.Formatting.Indented));
+
+            return filePath;
         }
     }
 }

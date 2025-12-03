@@ -1,3 +1,6 @@
+---------------------------------------------------------
+-- CREAR KEYSPACE
+---------------------------------------------------------
 CREATE KEYSPACE IF NOT EXISTS hotel_ks
 WITH REPLICATION = {
     'class': 'SimpleStrategy',
@@ -67,7 +70,7 @@ CREATE TABLE IF NOT EXISTS hoteles (
 );
 
 ---------------------------------------------------------
--- 4) TIPOS DE HABITACIÓN (POR HOTEL)
+-- 4) TIPOS DE HABITACIÃ“N (POR HOTEL)
 ---------------------------------------------------------
 CREATE TABLE IF NOT EXISTS tipos_habitacion_por_hotel (
     hotel_id uuid,
@@ -96,7 +99,6 @@ CREATE TABLE IF NOT EXISTS habitaciones (
     tipo_id uuid,
     piso int,
     estado text,
-    precio_noche decimal,
     usuario_creacion text,
     fecha_creacion timestamp,
     usuario_modificacion text,
@@ -105,7 +107,7 @@ CREATE TABLE IF NOT EXISTS habitaciones (
 );
 
 ---------------------------------------------------------
--- 6) RESERVAS – POR CLIENTE
+-- 6) RESERVAS POR CLIENTE
 ---------------------------------------------------------
 CREATE TABLE IF NOT EXISTS reservas_por_cliente (
     cliente_id uuid,
@@ -123,7 +125,7 @@ CREATE TABLE IF NOT EXISTS reservas_por_cliente (
 );
 
 ---------------------------------------------------------
--- 7) RESERVAS – POR HOTEL
+-- 7) RESERVAS POR HOTEL
 ---------------------------------------------------------
 CREATE TABLE IF NOT EXISTS reservas_por_hotel (
     hotel_id uuid,
@@ -133,10 +135,10 @@ CREATE TABLE IF NOT EXISTS reservas_por_hotel (
     fecha_salida timestamp,
     estado text,
     PRIMARY KEY (hotel_id, fecha_entrada, reserva_id)
-) WITH CLUSTERING ORDER BY (fecha_entrada ASC, reserva_id ASC);
+) WITH CLUSTERING ORDER BY (fecha_entrada DESC, reserva_id ASC);
 
 ---------------------------------------------------------
--- 8) RESERVAS – POR FECHA
+-- 8) RESERVAS POR FECHA
 ---------------------------------------------------------
 CREATE TABLE IF NOT EXISTS reservas_por_fecha (
     fecha_entrada timestamp,
@@ -152,20 +154,20 @@ CREATE TABLE IF NOT EXISTS reservas_por_fecha (
 ---------------------------------------------------------
 CREATE TABLE IF NOT EXISTS estancias_activas (
     hotel_id uuid,
-    numero_habitacion int,
-    fecha_entrada timestamp,
-    fecha_salida timestamp,
+    numero int,
     estancia_id uuid,
     cliente_id uuid,
     reserva_id uuid,
+    fecha_entrada timestamp,
+    fecha_salida timestamp,
     anticipo decimal,
     precio_noche decimal,
     adultos int,
     menores int,
     usuario_registro text,
     fecha_registro timestamp,
-    PRIMARY KEY (hotel_id, numero_habitacion, fecha_entrada)
-) WITH CLUSTERING ORDER BY (numero_habitacion ASC, fecha_entrada ASC);
+    PRIMARY KEY (hotel_id, numero)
+);
 
 ---------------------------------------------------------
 -- 10) HISTORIAL DE ESTANCIAS
@@ -200,4 +202,37 @@ CREATE TABLE IF NOT EXISTS facturas (
     total decimal,
     usuario_registro text,
     fecha_registro timestamp
+);
+
+---------------------------------------------------------
+-- 12) REPORTES - OCUPACIÃ“N
+---------------------------------------------------------
+CREATE TABLE IF NOT EXISTS reportes_ocupacion (
+    hotel_id uuid,
+    anio int,
+    mes int,
+    fecha_checkin timestamp,
+    reserva_id uuid,
+    cliente_id uuid,
+    cliente_nombre text,
+    tipo_habitacion text,
+    numero_habitacion int,
+    fecha_checkout timestamp,
+    estado text,
+    pago_hospedaje decimal,
+    pago_servicios decimal,
+    PRIMARY KEY ((hotel_id, anio, mes), fecha_checkin, numero_habitacion)
+) WITH CLUSTERING ORDER BY (fecha_checkin DESC, numero_habitacion ASC);
+
+---------------------------------------------------------
+-- 13) REPORTES - VENTAS POR MES (NUEVA)
+---------------------------------------------------------
+CREATE TABLE IF NOT EXISTS ventas_por_mes (
+    hotel_id uuid,
+    anio int,
+    mes int,
+    monto_hospedaje decimal,
+    monto_servicios decimal,
+    total decimal,
+    PRIMARY KEY (hotel_id, anio, mes)
 );

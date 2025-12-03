@@ -84,6 +84,10 @@
             <local:FacturaDetalleView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewModel:ReportesViewModel}">
+            <local:ReportesView/>
+        </DataTemplate>
+
     </Window.Resources>
 
     <Border CornerRadius="10"
@@ -190,12 +194,14 @@
                         </StackPanel>
                     </RadioButton>
                     <RadioButton Style="{StaticResource menuButton}"
-                                 Tag="{StaticResource color8}">
+                                 Tag="{StaticResource color8}"
+                                 Command="{Binding ShowReportesCommand}">
                         <StackPanel Orientation="Horizontal">
                             <fa:IconImage Icon="SquarePollVertical" Style="{StaticResource menuButtonIcon}"/>
                             <TextBlock Text="Reportes" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
                     </RadioButton>
+                    <!--
                     <RadioButton Style="{StaticResource menuButton}"
                                  Tag="{StaticResource color9}">
                         <StackPanel Orientation="Horizontal">
@@ -203,6 +209,7 @@
                             <TextBlock Text="Settings" Style="{StaticResource menuButtonText}"/>
                         </StackPanel>
                     </RadioButton>
+                    -->
 
                 </StackPanel>
 

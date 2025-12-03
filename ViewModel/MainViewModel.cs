@@ -45,13 +45,14 @@ namespace Gestión_Hotelera.ViewModel
         public ICommand ShowReservasViewCommand { get; }
         public ICommand ShowNuevaReservaCommand { get; }
 
-        // ========== NUEVO ==========
+
         public ICommand ShowReservaDetalleCommand { get; }
-        // ===========================
 
         public ICommand ShowCheckInCommand { get; }
         public ICommand ShowCheckOutcommand { get; }
         public ICommand ShowRealizarCheckOutCommand { get; }
+
+        public ICommand ShowReportesCommand { get; }
 
         public MainViewModel()
         {
@@ -78,6 +79,8 @@ namespace Gestión_Hotelera.ViewModel
             ShowCheckInCommand = new ViewModelCommand(ExecuteShowCheckInCommand);
             ShowCheckOutcommand = new ViewModelCommand(ExecuteShowCheckOutcommand);
             ShowRealizarCheckOutCommand = new ViewModelCommand(ExecuteShowRealziarCheckOutcommand);
+
+            ShowReportesCommand = new ViewModelCommand(ExecuteShowReportes);
 
             ExecuteShowHomeViewCommand(null);
         }
@@ -219,6 +222,13 @@ namespace Gestión_Hotelera.ViewModel
             CurrentChildView = vm;
             Caption = "Reservaciones";
             Icon = IconChar.CalendarCheck;
+        }
+
+        private void ExecuteShowReportes(object obj)
+        {
+            CurrentChildView = new ReportesViewModel();
+            Caption = "Reportes";
+            Icon = IconChar.ChartBar;
         }
 
         public void ShowReservas()
