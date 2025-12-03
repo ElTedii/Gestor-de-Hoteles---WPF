@@ -100,7 +100,7 @@ namespace Gestión_Hotelera.Data.Repositories
                 TipoId = r.GetValue<Guid>("tipo_id"),
                 NombreTipo = r.GetValue<string>("nombre_tipo"),
                 Capacidad = r.GetValue<int>("capacidad"),
-                PrecioNoche = r.GetValue<decimal>("precio_noche"),
+                PrecioNoche = Convert.ToDecimal(r["precio_noche"]),
                 Cantidad = r.GetValue<int>("cantidad"),
 
                 Caracteristicas = r.GetValue<List<string>>("caracteristicas") ?? new List<string>(),

@@ -3,11 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="clr-namespace:Gestión_Hotelera.View"
+             xmlns:view="clr-namespace:Gestión_Hotelera.View"
              mc:Ignorable="d">
 
-    <Border Background="{StaticResource panelColor}" 
-            Padding="20" 
+    <Border Background="{StaticResource panelColor}"
+            Padding="20"
             CornerRadius="12">
 
         <Grid>
@@ -16,38 +16,52 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <!-- TÍTULO -->
-            <TextBlock Grid.Row="0"
-                       Text="Habitaciones"
-                       FontSize="24"
-                       FontWeight="Bold"
-                       Foreground="{StaticResource titleColor2}"/>
+            <!-- ===================================================== -->
+            <!-- ENCABEZADO: TÍTULO + BOTÓN REGISTRAR                 -->
+            <!-- ===================================================== -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <!-- TABS -->
+                <TextBlock Text="Habitaciones"
+                           FontSize="24"
+                           FontWeight="Bold"
+                           Foreground="{StaticResource titleColor2}"
+                           VerticalAlignment="Center"/>
+            </Grid>
+
+            <!-- ===================================================== -->
+            <!-- TABCONTROL (3 pestañas, la tercera se oculta)       -->
+            <!-- ===================================================== -->
             <TabControl Grid.Row="1"
-                        Margin="0,20,0,0"
+                        SelectedIndex="{Binding SelectedTabIndex}"
+                        Style="{StaticResource KumaTabControl}"
                         Background="Transparent"
-                        BorderThickness="0">
+                        BorderThickness="0"
+                        Margin="0,20,0,0">
 
-                <!-- TAB HABITACIONES -->
-                <TabItem Header="Habitaciones" Background="Transparent">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                  HorizontalScrollBarVisibility="Disabled"
-                                  Padding="5">
-                        <local:HabitacionesListaView />
-                    </ScrollViewer>
+                <!-- TAB 0: LISTA DE HABITACIONES -->
+                <TabItem Header="Habitaciones"
+                         Style="{StaticResource KumaTabItem}">
+                    <view:HabitacionesListaView DataContext="{Binding ListaVM}"/>
                 </TabItem>
 
-                <!-- TAB TIPOS DE HABITACIÓN -->
-                <TabItem Header="Tipos de Habitación" Background="Transparent">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto"
-                                  HorizontalScrollBarVisibility="Disabled"
-                                  Padding="5">
-                        <local:TipoHabitacionView />
-                    </ScrollViewer>
+                <!-- TAB 1: TIPOS DE HABITACIÓN -->
+                <TabItem Header="Tipos de Habitación"
+                         Style="{StaticResource KumaTabItem}">
+                    <view:TipoHabitacionView DataContext="{Binding TiposVM}" />
+                </TabItem>
+
+                <!-- TAB 2: REGISTRAR HABITACIÓN -->
+                <TabItem Header="Registrar Habitación"
+                         Style="{StaticResource KumaTabItem}">
+                    <view:RegistroHabitacionView DataContext="{Binding RegistroVM}" />
                 </TabItem>
 
             </TabControl>
+
         </Grid>
 
     </Border>

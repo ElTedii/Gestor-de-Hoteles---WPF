@@ -2,11 +2,7 @@
 using Gestión_Hotelera.Model;
 using Gestión_Hotelera.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -31,20 +27,23 @@ namespace Gestión_Hotelera.ViewModel
             Hoteles = new ObservableCollection<HotelModel>(_hotelRepo.GetAll());
             Habitaciones = new ObservableCollection<HabitacionModel>();
 
+            Adultos = 1;
+            Menores = 0;
+
             CrearReservaCommand = new ViewModelCommand(ExecuteCrearReserva);
         }
 
-        // -------- listas ----------
+        // LISTAS
         public ObservableCollection<ClienteModel> Clientes { get; }
         public ObservableCollection<HotelModel> Hoteles { get; }
         public ObservableCollection<HabitacionModel> Habitaciones { get; }
 
-        // -------- selección ----------
+        // SELECCIÓN
         private ClienteModel _clienteSeleccionado;
         public ClienteModel ClienteSeleccionado
         {
             get => _clienteSeleccionado;
-            set { _clienteSeleccionado = value; OnPropertyChanged(nameof(ClienteSeleccionado)); }
+            set { _clienteSeleccionado = value; OnPropertyChanged(); }
         }
 
         private HotelModel _hotelSeleccionado;
@@ -54,7 +53,7 @@ namespace Gestión_Hotelera.ViewModel
             set
             {
                 _hotelSeleccionado = value;
-                OnPropertyChanged(nameof(HotelSeleccionado));
+                OnPropertyChanged();
                 CargarHabitacionesDisponibles();
             }
         }
@@ -66,7 +65,7 @@ namespace Gestión_Hotelera.ViewModel
             set
             {
                 _habitacionSeleccionada = value;
-                OnPropertyChanged(nameof(HabitacionSeleccionada));
+                OnPropertyChanged();
                 CalcularPrecio();
             }
         }
@@ -78,7 +77,7 @@ namespace Gestión_Hotelera.ViewModel
             set
             {
                 _fechaEntrada = value;
-                OnPropertyChanged(nameof(FechaEntrada));
+                OnPropertyChanged();
                 CargarHabitacionesDisponibles();
                 CalcularPrecio();
             }
@@ -91,7 +90,7 @@ namespace Gestión_Hotelera.ViewModel
             set
             {
                 _fechaSalida = value;
-                OnPropertyChanged(nameof(FechaSalida));
+                OnPropertyChanged();
                 CargarHabitacionesDisponibles();
                 CalcularPrecio();
             }
@@ -101,26 +100,31 @@ namespace Gestión_Hotelera.ViewModel
         public int Adultos
         {
             get => _adultos;
-            set { _adultos = value; OnPropertyChanged(nameof(Adultos)); }
+            set { _adultos = value; OnPropertyChanged(); }
         }
 
         private int _menores;
         public int Menores
         {
             get => _menores;
-            set { _menores = value; OnPropertyChanged(nameof(Menores)); }
+            set { _menores = value; OnPropertyChanged(); }
+        }
+
+        private decimal _anticipo;
+        public decimal Anticipo
+        {
+            get => _anticipo;
+            set { _anticipo = value; OnPropertyChanged(); }
         }
 
         private decimal _precioTotal;
         public decimal PrecioTotal
         {
             get => _precioTotal;
-            set { _precioTotal = value; OnPropertyChanged(nameof(PrecioTotal)); }
+            set { _precioTotal = value; OnPropertyChanged(); }
         }
 
-        // ============================================================
-        // HABITACIONES DISPONIBLES
-        // ============================================================
+        // HABITACIONES DISPONIBLES (usa ReservaService con lógica avanzada)
         private void CargarHabitacionesDisponibles()
         {
             if (HotelSeleccionado == null || FechaEntrada == null || FechaSalida == null)
@@ -128,18 +132,16 @@ namespace Gestión_Hotelera.ViewModel
 
             Habitaciones.Clear();
 
-            var list = _reservaService.ObtenerHabitacionesDisponibles(
+            var disponibles = _reservaService.ObtenerHabitacionesDisponibles(
                 HotelSeleccionado.HotelId,
                 FechaEntrada.Value,
                 FechaSalida.Value);
 
-            foreach (var h in list)
+            foreach (var h in disponibles)
                 Habitaciones.Add(h);
         }
 
-        // ============================================================
         // CALCULAR PRECIO
-        // ============================================================
         private void CalcularPrecio()
         {
             if (HabitacionSeleccionada == null || FechaEntrada == null || FechaSalida == null)
@@ -154,21 +156,37 @@ namespace Gestión_Hotelera.ViewModel
             PrecioTotal = HabitacionSeleccionada.PrecioNoche * dias;
         }
 
-        // ============================================================
         // GUARDAR RESERVA
-        // ============================================================
         public ICommand CrearReservaCommand { get; }
 
         private void ExecuteCrearReserva(object obj)
         {
-            if (ClienteSeleccionado == null || HotelSeleccionado == null ||
-                HabitacionSeleccionada == null || FechaEntrada == null || FechaSalida == null)
+            if (ClienteSeleccionado == null ||
+                HotelSeleccionado == null ||
+                HabitacionSeleccionada == null ||
+                FechaEntrada == null ||
+                FechaSalida == null)
             {
                 MessageBox.Show("Complete todos los campos.");
                 return;
             }
 
-            var reserva = new ReservacionModel
+            if (Anticipo < 0)
+            {
+                MessageBox.Show("El anticipo no puede ser negativo.");
+                return;
+            }
+
+            if (Anticipo > PrecioTotal)
+            {
+                MessageBox.Show("El anticipo no puede ser mayor al precio total.");
+                return;
+            }
+
+            // Estado según anticipo
+            var estado = Anticipo > 0 ? "CONFIRMADA" : "PENDIENTE";
+
+            var r = new ReservacionModel
             {
                 ReservaId = Guid.NewGuid(),
                 ClienteId = ClienteSeleccionado.ClienteId,
@@ -177,16 +195,16 @@ namespace Gestión_Hotelera.ViewModel
                 FechaSalida = FechaSalida.Value,
                 Adultos = Adultos,
                 Menores = Menores,
-                Anticipo = 0,
-                UsuarioRegistro = LoginViewModel.UsuarioActual?.Correo ?? "sistema"
-                // Estado, FechaRegistro etc. los completa el servicio
+                Anticipo = Anticipo,
+                UsuarioRegistro = LoginViewModel.UsuarioActual?.Correo ?? "sistema",
+                Estado = estado,
+                FechaRegistro = DateTime.UtcNow
             };
 
-            _reservaService.CrearReserva(reserva);
+            _reservaService.CrearReserva(r);
 
             MessageBox.Show("Reservación registrada correctamente.");
 
-            // volver a la lista de reservas
             _main.ShowReservasViewCommand.Execute(null);
         }
     }

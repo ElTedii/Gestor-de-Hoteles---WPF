@@ -62,6 +62,9 @@
     <Compile Update="View\ReporteReservacionesView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\ReservaDetalleView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\ReservasView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

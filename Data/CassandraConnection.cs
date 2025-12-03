@@ -1,10 +1,5 @@
 ﻿using Cassandra;
-using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gestión_Hotelera.Data
 {
@@ -14,18 +9,24 @@ namespace Gestión_Hotelera.Data
 
         public static ISession GetSession()
         {
-            if (_session == null)
-            {
-                var clusterIp = ConfigurationManager.AppSettings["Cluster"];
-                var keyspace = ConfigurationManager.AppSettings["KeySpace"];
+            if (_session != null)
+                return _session;
 
-                var cluster = Cluster.Builder()
-                    .AddContactPoint(clusterIp)
-                    .Build();
+            // Lee de appSettings y aplica defaults si vienen nulos/vacíos
+            var clusterIp = ConfigurationManager.AppSettings["Cluster"];
+            var keyspace = ConfigurationManager.AppSettings["KeySpace"];
 
-                _session = cluster.Connect(keyspace);
-            }
+            if (string.IsNullOrWhiteSpace(clusterIp))
+                clusterIp = "localhost";       // default seguro
 
+            if (string.IsNullOrWhiteSpace(keyspace))
+                keyspace = "hotel_ks";         // tu keyspace
+
+            var cluster = Cluster.Builder()
+                                 .AddContactPoint(clusterIp)
+                                 .Build();
+
+            _session = cluster.Connect(keyspace);
             return _session;
         }
     }

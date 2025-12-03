@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,5 +27,10 @@ namespace Gestión_Hotelera.Model
         public DateTime FechaRegistro { get; set; }
         public string UsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
+
+        public override string ToString()
+        {
+            return NombreTipo;
+        }
     }
 }

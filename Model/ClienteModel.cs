@@ -9,6 +9,8 @@ namespace Gestión_Hotelera.Model
     public class ClienteModel
     {
         public Guid ClienteId { get; set; }
+
+        // Este DEBE tener get; set;
         public string NombreCompleto { get; set; }
 
         public string Pais { get; set; }
@@ -26,5 +28,8 @@ namespace Gestión_Hotelera.Model
         public DateTime FechaRegistro { get; set; }
         public string UsuarioModificacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
+
+        // (Opcional) alias sólo para mostrar en UI
+        public string NombreParaMostrar => NombreCompleto;
     }
 }

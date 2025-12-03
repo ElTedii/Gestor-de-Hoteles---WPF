@@ -7,6 +7,10 @@ namespace Gestión_Hotelera.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
+        // ========== NUEVO ==========
+        public static MainViewModel Instance { get; private set; }
+        // ===========================
+
         private ViewModelBase _currentChildView;
         private string _caption;
         private IconChar _icon;
@@ -37,8 +41,13 @@ namespace Gestión_Hotelera.ViewModel
         public ICommand ShowHabitacionesViewCommand { get; }
         public ICommand ShowRegistroHabitacionViewCommand { get; }
         public ICommand ShowRegistroClienteCommand { get; }
+
         public ICommand ShowReservasViewCommand { get; }
         public ICommand ShowNuevaReservaCommand { get; }
+
+        // ========== NUEVO ==========
+        public ICommand ShowReservaDetalleCommand { get; }
+        // ===========================
 
         public ICommand ShowCheckInCommand { get; }
         public ICommand ShowCheckOutcommand { get; }
@@ -46,6 +55,9 @@ namespace Gestión_Hotelera.ViewModel
 
         public MainViewModel()
         {
+            Instance = this;   // <<--- IMPORTANTE
+
+            // Comandos base
             ShowHomeViewCommand = new ViewModelCommand(ExecuteShowHomeViewCommand);
             ShowClientViewCommand = new ViewModelCommand(ExecuteShowClientViewCommand);
             ShowHotelsViewCommand = new ViewModelCommand(ExecuteShowHotelsViewCommand);
@@ -54,9 +66,15 @@ namespace Gestión_Hotelera.ViewModel
             ShowRegistroHabitacionViewCommand = new ViewModelCommand(ExecuteShowRegistroHabitacionViewCommand);
             ShowRegistroClienteCommand = new ViewModelCommand(ExecuteShowRegistroClienteCommand);
 
+            // Reservas
             ShowReservasViewCommand = new ViewModelCommand(ExecuteShowReservas);
             ShowNuevaReservaCommand = new ViewModelCommand(ExecuteShowNuevaReserva);
 
+            // ========== NUEVO ==========
+            ShowReservaDetalleCommand = new ViewModelCommand(ExecuteShowReservaDetalle);
+            // ===========================
+
+            // Check-in/out
             ShowCheckInCommand = new ViewModelCommand(ExecuteShowCheckInCommand);
             ShowCheckOutcommand = new ViewModelCommand(ExecuteShowCheckOutcommand);
             ShowRealizarCheckOutCommand = new ViewModelCommand(ExecuteShowRealziarCheckOutcommand);
@@ -81,7 +99,7 @@ namespace Gestión_Hotelera.ViewModel
 
         private void ExecuteShowHotelsViewCommand(object obj)
         {
-            CurrentChildView = new HotelesViewModel(this);
+            CurrentChildView = new HotelesViewModel();
             Caption = "Hoteles";
             Icon = IconChar.Building;
         }
@@ -95,7 +113,7 @@ namespace Gestión_Hotelera.ViewModel
 
         private void ExecuteShowHabitacionesViewCommand(object obj)
         {
-            CurrentChildView = new HabitacionesViewModel(this);
+            CurrentChildView = new HabitacionesViewModel();
             Caption = "Habitaciones";
             Icon = IconChar.Bed;
         }
@@ -114,20 +132,7 @@ namespace Gestión_Hotelera.ViewModel
             Icon = IconChar.UserPlus;
         }
 
-        private void ExecuteShowReservas(object obj)
-        {
-            var vm = new ReservasViewModel();
-            vm.AbrirNuevaReservaAction = () =>
-            {
-                CurrentChildView = new NuevaReservaViewModel(this);
-                Caption = "Nueva Reservación";
-                Icon = IconChar.PlusCircle;
-            };
-
-            CurrentChildView = vm;
-            Caption = "Reservaciones";
-            Icon = IconChar.CalendarCheck;
-        }
+        // ===================== RESERVAS ======================
 
         private void ExecuteShowNuevaReserva(object obj)
         {
@@ -135,6 +140,19 @@ namespace Gestión_Hotelera.ViewModel
             Caption = "Nueva Reservación";
             Icon = IconChar.PlusCircle;
         }
+
+        // ========== NUEVO ==========
+        private void ExecuteShowReservaDetalle(object obj)
+        {
+            if (obj is ReservaListadoModel modelo)
+            {
+                CurrentChildView = new ReservaDetalleViewModel(modelo, this);
+                Caption = "Detalle de Reservación";
+                Icon = IconChar.InfoCircle;
+            }
+        }
+        // ===========================
+
 
         // ===================== CHECK-IN ======================
         private void ExecuteShowCheckInCommand(object obj)
@@ -151,7 +169,6 @@ namespace Gestión_Hotelera.ViewModel
         {
             var vm = new RealizarCheckInViewModel(model, this);
 
-            // Cuando el usuario cierre el Check-In, regresamos a la lista de Check-In
             vm.CloseAction = () => ExecuteShowCheckInCommand(null);
 
             CurrentChildView = vm;
@@ -177,6 +194,36 @@ namespace Gestión_Hotelera.ViewModel
             CurrentChildView = vm;
             Caption = "Realizar Check Out";
             Icon = IconChar.CheckDouble;
+        }
+
+        private void ExecuteShowReservas(object obj)
+        {
+            var vm = new ReservasViewModel();
+
+            // cuando le den clic a Editar en la tabla
+            vm.EditarAction = r =>
+            {
+                CurrentChildView = new ReservaDetalleViewModel(r, this);
+                Caption = "Detalle de Reservación";
+                Icon = IconChar.FileInvoice;
+            };
+
+            // cuando le den a "Nueva Reservación"
+            vm.NuevaReservacionAction = () =>
+            {
+                CurrentChildView = new NuevaReservaViewModel(this);
+                Caption = "Nueva Reservación";
+                Icon = IconChar.PlusCircle;
+            };
+
+            CurrentChildView = vm;
+            Caption = "Reservaciones";
+            Icon = IconChar.CalendarCheck;
+        }
+
+        public void ShowReservas()
+        {
+            ShowReservasViewCommand.Execute(null);
         }
 
         // ===================== PERFIL ======================

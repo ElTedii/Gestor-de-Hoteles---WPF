@@ -24,6 +24,7 @@ namespace Gestión_Hotelera.Model
         public int Menores { get; set; }
         public int NumPersonas { get; set; }
         public decimal PrecioTotal { get; set; }
+        public string TipoNombre { get; set; }
 
         public Guid ClienteId { get; set; }
         public Guid HotelId { get; set; }

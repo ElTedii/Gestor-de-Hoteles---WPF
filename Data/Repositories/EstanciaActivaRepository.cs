@@ -94,13 +94,9 @@ namespace Gestión_Hotelera.Data.Repositories
         // ============================================================
         public EstanciaActivaModel GetByReserva(Guid reservaId)
         {
-            // Debemos usar ALLOW FILTERING porque reserva_id no es clave
-            const string query = @"
-                SELECT * FROM estancias_activas
-                WHERE reserva_id = ? ALLOW FILTERING;";
-
             var row = _session.Execute(
-                _session.Prepare(query).Bind(reservaId)
+                _session.Prepare("SELECT * FROM estancias_activas WHERE reserva_id=? ALLOW FILTERING;")
+                .Bind(reservaId)
             ).FirstOrDefault();
 
             return row == null ? null : MapRow(row);

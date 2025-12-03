@@ -87,29 +87,32 @@ namespace Gestión_Hotelera.Data.Repositories
             return new ClienteModel
             {
                 ClienteId = r.GetValue<Guid>("cliente_id"),
-                NombreCompleto = r.GetValue<string>("nombre_completo"),
-                Pais = r.GetValue<string>("pais"),
-                Estado = r.GetValue<string>("estado"),
-                Ciudad = r.GetValue<string>("ciudad"),
+                NombreCompleto = r.GetValue<string>("nombre_completo") ?? string.Empty,
 
-                RFC = r.GetValue<string>("rfc"),
-                Correo = r.GetValue<string>("correo"),
-                TelCasa = r.GetValue<string>("tel_casa"),
-                TelCelular = r.GetValue<string>("tel_celular"),
+                Pais = r.IsNull("pais") ? null : r.GetValue<string>("pais"),
+                Estado = r.IsNull("estado") ? null : r.GetValue<string>("estado"),
+                Ciudad = r.IsNull("ciudad") ? null : r.GetValue<string>("ciudad"),
+
+                RFC = r.IsNull("rfc") ? null : r.GetValue<string>("rfc"),
+                Correo = r.IsNull("correo") ? null : r.GetValue<string>("correo"),
+                TelCasa = r.IsNull("tel_casa") ? null : r.GetValue<string>("tel_casa"),
+                TelCelular = r.IsNull("tel_celular") ? null : r.GetValue<string>("tel_celular"),
 
                 FechaNacimiento = r.IsNull("fecha_nacimiento")
                     ? (DateTime?)null
                     : r.GetValue<DateTime>("fecha_nacimiento"),
 
-                EstadoCivil = r.GetValue<string>("estado_civil"),
+                EstadoCivil = r.IsNull("estado_civil") ? null : r.GetValue<string>("estado_civil"),
 
-                UsuarioRegistro = r.GetValue<string>("usuario_registro"),
-                FechaRegistro = r.GetValue<DateTime>("fecha_registro"),
+                UsuarioRegistro = r.IsNull("usuario_registro") ? null : r.GetValue<string>("usuario_registro"),
+                FechaRegistro = r.IsNull("fecha_registro")
+                    ? DateTime.UtcNow
+                    : r.GetValue<DateTime>("fecha_registro"),
 
-                UsuarioModificacion = r.GetValue<string>("usuario_modificacion"),
+                UsuarioModificacion = r.IsNull("usuario_modificacion") ? null : r.GetValue<string>("usuario_modificacion"),
                 FechaModificacion = r.IsNull("fecha_modificacion")
                     ? (DateTime?)null
-                    : r.GetValue<DateTime>("fecha_modificacion")
+                    : r.GetValue<DateTime>("fecha_modificacion"),
             };
         }
     }

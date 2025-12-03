@@ -224,5 +224,93 @@ namespace Gestión_Hotelera.Data.Repositories
         {
             UpdateEstado(clienteId, reservaId, "EN_ESTANCIA");
         }
+        // ============================================================
+        // PARA LISTA DE RESERVAS (vista principal)
+        // ============================================================
+        public List<ReservaListadoModel> GetListadoReservas()
+        {
+            var rows = _session.Execute("SELECT * FROM reservas_por_cliente ALLOW FILTERING;");
+
+            var lista = new List<ReservaListadoModel>();
+
+            var clienteRepo = new ClienteRepository();
+            var hotelRepo = new HotelRepository();
+            var habRepo = new HabitacionRepository();
+            var tipoRepo = new TipoHabitacionRepository();
+
+            foreach (var r in rows)
+            {
+                var model = new ReservaListadoModel
+                {
+                    ReservaId = r.GetValue<Guid>("reserva_id"),
+                    ClienteId = r.GetValue<Guid>("cliente_id"),
+                    HotelId = r.GetValue<Guid>("hotel_id"),
+
+                    FechaEntrada = SafeDate(r, "fecha_entrada"),
+                    FechaSalida = SafeDate(r, "fecha_salida"),
+
+                    Anticipo = r.GetValue<decimal?>("anticipo") ?? 0,
+                    Estado = r.GetValue<string>("estado") ?? "PENDIENTE",
+
+                    Adultos = r.GetValue<int?>("adultos") ?? 0,
+                    Menores = r.GetValue<int?>("menores") ?? 0
+                };
+
+                // Datos relacionados
+                var cliente = clienteRepo.GetById(model.ClienteId);
+                var hotel = hotelRepo.GetById(model.HotelId);
+
+                if (cliente != null) model.ClienteNombre = cliente.NombreCompleto;
+                if (hotel != null) model.HotelNombre = hotel.Nombre;
+
+                var habitacion = habRepo.GetByReserva(model.HotelId, model.ReservaId);
+                if (habitacion != null)
+                {
+                    model.NumeroHabitacion = habitacion.NumeroHabitacion;
+
+                    var tipo = tipoRepo.GetByHotelAndTipo(model.HotelId, habitacion.TipoId);
+                    if (tipo != null)
+                    {
+                        model.TipoNombre = tipo.NombreTipo;
+
+                        int dias = (model.FechaSalida - model.FechaEntrada).Days;
+                        if (dias < 1) dias = 1;
+
+                        model.PrecioTotal = tipo.PrecioNoche * dias;
+                    }
+                }
+
+                model.NumPersonas = model.Adultos + model.Menores;
+
+                lista.Add(model);
+            }
+
+            return lista;
+        }
+
+        // ============================================================
+        // ACTUALIZAR ANTICIPO (para edición simple)
+        // ============================================================
+        public void UpdateAnticipo(Guid clienteId, Guid reservaId, decimal anticipo)
+        {
+            // Solo tabla reservas_por_cliente (la que usamos como base)
+            _session.Execute(
+                _session.Prepare(
+                    "UPDATE reservas_por_cliente SET anticipo=? WHERE cliente_id=? AND reserva_id=?;")
+                .Bind(anticipo, clienteId, reservaId)
+            );
+        }
+
+        public HabitacionModel GetByReserva(Guid hotelId, Guid reservaId)
+        {
+            var estanciaRepo = new EstanciaActivaRepository();
+            var estancia = estanciaRepo.GetByReserva(reservaId);
+
+            if (estancia == null)
+                return null; // no tiene habitación asignada aún
+
+            var habRepo = new HabitacionRepository();
+            return habRepo.GetByHotelAndNumero(estancia.HotelId, estancia.NumeroHabitacion);
+        }
     }
 }

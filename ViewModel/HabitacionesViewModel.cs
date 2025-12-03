@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using Gestión_Hotelera.Model;
 
@@ -11,25 +7,73 @@ namespace Gestión_Hotelera.ViewModel
 {
     public class HabitacionesViewModel : ViewModelBase
     {
-        private MainViewModel _mainVM;
-
-        public ICommand AbrirRegistroHabitacionCommand { get; }
-
-        public ObservableCollection<HabitacionModel> Habitaciones { get; set; }
-
-        public HabitacionesViewModel(MainViewModel mvm)
+        // ---- PROPIEDADES QUE CONTROLAN PESTAÑAS ----
+        private int _selectedTabIndex = 0;
+        public int SelectedTabIndex
         {
-            _mainVM = mvm;
+            get => _selectedTabIndex;
+            set { _selectedTabIndex = value; OnPropertyChanged(); }
+        }
 
-            AbrirRegistroHabitacionCommand =
-                new ViewModelCommand(_ => _mainVM.ShowRegistroHabitacionViewCommand.Execute(null));
-
-            Habitaciones = new ObservableCollection<HabitacionModel>
+        private string _registroTabVisible = "Collapsed";
+        public string RegistroTabVisible
         {
-            //new HabitacionModel { HabitacionId = Guid.NewGuid(), Tipo = "Suite",    Capacidad = 4, Precio = 2500, TipoCama = "KingSize",    NombreHotel="Hotel Sol", Descripcion = "Habitación adaptada con todas las necesidades" },
-            //new HabitacionModel { HabitacionId = Guid.NewGuid(), Tipo = "Estándar", Capacidad = 2, Precio = 1200, TipoCama = "QueenSize",   NombreHotel="Hotel Mar", Descripcion = "Habitación básica"},
-        };
+            get => _registroTabVisible;
+            set { _registroTabVisible = value; OnPropertyChanged(); }
+        }
+
+        // ---- VIEWMODELS INTERNOS ----
+        public HabitacionesListaViewModel ListaVM { get; }
+        public RegistroHabitacionViewModel RegistroVM { get; }
+        public TipoHabitacionViewModel TiposVM { get; }
+
+        // ---- COMMANDS ----
+        public ICommand AbrirRegistroCommand { get; }
+        public ICommand EditarHabitacionCommand { get; }
+        public ICommand CerrarRegistroCommand { get; }
+
+        public HabitacionesViewModel()
+        {
+            // Instancias internas
+            ListaVM = new HabitacionesListaViewModel();
+            RegistroVM = new RegistroHabitacionViewModel();
+            TiposVM = new TipoHabitacionViewModel();
+
+            // Eventos para comunicación
+            ListaVM.EditarAction = AbrirEdicion;
+            RegistroVM.CerrarAction = CerrarRegistro;
+
+            // Commands
+            AbrirRegistroCommand = new ViewModelCommand(_ => AbrirRegistroNuevo());
+            CerrarRegistroCommand = new ViewModelCommand(_ => CerrarRegistro());
+        }
+
+        // ===============================
+        //       MÉTODOS PRINCIPALES
+        // ===============================
+
+        private void AbrirRegistroNuevo()
+        {
+            RegistroTabVisible = "Visible";
+            SelectedTabIndex = 1; // abre tab 2
+
+            RegistroVM.Nuevo(); // limpia formulario
+        }
+
+        private void AbrirEdicion(HabitacionModel h)
+        {
+            RegistroTabVisible = "Visible";
+            SelectedTabIndex = 1;
+
+            RegistroVM.CargarDesdeLista(h);
+        }
+
+        private void CerrarRegistro()
+        {
+            RegistroTabVisible = "Collapsed";
+            SelectedTabIndex = 0;
+
+            ListaVM.CargarHabitaciones(); // recarga lista
         }
     }
-
 }

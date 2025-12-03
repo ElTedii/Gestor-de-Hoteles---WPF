@@ -1,43 +1,107 @@
 ﻿<UserControl x:Class="Gestión_Hotelera.View.HabitacionesListaView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            >
 
-    <Border Background="{StaticResource panelColor}"
-        Padding="20"
-        CornerRadius="12"
-        MaxWidth="1100"
-        HorizontalAlignment="Center">
+    <Grid Margin="10">
 
-        <StackPanel>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
 
-            <TextBlock Text="Habitaciones Registradas"
-                       FontSize="22"
-                       FontWeight="Bold"
-                       Foreground="{StaticResource titleColor1}"
-                       Margin="0,0,0,20"/>
+        <!-- =======================
+              FILTROS SUPERIORES
+         ======================= -->
+        <StackPanel Orientation="Horizontal"
+                    Margin="0,0,0,10">
 
-            <DataGrid ItemsSource="{Binding Habitaciones}"
-                      AutoGenerateColumns="False"
-                      Background="{StaticResource panelColor}"
-                      AlternatingRowBackground="{StaticResource panelOverColor}"
-                      BorderThickness="0"
-                      RowHeight="35"
-                      ColumnHeaderHeight="35"
-                      Style="{StaticResource KumaDataGrid}"
-                      RowStyle="{StaticResource KumaDataGridRow}"
-                      CellStyle="{StaticResource KumaDataGridCell}"
-                      ColumnHeaderStyle="{StaticResource KumaDataGridHeader}">
+            <!-- HOTEL -->
+            <StackPanel>
+                <TextBlock Text="Hotel" Foreground="White"/>
+                <ComboBox ItemsSource="{Binding Hoteles}"
+                          DisplayMemberPath="Nombre"
+                          SelectedItem="{Binding HotelSeleccionado}"
+                          Style="{StaticResource DarkComboBoxStyle}"
+                          Width="180"/>
+            </StackPanel>
 
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Número" Binding="{Binding NumeroHabitacion}" Width="80"/>
-                    <DataGridTextColumn Header="Piso" Binding="{Binding Piso}" Width="60"/>
-                    <DataGridTextColumn Header="Estado" Binding="{Binding Estado}" Width="120"/>
-                    <DataGridTextColumn Header="Tipo" Binding="{Binding TipoNombre}" Width="200"/>
-                </DataGrid.Columns>
+            <!-- ESTADO -->
+            <StackPanel>
+                <TextBlock Text="Estado" Foreground="White"/>
+                <ComboBox ItemsSource="{Binding Estados}"
+                          SelectedItem="{Binding EstadoSeleccionado}"
+                          Style="{StaticResource DarkComboBoxStyle}"
+                          Width="150"/>
+            </StackPanel>
 
-            </DataGrid>
+            <!-- TIPO -->
+            <StackPanel>
+                <TextBlock Text="Tipo" Foreground="White"/>
+                <ComboBox ItemsSource="{Binding Tipos}"
+                          DisplayMemberPath="NombreTipo"
+                          SelectedItem="{Binding TipoSeleccionado}"
+                          Style="{StaticResource DarkComboBoxStyle}"
+                          Width="200"/>
+            </StackPanel>
 
+            <!-- NÚMERO -->
+            <StackPanel>
+                <TextBlock Text="Número" Foreground="White"/>
+                <TextBox Text="{Binding BusquedaNumero}"
+                         Style="{StaticResource DarkInputStyle}"
+                         Width="100"/>
+            </StackPanel>
+
+            <!-- REFRESCAR -->
+            <Button Content="Refrescar"
+                    Command="{Binding RefrescarCommand}"
+                    Style="{StaticResource KumaButton}"
+                    Margin="10,20,0,0"/>
         </StackPanel>
 
-    </Border>
+        <!-- =======================
+              TABLA HABITACIONES
+         ======================= -->
+        <DataGrid Grid.Row="1"
+                  ItemsSource="{Binding HabitacionesFiltradas}"
+                  AutoGenerateColumns="False"
+                  Style="{StaticResource KumaDataGrid}">
+
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Número"
+                                    Binding="{Binding NumeroHabitacion}"
+                                    Width="100"/>
+
+                <DataGridTextColumn Header="Piso"
+                                    Binding="{Binding Piso}"
+                                    Width="80"/>
+
+                <DataGridTextColumn Header="Estado"
+                                    Binding="{Binding Estado}"
+                                    Width="150"/>
+
+                <DataGridTextColumn Header="Tipo"
+                                    Binding="{Binding TipoNombre}"
+                                    Width="200"/>
+
+                <DataGridTemplateColumn Header="Acciones" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button Content="Editar"
+                                    Command="{Binding DataContext.EditarCommand, 
+                                              RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                    CommandParameter="{Binding}"
+                                    Style="{StaticResource KumaButton}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+    </Grid>
+
 </UserControl>

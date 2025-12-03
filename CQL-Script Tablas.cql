@@ -5,6 +5,7 @@ WITH REPLICATION = {
 };
 
 USE hotel_ks;
+select * from habitaciones;
 
 ---------------------------------------------------------
 -- 1) USUARIOS

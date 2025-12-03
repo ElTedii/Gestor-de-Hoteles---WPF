@@ -1,4 +1,5 @@
 ﻿using Cassandra;
+using Cassandra.Mapping;
 using Gestión_Hotelera.Model;
 using System;
 using System.Collections.Generic;
@@ -24,10 +25,10 @@ namespace Gestión_Hotelera.Data.Repositories
         {
             const string query = @"
                 INSERT INTO habitaciones (
-                    hotel_id, numero, tipo_id, piso,
-                    usuario_creacion, fecha_creacion,
-                    usuario_modificacion, fecha_modificacion
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+                        hotel_id, numero, tipo_id, piso, estado,
+                        usuario_creacion, fecha_creacion,
+                        usuario_modificacion, fecha_modificacion) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
             _session.Execute(
                 _session.Prepare(query).Bind(
@@ -35,6 +36,7 @@ namespace Gestión_Hotelera.Data.Repositories
                     h.NumeroHabitacion,
                     h.TipoId,
                     h.Piso,
+                    h.Estado,
                     h.UsuarioRegistro,
                     h.FechaRegistro,
                     h.UsuarioModificacion,
@@ -50,8 +52,8 @@ namespace Gestión_Hotelera.Data.Repositories
         {
             const string query = @"
                 UPDATE habitaciones SET
-                    tipo_id = ?, piso = ?,
-                    usuario_modificacion = ?, fecha_modificacion = ?
+                        tipo_id = ?, piso = ?, estado = ?,
+                        usuario_modificacion = ?, fecha_modificacion = ?
                 WHERE hotel_id = ? AND numero = ?;";
 
             _session.Execute(
@@ -83,12 +85,27 @@ namespace Gestión_Hotelera.Data.Repositories
         // ============================================================
         public List<HabitacionModel> GetByHotel(Guid hotelId)
         {
-            var result = _session.Execute(
+            var rows = _session.Execute(
                 _session.Prepare("SELECT * FROM habitaciones WHERE hotel_id=?;")
                 .Bind(hotelId)
             );
 
-            return result.Select(MapRow).ToList();
+            var list = rows.Select(MapRow).ToList();
+
+            // Traer nombre de tipo y precio desde tipos_habitacion_por_hotel
+            var tipoRepo = new TipoHabitacionRepository();
+
+            foreach (var h in list)
+            {
+                var tipo = tipoRepo.GetByHotelAndTipo(h.HotelId, h.TipoId);
+                if (tipo != null)
+                {
+                    h.PrecioNoche = tipo.PrecioNoche;
+                    h.TipoNombre = tipo.NombreTipo;
+                }
+            }
+
+            return list;
         }
 
         // ============================================================
@@ -145,6 +162,57 @@ namespace Gestión_Hotelera.Data.Repositories
             return rows.Select(MapRow).ToList();
         }
 
+        public List<HabitacionModel> GetAllHabitaciones()
+        {
+            var rows = _session.Execute("SELECT * FROM habitaciones;");
+
+            return rows.Select(r => new HabitacionModel
+            {
+                HotelId = r.GetValue<Guid>("hotel_id"),
+                NumeroHabitacion = r.GetValue<int>("numero"),
+                TipoId = r.GetValue<Guid>("tipo_id"),
+                Piso = r.GetValue<int>("piso"),
+                Estado = r.GetValue<string>("estado"),
+                UsuarioRegistro = r.GetValue<string>("usuario_creacion"),
+                FechaRegistro = r.GetValue<DateTime>("fecha_creacion")
+            }).ToList();
+        }
+
+        public bool ExistsNumero(Guid hotelId, int numero)
+        {
+            var row = _session.Execute(
+                _session.Prepare(
+                    "SELECT hotel_id, numero FROM habitaciones WHERE hotel_id=? AND numero=?;"
+                ).Bind(hotelId, numero)
+            ).FirstOrDefault();
+
+            return row != null;
+        }
+
+        public HabitacionModel GetByReserva(Guid reservaId)
+        {
+            var row = _session.Execute(
+                _session.Prepare(
+                    "SELECT * FROM habitaciones WHERE reserva_id=? ALLOW FILTERING;")
+                .Bind(reservaId)
+            ).FirstOrDefault();
+
+            return row == null ? null : MapRow(row);
+        }
+
+        // Buscar habitación por reserva (cliente_id, reserva_id)
+        public HabitacionModel GetByReserva(Guid clienteId, Guid reservaId)
+        {
+            var row = _session.Execute(
+                _session.Prepare(
+                    @"SELECT * FROM habitaciones 
+              WHERE cliente_id=? AND reserva_id=? ALLOW FILTERING;")
+                .Bind(clienteId, reservaId)
+            ).FirstOrDefault();
+
+            return row == null ? null : MapRow(row);
+        }
+
         // ============================================================
         // MAPEO
         // ============================================================
@@ -156,6 +224,11 @@ namespace Gestión_Hotelera.Data.Repositories
                 NumeroHabitacion = row.GetValue<int>("numero"),
                 TipoId = row.GetValue<Guid>("tipo_id"),
                 Piso = row.GetValue<int>("piso"),
+
+                Estado = row.IsNull("estado") ? "DISPONIBLE" : row.GetValue<string>("estado"),
+
+                PrecioNoche = row.IsNull("precio_noche") ? 0 : row.GetValue<decimal>("precio_noche"),
+                TipoNombre = row.IsNull("tipo_nombre") ? "Sin Tipo" : row.GetValue<string>("tipo_nombre"),
 
                 UsuarioRegistro = row.IsNull("usuario_creacion")
                     ? ""
@@ -171,7 +244,7 @@ namespace Gestión_Hotelera.Data.Repositories
 
                 FechaModificacion = row.IsNull("fecha_modificacion")
                     ? DateTime.UtcNow
-                    : row.GetValue<DateTime>("fecha_modificacion"),
+                    : row.GetValue<DateTime>("fecha_modificacion")
             };
         }
     }

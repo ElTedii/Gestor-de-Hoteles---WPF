@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Gestión_Hotelera.Data.Repositories;
 using Gestión_Hotelera.Model;
 
@@ -13,36 +11,56 @@ namespace Gestión_Hotelera.Services
         private readonly ReservaRepository _reservaRepo;
         private readonly HabitacionRepository _habitacionRepo;
         private readonly TipoHabitacionRepository _tipoRepo;
+        private readonly ReservasPorHotelRepository _reservaHotelRepo;
 
         public ReservaService()
         {
             _reservaRepo = new ReservaRepository();
             _habitacionRepo = new HabitacionRepository();
             _tipoRepo = new TipoHabitacionRepository();
+            _reservaHotelRepo = new ReservasPorHotelRepository();
         }
 
         // ----------------------------------------------------------
-        // A) Obtener habitaciones disponibles (simple)
+        // A + D) Habitaciones disponibles (estancias + reservas)
         // ----------------------------------------------------------
         public List<HabitacionModel> ObtenerHabitacionesDisponibles(
             Guid hotelId,
             DateTime fechaEntrada,
             DateTime fechaSalida)
         {
-            // Todas las habitaciones del hotel
-            var habs = _habitacionRepo.GetByHotel(hotelId);
+            // 1) Habitaciones libres según estancias activas
+            var libres = _habitacionRepo.GetHabitacionesLibres(hotelId, fechaEntrada, fechaSalida);
 
-            // Para cada habitación buscamos su tipo y precio
-            foreach (var h in habs)
+            // 2) Reservas que ya bloquean habitación (PENDIENTE/CONFIRMADA)
+            var reservasHotel = _reservaHotelRepo.GetListadoByHotel(hotelId);
+
+            var reservadas = reservasHotel
+                .Where(r => r.Estado == "PENDIENTE" || r.Estado == "CONFIRMADA")
+                .Where(r =>
+                    fechaEntrada < r.FechaSalida &&
+                    fechaSalida > r.FechaEntrada)
+                .Select(r => r.NumeroHabitacion)
+                .Distinct()
+                .ToHashSet();
+
+            // 3) Dejar solo las que no están reservadas en ese rango
+            var disponibles = libres
+                .Where(h => !reservadas.Contains(h.NumeroHabitacion))
+                .ToList();
+
+            // 4) Aseguramos precio y nombre de tipo desde tipos_habitacion
+            foreach (var h in disponibles)
             {
-                var tipo = _tipoRepo.GetByHotelAndTipo(h.HotelId, h.TipoId); // ✅ CORREGIDO
-
+                var tipo = _tipoRepo.GetByHotelAndTipo(h.HotelId, h.TipoId);
                 if (tipo != null)
-                    h.PrecioNoche = tipo.PrecioNoche;  // Asegúrate que HabitacionModel tenga esta propiedad
+                {
+                    h.PrecioNoche = tipo.PrecioNoche;
+                    h.TipoNombre = tipo.NombreTipo;
+                }
             }
 
-            // (Versión simple: no filtramos por fechas)
-            return habs;
+            return disponibles;
         }
 
         // ----------------------------------------------------------
@@ -56,13 +74,14 @@ namespace Gestión_Hotelera.Services
             if (r.FechaRegistro == default)
                 r.FechaRegistro = DateTime.UtcNow;
 
+            // Si ya viene un estado desde la UI lo respetamos
             if (string.IsNullOrEmpty(r.Estado))
                 r.Estado = "PENDIENTE";
 
             _reservaRepo.Insert(r);
         }
 
-        // Versión por parámetros (azúcar sintáctico)
+        // Versión por parámetros
         public void CrearReserva(
             Guid clienteId,
             Guid hotelId,

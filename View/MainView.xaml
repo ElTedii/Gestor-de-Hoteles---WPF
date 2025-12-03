@@ -75,6 +75,10 @@
             <local:TipoHabitacionView/>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type viewModel:ReservaDetalleViewModel}">
+            <local:ReservaDetalleView/>
+        </DataTemplate>
+
     </Window.Resources>
 
     <Border CornerRadius="10"

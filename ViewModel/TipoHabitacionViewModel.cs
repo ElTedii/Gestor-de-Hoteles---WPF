@@ -13,6 +13,8 @@ namespace Gestión_Hotelera.ViewModel
     {
         private readonly TipoHabitacionRepository _repo;
         private readonly HotelRepository _hotelRepo;
+        public int TotalHabitacionesTipo => Cantidad;
+        public string PrecioPreview => $"MXN {PrecioNoche:n2}";
 
         // LISTAS
         public ObservableCollection<TipoHabitacionModel> TiposHabitacion { get; set; }
@@ -34,6 +36,7 @@ namespace Gestión_Hotelera.ViewModel
             {
                 _tipoSeleccionado = value;
                 OnPropertyChanged(nameof(TipoSeleccionado));
+                OnPropertyChanged(nameof(PrecioPreview));
 
                 if (value != null)
                     CargarFormulario(value);
@@ -152,6 +155,12 @@ namespace Gestión_Hotelera.ViewModel
             {
                 MessageBox.Show("[ERROR] " + ex.Message);
             }
+            if (TipoDuplicado(NombreTipo))
+            {
+                MessageBox.Show("Ya existe un tipo de habitación con ese nombre.",
+                                "Duplicado", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
         }
 
         // ----------------------------
@@ -170,6 +179,14 @@ namespace Gestión_Hotelera.ViewModel
             AmenidadesTexto = string.Join(", ", t.Amenidades ?? new());
 
             OnPropertyChanged(null);
+        }
+
+        private bool TipoDuplicado(string nombre)
+        {
+            return TiposHabitacion.Any(t =>
+                t.NombreTipo.Trim().ToLower() == nombre.Trim().ToLower()
+                && (TipoSeleccionado == null || t.TipoId != TipoSeleccionado.TipoId)
+            );
         }
     }
 }

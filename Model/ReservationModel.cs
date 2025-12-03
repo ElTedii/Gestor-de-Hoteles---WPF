@@ -17,6 +17,7 @@ namespace Gestión_Hotelera.Model
 
         public decimal Anticipo { get; set; }
         public string Estado { get; set; }
+        public int NumeroHabitacion { get; set; }
 
         public int Adultos { get; set; }
         public int Menores { get; set; }

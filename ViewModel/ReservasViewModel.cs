@@ -1,153 +1,130 @@
 ﻿using Gestión_Hotelera.Data.Repositories;
 using Gestión_Hotelera.Model;
-using Gestión_Hotelera.Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Gestión_Hotelera.ViewModel
 {
     public class ReservasViewModel : ViewModelBase
     {
+        private readonly HotelRepository _hotelRepo = new HotelRepository();
+        private readonly ReservasPorHotelRepository _reservaHotelRepo = new ReservasPorHotelRepository();
+        private readonly ReservaRepository _reservaRepo = new ReservaRepository();
+        private readonly ClienteRepository _clienteRepo = new ClienteRepository();
 
-        private readonly ReservaRepository _reservaRepo;
-        private readonly ClienteRepository _clienteRepo;
-        private readonly HotelRepository _hotelRepo;
-        private readonly EstanciaActivaRepository _estanciaRepo;
+        // Estas acciones las configura MainViewModel
+        public Action NuevaReservacionAction { get; set; }
+        public Action<ReservaListadoModel> EditarAction { get; set; }
+
+        // ===============================
+        // COMBOS
+        // ===============================
+        public ObservableCollection<HotelModel> Hoteles { get; set; }
+        private HotelModel _hotelSeleccionado;
+        public HotelModel HotelSeleccionado
+        {
+            get => _hotelSeleccionado;
+            set
+            {
+                _hotelSeleccionado = value;
+                OnPropertyChanged();
+                CargarReservaciones();
+            }
+        }
+
+        public ObservableCollection<string> Estados { get; set; } =
+            new ObservableCollection<string>
+            {
+                "TODOS",
+                "PENDIENTE",
+                "CONFIRMADA",
+                "EN_ESTANCIA",
+                "FINALIZADA"
+            };
+
+        private string _estadoSeleccionado = "TODOS";
+        public string EstadoSeleccionado
+        {
+            get => _estadoSeleccionado;
+            set
+            {
+                _estadoSeleccionado = value;
+                OnPropertyChanged();
+                CargarReservaciones();
+            }
+        }
+
+        // ===============================
+        // LISTA
+        // ===============================
+        public ObservableCollection<ReservaListadoModel> Reservaciones { get; set; }
+
+        // ===============================
+        // COMMANDS
+        // ===============================
+        public ICommand NuevaCommand { get; }
+        public ICommand EditarCommand { get; }
 
         public ReservasViewModel()
         {
-            _reservaRepo = new ReservaRepository();
-            _clienteRepo = new ClienteRepository();
-            _hotelRepo = new HotelRepository();
-            _estanciaRepo = new EstanciaActivaRepository();
+            Hoteles = new ObservableCollection<HotelModel>(_hotelRepo.GetAll());
+            Reservaciones = new ObservableCollection<ReservaListadoModel>();
 
-            Reservas = new ObservableCollection<ReservaListadoModel>();
+            NuevaCommand = new ViewModelCommand(_ => NuevaReservacionAction?.Invoke());
+            EditarCommand = new ViewModelCommand(r =>
+            {
+                var modelo = r as ReservaListadoModel;
+                if (modelo != null)
+                    EditarAction?.Invoke(modelo);
+            });
 
-            AbrirNuevaReservaCommand = new ViewModelCommand(ExecuteNuevaReserva);
-            AbrirEditarReservaCommand = new ViewModelCommand(ExecuteEditarReserva);
-            EliminarReservaCommand = new ViewModelCommand(ExecuteEliminarReserva);
-
-            CargarReservas();
+            // Seleccionar primer hotel por defecto
+            HotelSeleccionado = Hoteles.FirstOrDefault();
         }
 
-        // ============================================================
-        // LISTA PARA EL DATAGRID
-        // ============================================================
-        public ObservableCollection<ReservaListadoModel> Reservas { get; set; }
-
-        private ReservaListadoModel _reservaSeleccionada;
-        public ReservaListadoModel ReservaSeleccionada
-        {
-            get => _reservaSeleccionada;
-            set { _reservaSeleccionada = value; OnPropertyChanged(nameof(ReservaSeleccionada)); }
-        }
-
-        // ============================================================
-        // COMMANDS
-        // ============================================================
-        public ICommand AbrirNuevaReservaCommand { get; }
-        public ICommand AbrirEditarReservaCommand { get; }
-        public ICommand EliminarReservaCommand { get; }
-
-        public Action AbrirNuevaReservaAction { get; set; }
-        public Action<ReservaListadoModel> AbrirEditarReservaAction { get; set; }
-
-        // ============================================================
+        // ===============================
         // CARGAR RESERVAS
-        // ============================================================
-        private void CargarReservas()
+        // ===============================
+        private void CargarReservaciones()
         {
-            try
+            Reservaciones.Clear();
+
+            if (HotelSeleccionado == null)
+                return;
+
+            // Base desde tabla reservas_por_hotel
+            var lista = _reservaHotelRepo.GetListadoByHotel(HotelSeleccionado.HotelId);
+
+            // Filtro por estado
+            if (EstadoSeleccionado != "TODOS")
+                lista = lista.Where(r => r.Estado == EstadoSeleccionado).ToList();
+
+            foreach (var r in lista)
             {
-                Reservas.Clear();
+                // Enriquecer info con reservas_por_cliente
+                var detalle = _reservaRepo.GetByClienteAndReserva(r.ClienteId, r.ReservaId);
+                var cliente = _clienteRepo.GetById(r.ClienteId);
 
-                var listaReservas = _reservaRepo.GetAll();
+                // Cliente y hotel
+                r.ClienteNombre = cliente?.NombreCompleto ?? "—";
+                r.HotelNombre = HotelSeleccionado.Nombre;
 
-                foreach (var r in listaReservas)
+                if (detalle != null)
                 {
-                    var cliente = _clienteRepo.GetById(r.ClienteId);
-                    var hotel = _hotelRepo.GetById(r.HotelId);
+                    r.Adultos = detalle.Adultos;
+                    r.Menores = detalle.Menores;
+                    r.NumPersonas = detalle.Adultos + detalle.Menores;
+                    r.Anticipo = detalle.Anticipo;
 
-                    // La habitación y el precio vienen de la estancia (si ya está asignada)
-                    var estancia = _estanciaRepo.GetByReserva(r.ReservaId);
-
-                    // calcular noches
-                    int noches = (int)(r.FechaSalida - r.FechaEntrada).TotalDays;
-                    if (noches < 1) noches = 1;
-
-                    // si hay estancia usamos su precio_noche, si no, 0
-                    decimal precioNoche = estancia?.PrecioNoche ?? 0m;
-
-                    decimal total = precioNoche * noches;
-
-                    // si todavía no hay precio (no hay estancia), mostramos el anticipo
-                    if (total <= 0)
-                        total = r.Anticipo;
-
-                    Reservas.Add(new ReservaListadoModel
-                    {
-                        ReservaId = r.ReservaId,
-                        ClienteId = r.ClienteId,
-                        HotelId = r.HotelId,
-
-                        ClienteNombre = cliente?.NombreCompleto ?? "N/D",
-                        HotelNombre = hotel?.Nombre ?? "N/D",
-                        NumeroHabitacion = estancia?.NumeroHabitacion ?? 0,
-
-                        FechaEntrada = r.FechaEntrada,
-                        FechaSalida = r.FechaSalida,
-
-                        Adultos = r.Adultos,
-                        Menores = r.Menores,
-                        NumPersonas = r.Adultos + r.Menores,
-
-                        PrecioTotal = total,
-                        Estado = r.Estado
-                    });
+                    // Por ahora usamos anticipo como “total” mostrado
+                    // (si después guardas precio_total en Cassandra, aquí lo sustituyes)
+                    if (r.PrecioTotal == 0)
+                        r.PrecioTotal = detalle.Anticipo;
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error cargando reservaciones: {ex.Message}");
-            }
-        }
 
-        // ============================================================
-        // NUEVA RESERVA
-        // ============================================================
-        private void ExecuteNuevaReserva(object obj)
-        {
-            AbrirNuevaReservaAction?.Invoke();
-        }
-
-        // ============================================================
-        // EDITAR RESERVA
-        // ============================================================
-        private void ExecuteEditarReserva(object obj)
-        {
-            if (obj is ReservaListadoModel r)
-                AbrirEditarReservaAction?.Invoke(r);
-        }
-
-        // ============================================================
-        // ELIMINAR RESERVA
-        // ============================================================
-        private void ExecuteEliminarReserva(object obj)
-        {
-            if (obj is ReservaListadoModel r)
-            {
-                if (MessageBox.Show("¿Eliminar reservación?",
-                    "Confirmar", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
-                {
-                    _reservaRepo.DeleteByCliente(r.ClienteId, r.ReservaId);
-                    CargarReservas();
-                }
+                Reservaciones.Add(r);
             }
         }
     }

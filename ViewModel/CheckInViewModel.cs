@@ -3,7 +3,6 @@ using Gestión_Hotelera.Model;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 
 namespace Gestión_Hotelera.ViewModel
@@ -44,15 +43,19 @@ namespace Gestión_Hotelera.ViewModel
             CargarReservasPendientes();
         }
 
-        // ============================================================
-        // CARGAR TODAS LAS RESERVAS PENDIENTES
-        // ============================================================
+        // SOLO reservas para HOY (PENDIENTE / CONFIRMADA)
         private void CargarReservasPendientes()
         {
             ReservasPendientes.Clear();
 
+            var hoy = DateTime.UtcNow.Date;
+            var mañana = hoy.AddDays(1);
+
             var reservas = _reservaRepo.GetAll()
-                .Where(r => r.Estado == "PENDIENTE" || r.Estado == "CONFIRMADA")
+                .Where(r =>
+                    (r.Estado == "PENDIENTE" || r.Estado == "CONFIRMADA") &&
+                    r.FechaEntrada >= hoy &&
+                    r.FechaEntrada < mañana)
                 .OrderBy(r => r.FechaEntrada)
                 .ToList();
 
@@ -81,9 +84,6 @@ namespace Gestión_Hotelera.ViewModel
             }
         }
 
-        // ============================================================
-        // ABRIR VENTANA DE CHECK-IN
-        // ============================================================
         private void ExecuteAbrirCheckIn(object obj)
         {
             if (Seleccionada == null)
