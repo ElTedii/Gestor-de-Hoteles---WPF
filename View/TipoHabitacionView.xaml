@@ -1,0 +1,214 @@
+﻿<UserControl x:Class="Gestión_Hotelera.View.TipoHabitacionView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <Border Background="{StaticResource panelColor}"
+            Padding="20"
+            CornerRadius="12">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <!-- Título -->
+                <RowDefinition Height="Auto"/>
+                <!-- Filtro + Formulario -->
+                <RowDefinition Height="*"/>
+                <!-- Lista -->
+            </Grid.RowDefinitions>
+
+            <!-- TÍTULO -->
+            <TextBlock Grid.Row="0"
+                       Text="Tipos de Habitación"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource titleColor2}"
+                       Margin="0,0,0,10"/>
+
+            <!-- FILTRO + FORMULARIO -->
+            <Border Grid.Row="1"
+                    Background="{StaticResource panelOverColor}"
+                    CornerRadius="10"
+                    Padding="15"
+                    Margin="0,10,0,10">
+
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- FILTRO HOTEL + BOTONES -->
+                    <Grid Grid.Row="0"
+                          Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="260"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition Width="150"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Hotel -->
+                        <StackPanel Orientation="Horizontal"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="Hotel"
+                                       Foreground="{StaticResource plainTextColor2}"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,8,0"/>
+                            <ComboBox ItemsSource="{Binding Hoteles}"
+                                      DisplayMemberPath="Nombre"
+                                      SelectedValuePath="HotelId"
+                                      SelectedValue="{Binding HotelSeleccionado}"
+                                      Style="{StaticResource DarkComboBoxStyle}"
+                                      ItemContainerStyle="{StaticResource DarkComboBoxItemStyle}"
+                                      Width="200"/>
+                        </StackPanel>
+
+                        <!-- Botón Nuevo -->
+                        <Button Grid.Column="1"
+                                Content="Nuevo"
+                                Command="{Binding NuevoCommand}"
+                                Style="{StaticResource KumaButton}"
+                                Width="120"
+                                HorizontalAlignment="Left"/>
+
+                        <!-- Botón Guardar -->
+                        <Button Grid.Column="2"
+                                Content="Guardar"
+                                Command="{Binding GuardarCommand}"
+                                Style="{StaticResource KumaButton}"
+                                Width="120"
+                                HorizontalAlignment="Left"/>
+
+                        <!-- Botón Refrescar -->
+                        <Button Grid.Column="3"
+                                Content="Refrescar"
+                                Command="{Binding RefrescarCommand}"
+                                Style="{StaticResource KumaButton}"
+                                Width="120"
+                                HorizontalAlignment="Right"/>
+                    </Grid>
+
+                    <!-- FORMULARIO CAMPOS -->
+                    <Grid Grid.Row="1"
+                          Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <!-- Columna izquierda -->
+                        <StackPanel Grid.Column="0"
+                                    Margin="0,0,15,0">
+
+                            <TextBlock Text="Nombre del tipo"
+                                       Foreground="{StaticResource plainTextColor2}"/>
+                            <TextBox Text="{Binding NombreTipo}"
+                                     Style="{StaticResource DarkInputStyle}"
+                                     Margin="0,3,0,10"/>
+
+                            <TextBlock Text="Capacidad"
+                                       Foreground="{StaticResource plainTextColor2}"/>
+                            <TextBox Text="{Binding Capacidad}"
+                                     Style="{StaticResource DarkInputStyle}"
+                                     Margin="0,3,0,10"/>
+
+                            <TextBlock Text="Precio por noche"
+                                       Foreground="{StaticResource plainTextColor2}"/>
+                            <TextBox Text="{Binding PrecioNoche}"
+                                     Style="{StaticResource DarkInputStyle}"
+                                     Margin="0,3,0,10"/>
+
+                            <TextBlock Text="Cantidad"
+                                       Foreground="{StaticResource plainTextColor2}"/>
+                            <TextBox Text="{Binding Cantidad}"
+                                     Style="{StaticResource DarkInputStyle}"
+                                     Margin="0,3,0,0"/>
+                            <TextBlock Text="{Binding PrecioPreview}"
+                                       FontWeight="Bold"
+                                       Foreground="LightGreen"
+                                       Margin="0,3,0,10"/>
+                        </StackPanel>
+
+                        <!-- Columna derecha -->
+                        <StackPanel Grid.Column="1"
+                                    Margin="15,0,0,0">
+
+                            <TextBlock Text="Nivel"
+                                       Foreground="{StaticResource plainTextColor2}"/>
+                            <TextBox Text="{Binding Nivel}"
+                                     Style="{StaticResource DarkInputStyle}"
+                                     Margin="0,3,0,10"/>
+
+                            <TextBlock Text="Vista"
+                                       Foreground="{StaticResource plainTextColor2}"/>
+                            <TextBox Text="{Binding Vista}"
+                                     Style="{StaticResource DarkInputStyle}"
+                                     Margin="0,3,0,10"/>
+
+                            <TextBlock Text="Características (separadas por coma)"
+                                       Foreground="{StaticResource plainTextColor2}"/>
+                            <TextBox Text="{Binding CaracteristicasTexto}"
+                                     Style="{StaticResource DarkInputStyle}"
+                                     Margin="0,3,0,10"
+                                     Height="50"
+                                     TextWrapping="Wrap"/>
+
+                            <TextBlock Text="Amenidades (separadas por coma)"
+                                       Foreground="{StaticResource plainTextColor2}"/>
+                            <TextBox Text="{Binding AmenidadesTexto}"
+                                     Style="{StaticResource DarkInputStyle}"
+                                     Margin="0,3,0,0"
+                                     Height="50"
+                                     TextWrapping="Wrap"/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </Border>
+
+            <!-- LISTA -->
+            <Border Grid.Row="2"
+                    Background="{StaticResource panelColor}"
+                    CornerRadius="10"
+                    Padding="10"
+                    BorderBrush="{StaticResource panelOverColor}"
+                    BorderThickness="1">
+
+                <DataGrid ItemsSource="{Binding TiposHabitacion}"
+                          SelectedItem="{Binding TipoSeleccionado}"
+                          AutoGenerateColumns="False"
+                          Style="{StaticResource KumaDataGrid}">
+
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Nombre"
+                                            Binding="{Binding NombreTipo}"
+                                            Width="200"/>
+                        <DataGridTextColumn Header="Capacidad"
+                                            Binding="{Binding Capacidad}"
+                                            Width="80"/>
+                        <DataGridTextColumn Header="Precio / noche"
+                                            Binding="{Binding PrecioNoche, StringFormat=C}"
+                                            Width="120"/>
+                        <DataGridTextColumn Header="Cantidad"
+                                            Binding="{Binding Cantidad}"
+                                            Width="80"/>
+                        <DataGridTextColumn Header="Nivel"
+                                            Binding="{Binding Nivel}"
+                                            Width="100"/>
+                        <DataGridTextColumn Header="Vista"
+                                            Binding="{Binding Vista}"
+                                            Width="120"/>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </Border>
+
+        </Grid>
+
+    </Border>
+</UserControl>

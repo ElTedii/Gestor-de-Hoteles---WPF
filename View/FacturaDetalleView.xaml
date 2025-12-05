@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="Gestión_Hotelera.View.FacturaDetalleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Background="{StaticResource panelColor}">
+
+        <StackPanel>
+
+            <TextBlock Text="Factura Generada"
+                       FontSize="26"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource titleColor2}"
+                       Margin="0 0 0 20"/>
+
+            <TextBlock Text="Cliente" 
+                       Foreground="{StaticResource plainTextColor2}"/>
+            <TextBlock Text="{Binding ClienteNombre}" 
+                       FontSize="16" Foreground="White" Margin="0 0 0 10"/>
+
+            <TextBlock Text="Hotel" 
+                       Foreground="{StaticResource plainTextColor2}"/>
+            <TextBlock Text="{Binding HotelNombre}" 
+                       FontSize="16" Foreground="White" Margin="0 0 0 10"/>
+
+            <TextBlock Text="Monto total" 
+                       Foreground="{StaticResource plainTextColor2}"/>
+            <TextBlock Text="{Binding TotalTexto}" 
+                       FontSize="18" 
+                       FontWeight="Bold"
+                       Foreground="#7F9BFF"
+                       Margin="0 0 0 25"/>
+
+            <StackPanel Orientation="Horizontal">
+                <Button Content="Abrir PDF"
+                        Command="{Binding AbrirPDFCommand}"
+                        Style="{StaticResource KumaButton}"
+                        Width="120"
+                        Margin="0 0 10 0"/>
+
+                <Button Content="Descargar PDF"
+                        Command="{Binding GuardarPDFCommand}"
+                        Style="{StaticResource KumaButton}"
+                        Width="150"/>
+            </StackPanel>
+
+        </StackPanel>
+
+    </Grid>
+</UserControl>

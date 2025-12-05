@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="Gestión_Hotelera.View.ReporteReservacionesView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gestión_Hotelera.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Border Background="{StaticResource panelColor}"
+            Padding="15"
+            CornerRadius="10">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="70"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <!--  ENCABEZADO -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal">
+                <TextBlock Text="Reporte de Reservaciones"
+                           Foreground="{StaticResource plainTextColor1}"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Padding="5"/>
+
+                <Button Content="Exportar PDF"
+                        Width="130"
+                        Margin="20,0,0,0"
+                        Style="{StaticResource KumaButton}"/>
+            </StackPanel>
+
+            <!-- FILTROS -->
+            <StackPanel Grid.Row="0" Orientation="Horizontal"
+                        Margin="0,40,0,0">
+
+                <ComboBox Width="180" Margin="0,0,20,0"/>
+
+                <TextBox Width="180" Margin="0,0,20,0"
+                         Style="{StaticResource DarkInputStyle}"
+                         />
+
+                <DatePicker Width="160"/>
+
+                <DatePicker Width="160" Margin="20,0,0,0"
+                            />
+            </StackPanel>
+
+            <!-- TABLA -->
+            <Border Grid.Row="1"
+                    Background="{StaticResource panelColor}"
+                    CornerRadius="10"
+                    Padding="10">
+
+                <DataGrid AutoGenerateColumns="False"
+                          ColumnWidth="*"
+                          RowHeight="38"
+                          AlternatingRowBackground="{StaticResource panelOverColor}"
+                          Background="{StaticResource panelColor}"
+                          Foreground="White">
+                    <DataGrid.ColumnHeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Background" Value="{StaticResource panelColor}"/>
+                            <Setter Property="Foreground" Value="{StaticResource plainTextColor1}"/>
+                            <Setter Property="Padding" Value="10,0,0,10"/>
+                            <Setter Property="FontFamily" Value="Montserrat"/>
+                            <Setter Property="FontSize" Value="15"/>
+                        </Style>
+                    </DataGrid.ColumnHeaderStyle>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Cliente" Width="180"/>
+                        <DataGridTextColumn Header="Hotel" Width="160"/>
+                        <DataGridTextColumn Header="Habitación" Width="100"/>
+                        <DataGridTextColumn Header="Entrada" Width="120"/>
+                        <DataGridTextColumn Header="Salida" Width="120"/>
+                        <DataGridTextColumn Header="Estado" Width="120"/>
+                    </DataGrid.Columns>
+
+                </DataGrid>
+
+            </Border>
+
+        </Grid>
+
+    </Border>
+</UserControl>

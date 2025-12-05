@@ -1,0 +1,121 @@
+﻿<UserControl x:Class="Gestión_Hotelera.View.CheckOutView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d">
+
+    <Border Background="{StaticResource panelColor}"
+            Padding="25"
+            CornerRadius="10">
+
+        <StackPanel Orientation="Vertical" Margin="10">
+
+            <TextBlock Text="Check-Out"
+                       FontSize="24"
+                       FontWeight="Bold"
+                       Foreground="{StaticResource titleColor2}"
+                       Margin="0,0,0,25"/>
+
+            <!-- HOTEL -->
+            <Grid Margin="0,0,0,15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Hotel" Foreground="{StaticResource plainTextColor2}"/>
+                <ComboBox Grid.Column="1"
+                          ItemsSource="{Binding Hoteles}"
+                          DisplayMemberPath="Nombre"
+                          SelectedValuePath="HotelId"
+                          SelectedValue="{Binding HotelSeleccionado}"
+                          Style="{StaticResource DarkComboBoxStyle}"
+                          Width="250"/>
+            </Grid>
+
+            <!-- HABITACIÓN -->
+            <Grid Margin="0,0,0,20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Habitación" Foreground="{StaticResource plainTextColor2}"/>
+                <ComboBox Grid.Column="1"
+                          ItemsSource="{Binding Habitaciones}"
+                          SelectedItem="{Binding HabitacionSeleccionada}"
+                          Style="{StaticResource DarkComboBoxStyle}"
+                          Width="200"/>
+            </Grid>
+
+            <!-- INFORMACIÓN -->
+            <Border Background="{StaticResource panelOverColor}" Padding="15" CornerRadius="8">
+                <StackPanel>
+                    <TextBlock Text="Información de la estancia"
+                               FontSize="18" FontWeight="Bold"
+                               Foreground="{StaticResource plainTextColor1}"/>
+
+                    <TextBlock Text="Cliente:" Foreground="{StaticResource plainTextColor2}" Margin="0,10,0,0"/>
+                    <TextBlock Text="{Binding ClienteNombre}" Foreground="White"/>
+
+                    <TextBlock Text="Entrada:" Foreground="{StaticResource plainTextColor2}" Margin="0,10,0,0"/>
+                    <TextBlock Text="{Binding Estancia.FechaEntrada}" Foreground="White"/>
+
+                    <TextBlock Text="Salida:" Foreground="{StaticResource plainTextColor2}" Margin="0,10,0,0"/>
+                    <TextBlock Text="{Binding Estancia.FechaSalida}" Foreground="White"/>
+
+                    <TextBlock Text="Anticipo:" Foreground="{StaticResource plainTextColor2}" Margin="0,10,0,0"/>
+                    <TextBlock Text="{Binding Estancia.Anticipo}" Foreground="White"/>
+                </StackPanel>
+            </Border>
+
+            <!-- MONTOS -->
+            <Grid Margin="0,20,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Monto servicios ($)" Foreground="{StaticResource plainTextColor2}"/>
+                <TextBox Grid.Column="1"
+                         Style="{StaticResource DarkInputStyle}"
+                         Text="{Binding MontoServicios, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+
+            <Grid Margin="0,15,0,15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="180"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Text="Descuento ($)" Foreground="{StaticResource plainTextColor2}"/>
+                <TextBox Grid.Column="1"
+                         Style="{StaticResource DarkInputStyle}"
+                         Text="{Binding Descuento, UpdateSourceTrigger=PropertyChanged}"/>
+            </Grid>
+
+            <!-- TOTAL -->
+            <Border Background="{StaticResource panelOverColor}"
+                    Padding="15"
+                    CornerRadius="8">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="TOTAL:" FontSize="20" FontWeight="Bold" Foreground="{StaticResource plainTextColor1}" Margin="0,0,15,0"/>
+                    <TextBlock Text="{Binding TotalCalculado}"
+                               FontSize="20"
+                               FontWeight="Bold"
+                               Foreground="{StaticResource panelActiveColor}"/>
+                </StackPanel>
+            </Border>
+
+            <Button Content="Realizar Check-Out"
+                    Margin="0,20,0,0"
+                    HorizontalAlignment="Right"
+                    Width="220"
+                    Height="45"
+                    Command="{Binding EjecutarCheckOutCommand}"
+                    Style="{StaticResource KumaButton}"/>
+
+        </StackPanel>
+
+    </Border>
+
+</UserControl>

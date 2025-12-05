@@ -1,0 +1,217 @@
+﻿<UserControl x:Class="Gestión_Hotelera.View.RegistroHotelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:Gestión_Hotelera.View" 
+             xmlns:fa="http://schemas.awesome.incremented/wpf/xaml/fontawesome.sharp"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+        <Border Background="{StaticResource panelColor2}"
+                Padding="30"
+                CornerRadius="15"
+                BorderBrush="{StaticResource panelOverColor}"
+                BorderThickness="1">
+
+            <!-- FORMULARIO -->
+            <StackPanel Orientation="Vertical" Margin="0,0,0,20">
+
+                <!-- NOMBRE -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <!-- etiqueta -->
+                        <ColumnDefinition Width="*"/>
+                        <!-- textbox -->
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Nombre de Hotel"
+                               Foreground="{StaticResource titleColor1}"
+                               FontFamily="Verdana"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="1"
+                             Width="350"
+                             FontFamily="Verdana"
+                             Style="{StaticResource DarkInputStyle}"/>
+                </Grid>
+                <!-- CIUDAD -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Ciudad"
+                               Foreground="{StaticResource titleColor1}"
+                               FontFamily="Verdana"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="1"
+                             Width="350"
+                             FontFamily="Verdana"
+                             Style="{StaticResource DarkInputStyle}"/>
+                </Grid>
+                <!-- DIRECCIÓN -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Dirección"
+                               Foreground="{StaticResource titleColor1}"
+                               FontFamily="Verdana"
+                               VerticalAlignment="Center"/>
+                    <TextBox Grid.Column="1"
+                             Width="350"
+                             FontFamily="Verdana"
+                             Style="{StaticResource DarkInputStyle}"/>
+                </Grid>
+
+                <!-- NÚMERO DE PISOS -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Número de pisos"
+                               Foreground="{StaticResource titleColor1}"
+                               FontFamily="Verdana"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="1"
+                             Width="350"
+                             FontFamily="Verdana"
+                             Style="{StaticResource DarkInputStyle}"/>
+                </Grid>
+
+                <!-- TIPOS DE HABITACIÓN -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Tipos de habitación"
+                               Foreground="{StaticResource titleColor1}"
+                               FontFamily="Verdana"
+                               VerticalAlignment="Center"/>
+
+                    <StackPanel Grid.Column="1">
+                        <ItemsControl x:Name="ItemsTipos" Margin="0,6,0,0">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBox Width="250"
+                                             Style="{StaticResource DarkInputStyle}"
+                                             Margin="0,4"
+                                             Text="{Binding Mode=TwoWay}"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+
+                        <Button Content="+ Añadir tipo"
+                                Width="150"
+                                x:Name="BtnAddTipo"
+                                Style="{StaticResource KumaButton}"
+                                Margin="0,10,0,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- ZONA TURÍSTICA -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Zona turística"
+                               Foreground="{StaticResource titleColor1}"
+                               FontFamily="Verdana"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="1"
+                             Width="350"
+                             FontFamily="Verdana"
+                             Style="{StaticResource DarkInputStyle}"/>
+                </Grid>
+
+                <!-- SERVICIOS ADICIONALES -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Servicios adicionales"
+                               Foreground="#C9D1E0"
+                               FontWeight="SemiBold"
+                               VerticalAlignment="Top"/>
+
+                    <WrapPanel Grid.Column="1" Margin="0,5" ItemHeight="24">
+                        <CheckBox Content="Wi-Fi" Foreground="White" Margin="10,4"/>
+                        <CheckBox Content="Restaurante" Foreground="White" Margin="10,4"/>
+                        <CheckBox Content="Gimnasio" Foreground="White" Margin="10,4"/>
+                        <CheckBox Content="Room Service" Foreground="White" Margin="10,4"/>
+                        <CheckBox Content="Spa" Foreground="White" Margin="10,4"/>
+                        <CheckBox Content="Bar" Foreground="White" Margin="10,4"/>
+                        <CheckBox Content="Estacionamiento" Foreground="White" Margin="10,4"/>
+                        <CheckBox Content="Salón de eventos" Foreground="White" Margin="10,4"/>
+                    </WrapPanel>
+                </Grid>
+
+                <!-- FRENTE A LA PLAYA -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Frente a la playa"
+                                Foreground="#C9D1E0"
+                                FontWeight="SemiBold"
+                                VerticalAlignment="Center"/>
+
+                    <StackPanel Grid.Column="1" Orientation="Horizontal">
+                        <RadioButton Content="Sí" Margin="0,0,20,0" Foreground="White"/>
+                        <RadioButton Content="No" Foreground="White"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- PISCINAS -->
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="180"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Piscinas"
+                               Foreground="{StaticResource titleColor1}"
+                               FontFamily="Verdana"
+                               VerticalAlignment="Center"/>
+
+                    <TextBox Grid.Column="1"
+                             Width="350"
+                             Style="{StaticResource DarkInputStyle}"/>
+                </Grid>
+
+                <!-- BOTÓN REGISTRAR -->
+                <Button Content="Registrar"
+                        Width="180"
+                        Height="45"
+                        Style="{StaticResource KumaButton}"
+                        HorizontalAlignment="Right"/>
+
+            </StackPanel>
+
+
+        </Border>
+
+    </ScrollViewer>
+
+
+</UserControl>
